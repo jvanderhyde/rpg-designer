@@ -16,7 +16,7 @@ public class RpgDesigner {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        JFrame frame = new JFrame ("RPG!");
+        JFrame frame = new JFrame ("Another frame");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         
         iActor fActor = new iActor();
