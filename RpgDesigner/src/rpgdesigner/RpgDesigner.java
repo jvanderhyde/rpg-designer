@@ -16,7 +16,7 @@ public class RpgDesigner {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        JFrame frame = new JFrame ("Another frame");
+        JFrame frame = new JFrame ("Hello");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         
         iActor fActor = new iActor();
@@ -26,5 +26,7 @@ public class RpgDesigner {
         //frame.setSize(500, 500);
         frame.setVisible(true);
         // TODO code application logic here
+        
+        System.out.println("Hello");
     }
 }

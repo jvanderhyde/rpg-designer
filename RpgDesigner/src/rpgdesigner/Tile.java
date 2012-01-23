@@ -1,11 +1,12 @@
 package rpgdesigner;
 
-//I think this file needs some member variables --jnv
+import java.awt.Image;
 
 /**
  *
  * @author james
  */
 class Tile {
+    private Image image;
     
 }
