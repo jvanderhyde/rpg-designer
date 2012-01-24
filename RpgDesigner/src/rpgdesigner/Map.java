@@ -18,5 +18,24 @@ public class Map {
     private List<Tile> layer2;
     private List<Tile> layer3;
     
+    public void generateLayer1(){
+        
+    }
+    
+    public void generateLayer2(){
+        
+    }
+    
+    public void generateLayer3(){
+        
+    }
+    
+    public boolean checkForBlock(int x, int y){
+        return false;
+    }
+    
+    public int checkForEvent(int x, int y) {
+        return 0;
+    }
     
 }
