@@ -15,12 +15,12 @@ public class iActor extends JPanel{
     public  iActor()
     {
         this.setLayout(new BorderLayout());
-        tfName = new JTextField();
+        tfName = new JTextField("Type name...");
         
         tfName.setColumns(20);
-        add(tfName, BorderLayout.CENTER);
-        JLabel lblName = new JLabel("Name");
-        add(lblName,BorderLayout.WEST);
+        add(tfName, BorderLayout.WEST);
+        //JLabel lblName = new JLabel("Name");
+        //add(lblName,BorderLayout.WEST);
         
         //Actor Types
         ButtonGroup group = new ButtonGroup();
@@ -31,10 +31,14 @@ public class iActor extends JPanel{
         group.add(rbEnemy);
         group.add(rbNPC);
         JPanel pRadioButtons = new JPanel();
-        pRadioButtons.add(rbPlayable ,BorderLayout.WEST);
-        pRadioButtons.add(rbNPC,BorderLayout.WEST);
-        pRadioButtons.add(rbEnemy,BorderLayout.WEST);
-        
+        JPanel pCenter = new JPanel();
+        pCenter.setLayout(new BorderLayout());
+        pRadioButtons.add(rbPlayable );
+        pRadioButtons.add(rbNPC);
+        pRadioButtons.add(rbEnemy);
+        pCenter.add(pRadioButtons, BorderLayout.SOUTH);
+        pCenter.add(tfName,BorderLayout.NORTH);
+        add(pCenter,BorderLayout.CENTER);
         //Stats
         JPanel pStats= new JPanel();
         pStats.setLayout(new GridLayout(4,3 ));
@@ -71,7 +75,9 @@ public class iActor extends JPanel{
         pStats.add(tfIncXP);
         add(pStats, BorderLayout.EAST);
         
+        //Skills
         JPanel pSkills= new JPanel();
+        pSkills.setLayout(new GridLayout(2,9));
         JLabel lblSkillName, lblSPUsed, lblLevelReq, lblDamage;
         lblSkillName = new JLabel("Skill Name");
         lblSPUsed= new JLabel("SP Used");
@@ -81,7 +87,18 @@ public class iActor extends JPanel{
         pSkills.add(lblSPUsed);        
         pSkills.add(lblLevelReq);
         pSkills.add(lblDamage);
+        JButton btnAdd, btnEdit, btnDelete;
+        btnAdd= new JButton("Add");
+        btnEdit= new JButton("Edit");
+        btnDelete = new JButton("Delete");
+        pSkills.add(btnAdd);
+        pSkills.add(btnEdit);
+        pSkills.add(btnDelete);
         add(pSkills, BorderLayout.SOUTH);
+        
+        //Image
+        JButton btnChangeImg = new JButton("Change Image");
+        add(btnChangeImg, BorderLayout.WEST);
     }
     
 }
