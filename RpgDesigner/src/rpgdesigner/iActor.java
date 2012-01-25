@@ -14,7 +14,7 @@ public class iActor extends JPanel{
     
     public  iActor()
     {
-        //test
+        //test2
         this.setLayout(new BorderLayout());
         tfName = new JTextField("Type name...");
         
