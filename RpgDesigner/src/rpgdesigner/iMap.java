@@ -37,6 +37,7 @@ public class iMap extends JPanel{
         
         JPanel nameField = new JPanel();
         tfName = new JTextField("Enter Map Name...");
+        tfName.setForeground(Color.gray);
         tfName.setColumns(15);
         tfName.addFocusListener(new IMapListener());
         nameField.add(tfName);
@@ -60,6 +61,26 @@ public class iMap extends JPanel{
         btnLayer2 = new JButton("Layer 2");
         btnLayer3 = new JButton("Layer 3");
         btnLayerEvents = new JButton("Event");
+        JLabel blankLabel = new JLabel("");
+        cbEvents = new JComboBox();
+            cbEvents.addItem("Event 1");
+            cbEvents.addItem("Event 2");
+            cbEvents.addItem("Event 3...");
+        cbDBlock = new JComboBox();
+            cbDBlock.addItem("U");
+            cbDBlock.addItem("D");
+            cbDBlock.addItem("L");
+            cbDBlock.addItem("R");
+            cbDBlock.addItem("U + D");
+            cbDBlock.addItem("U + R");
+            cbDBlock.addItem("U + L");
+            cbDBlock.addItem("D + R");
+            cbDBlock.addItem("D + L");
+            cbDBlock.addItem("R + L");
+            cbDBlock.addItem("U + D + R");
+            cbDBlock.addItem("U + D + L");
+            cbDBlock.addItem("U + R + L");
+            cbDBlock.addItem("D + L + R");
         mapButtons.add(btnPlaceTile);
         mapButtons.add(btnFillTile);
         mapButtons.add(btnFillSquare);
@@ -72,32 +93,36 @@ public class iMap extends JPanel{
         mapButtons.add(btnLayer2);
         mapButtons.add(btnLayer3);
         mapButtons.add(btnLayerEvents); 
+        mapButtons.add(cbEvents);
+        mapButtons.add(new JLabel(" "));
+        mapButtons.add(new JLabel(" "));
+        mapButtons.add(cbDBlock);
         controls.add(mapButtons, BorderLayout.WEST);
         
-        JPanel optionSelecters = new JPanel();
-        optionSelecters.setLayout(new BorderLayout());
-        cbEvents = new JComboBox();
-            cbEvents.addItem("Event 1");
-            cbEvents.addItem("Event 2");
-            cbEvents.addItem("Event 3...");
-        cbDBlock = new JComboBox();
-            cbDBlock.addItem("UP");
-            cbDBlock.addItem("DOWN");
-            cbDBlock.addItem("LEFT");
-            cbDBlock.addItem("RIGHT");
-            cbDBlock.addItem("UP + DOWN");
-            cbDBlock.addItem("UP + RIGHT");
-            cbDBlock.addItem("UP + LEFT");
-            cbDBlock.addItem("DOWN + RIGHT");
-            cbDBlock.addItem("DOWN + LEFT");
-            cbDBlock.addItem("RIGHT + LEFT");
-            cbDBlock.addItem("UP + DOWN + RIGHT");
-            cbDBlock.addItem("UP + DOWN + LEFT");
-            cbDBlock.addItem("UP + RIGHT + LEFT");
-            cbDBlock.addItem("DOWN + LEFT + RIGHT");
-        optionSelecters.add(cbEvents, BorderLayout.NORTH);
-        optionSelecters.add(cbDBlock, BorderLayout.SOUTH);
-        controls.add(optionSelecters, BorderLayout.EAST);
+//        JPanel optionSelecters = new JPanel();
+//        optionSelecters.setLayout(new BorderLayout());
+////        cbEvents = new JComboBox();
+////            cbEvents.addItem("Event 1");
+////            cbEvents.addItem("Event 2");
+////            cbEvents.addItem("Event 3...");
+//        cbDBlock = new JComboBox();
+//            cbDBlock.addItem("U");
+//            cbDBlock.addItem("D");
+//            cbDBlock.addItem("L");
+//            cbDBlock.addItem("R");
+//            cbDBlock.addItem("U + D");
+//            cbDBlock.addItem("U + R");
+//            cbDBlock.addItem("U + L");
+//            cbDBlock.addItem("D + R");
+//            cbDBlock.addItem("D + L");
+//            cbDBlock.addItem("R + L");
+//            cbDBlock.addItem("U + D + R");
+//            cbDBlock.addItem("U + D + L");
+//            cbDBlock.addItem("U + R + L");
+//            cbDBlock.addItem("D + L + R");
+//        optionSelecters.add(blankLabel, BorderLayout.NORTH);
+//        optionSelecters.add(cbDBlock, BorderLayout.SOUTH);
+//        controls.add(optionSelecters, BorderLayout.EAST);
         
         add(controls, BorderLayout.CENTER);
     }
@@ -109,14 +134,17 @@ public class iMap extends JPanel{
 
         @Override
         public void focusGained(FocusEvent e) {
-            if(tfName.getText().equals("Enter Map Name..."))
-            tfName.setText("");
+            if(tfName.getText().equals("Enter Map Name...")) {
+                tfName.setText("");
+                tfName.setForeground(Color.black);
+            }
         }
 
         @Override
         public void focusLost(FocusEvent e) {
             if(tfName.getText().equals("")) {
                 tfName.setText("Enter Map Name...");
+                tfName.setForeground(Color.gray);
             }
         }
 
