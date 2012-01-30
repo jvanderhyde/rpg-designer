@@ -4,9 +4,11 @@
  */
 package rpgdesigner;
 
+import java.awt.BorderLayout;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.*;
+import javax.swing.border.Border;
 
 /**
  *
@@ -30,6 +32,7 @@ public class DesignerInterface {
             }
         
             JFrame frame = new JFrame ("RPG Designer");
+            frame.setLayout(new BorderLayout());
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
             iActor fActor = new iActor();
@@ -37,6 +40,7 @@ public class DesignerInterface {
             
             //Lets add our tabs
             JTabbedPane tabbedPane = new JTabbedPane();
+            tabbedPane.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0));
             JPanel actorTab = new JPanel();
             actorTab.add(fActor);
             tabbedPane.addTab("Actors", actorTab);
