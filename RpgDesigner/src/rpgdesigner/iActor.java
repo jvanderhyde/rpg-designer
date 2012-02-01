@@ -11,10 +11,17 @@ import java.awt.*;
  */
 public class iActor extends JPanel{
     private JTextField tfName;
+    private Actor actor;
+    
+    private JTextField tfBegHP, tfIncHP ,tfBegSP, tfIncSP ,  tfIncXP;
+    private JLabel image;
+    private JButton btnAdd, btnEdit, btnDelete, btnChangeImg;
+    private JRadioButton rbPlayable, rbEnemy, rbNPC;
+    
     
     public  iActor()
     {
-        //test
+        //test2
         this.setLayout(new BorderLayout());
         tfName = new JTextField("Type name...");
         
@@ -25,9 +32,9 @@ public class iActor extends JPanel{
         
         //Actor Types
         ButtonGroup group = new ButtonGroup();
-        JRadioButton rbPlayable = new JRadioButton("Playable");
-        JRadioButton rbEnemy = new JRadioButton("Enemy");
-        JRadioButton rbNPC = new JRadioButton("NPC");
+        rbPlayable = new JRadioButton("Playable");
+        rbEnemy = new JRadioButton("Enemy");
+        rbNPC = new JRadioButton("NPC");
         group.add(rbPlayable);
         group.add(rbEnemy);
         group.add(rbNPC);
@@ -49,16 +56,15 @@ public class iActor extends JPanel{
         JLabel lblHP = new JLabel ("HP");
         
         JLabel lblSP = new JLabel ("SP");
-        JLabel lblXP = new JLabel ("XP");
+        JLabel lblXP = new JLabel ("XP req'd for level up");
         
                 
-        JTextField tfBegHP = new JTextField();
-        
-        JTextField tfIncHP = new JTextField();
-        JTextField tfBegSP = new JTextField();
-        JTextField tfIncSP = new JTextField();
-        JTextField tfBegXP = new JTextField();
-        JTextField tfIncXP = new JTextField();
+        tfBegHP = new JTextField();
+        tfIncHP = new JTextField();
+        tfBegSP = new JTextField();
+        tfIncSP = new JTextField();
+        //tfBegXP = new JTextField();
+        tfIncXP = new JTextField();
         
         pStats.add(new JLabel ());
         pStats.add(lblBegState);
@@ -72,7 +78,7 @@ public class iActor extends JPanel{
         pStats.add(tfIncSP);
         
         pStats.add(lblXP);
-        pStats.add(tfBegXP);
+        //pStats.add(tfBegXP);
         pStats.add(tfIncXP);
         add(pStats, BorderLayout.EAST);
         
@@ -88,7 +94,7 @@ public class iActor extends JPanel{
         pSkills.add(lblSPUsed);        
         pSkills.add(lblLevelReq);
         pSkills.add(lblDamage);
-        JButton btnAdd, btnEdit, btnDelete;
+        
         btnAdd= new JButton("Add");
         btnEdit= new JButton("Edit");
         btnDelete = new JButton("Delete");
@@ -98,8 +104,52 @@ public class iActor extends JPanel{
         add(pSkills, BorderLayout.SOUTH);
         
         //Image
-        JButton btnChangeImg = new JButton("Change Image");
+        btnChangeImg = new JButton("Change Image");
         add(btnChangeImg, BorderLayout.WEST);
     }
     
+    public Actor getActor()
+    {
+        return actor;
+    }
+    
+    public void saveActor()
+    {
+        actor.setName(tfName.getText());
+        actor.setType(getActorType());
+        actor.setBegHP(getFieldInt(tfBegHP));
+        actor.setBegSP(getFieldInt(tfBegSP));
+        actor.setIncreaseHP(getFieldInt(tfIncHP));
+        actor.setIncreaseSP(getFieldInt(tfIncSP));
+        actor.setIncreaseXP(getFieldInt(tfIncXP));
+    }
+    
+    public int getActorType()
+    {
+        int type=0;
+        if (rbPlayable.isSelected())
+            type = 0;
+        else if (rbEnemy.isSelected())
+            type=1;
+        else if (rbNPC.isSelected())
+            type=2;
+        return type;
+                    
+    }
+    
+    public int getFieldInt(JTextField tf)
+    {
+        String input = tf.getText();
+        try {
+            int x = Integer.parseInt(input);
+            return x;
+        }
+        catch(NumberFormatException nFE) {
+            tf.setForeground(Color.red);
+            return -1;
+        }
+
+
+        
+    }
 }
