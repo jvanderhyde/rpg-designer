@@ -34,8 +34,8 @@ public class RpgDesigner {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         
         iActor fActor = new iActor();
-        
-        frame.getContentPane().add(fActor);
+        iSkill fSkill = new iSkill();
+        frame.getContentPane().add(fSkill);
         frame.pack();
         //frame.setSize(500, 500);
         frame.setVisible(true);
