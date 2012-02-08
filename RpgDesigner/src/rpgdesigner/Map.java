@@ -6,6 +6,7 @@ package rpgdesigner;
 
 import java.awt.Image;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.net.URL;
 import java.util.List;
 import org.newdawn.slick.ImageBuffer;
@@ -33,7 +34,7 @@ public class Map {
     private Image layer3;
     private List<Tile> events;
     
-    public Map(URL mapUrl) {
+    public Map(File mapZip) {
         
     }
     
@@ -41,8 +42,7 @@ public class Map {
         BufferedImage blankImage = new BufferedImage(SIZEX,SIZEY,1);
         layer1 = blankImage;
         layer2 = blankImage;
-        layer3 = blankImage;;
-        
+        layer3 = blankImage;
     }
     
     public Image getLayer1(){

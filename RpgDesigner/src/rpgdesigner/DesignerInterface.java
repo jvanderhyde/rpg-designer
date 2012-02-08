@@ -8,7 +8,6 @@ import java.awt.BorderLayout;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.*;
-import javax.swing.border.Border;
 
 /**
  *
@@ -36,7 +35,7 @@ public class DesignerInterface {
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
             iActor fActor = new iActor(frame);
-            iMap iMap = new iMap();
+            iMap iMap = new iMap(new Map());
             
             //Lets add our tabs
             JTabbedPane tabbedPane = new JTabbedPane();
