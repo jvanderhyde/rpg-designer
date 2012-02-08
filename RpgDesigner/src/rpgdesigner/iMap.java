@@ -34,10 +34,15 @@ public class iMap extends JPanel{
     private Map workingMap;
     private Image workingLayer;
     
-    public iMap() {
-        workingMap = new Map();
+   /*
+    * This is the constructor, it always requires a map.  If the map is blank create a new Map without 
+    * any parameters and pass it in.  
+    */ 
+    public iMap(Map workingMap) {
+        this.workingMap = workingMap;
         this.setLayout(new BorderLayout());
         
+        //This is the name field for the map
         JPanel nameField = new JPanel();
         tfName = new JTextField("Enter Map Name...");
         tfName.setForeground(Color.gray);
@@ -46,9 +51,9 @@ public class iMap extends JPanel{
         nameField.add(tfName);
         add(nameField, BorderLayout.WEST);
         
+        //This panel is used to hold the different buttons for the map editor
         JPanel controls = new JPanel();
         controls.setLayout(new BorderLayout());
-        
         JPanel mapButtons = new JPanel();
         mapButtons.setLayout(new GridLayout(2,15));
         JButton copy, cut;
@@ -101,9 +106,10 @@ public class iMap extends JPanel{
         mapButtons.add(new JLabel(" "));
         mapButtons.add(cbDBlock);
         controls.add(mapButtons, BorderLayout.WEST);
-        
         add(controls, BorderLayout.CENTER);
-//        
+        
+        //This code creates the view of the map being edited as well as the 
+        //tilesetview
         JPanel mapBody = new JPanel();
         JScrollPane mapViewScroll = new JScrollPane();
         JPanel mapView = new JPanel();
@@ -137,7 +143,6 @@ public class iMap extends JPanel{
         tilesetScroll.setPreferredSize(new Dimension(300, 500));
         mapBody.add(mapViewScroll, BorderLayout.WEST);
         mapBody.add(tilesetScroll, BorderLayout.EAST);
-        
         add(mapBody, BorderLayout.SOUTH);
     }
     
