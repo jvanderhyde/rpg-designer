@@ -12,6 +12,16 @@ public class Skill {
     String imagePath, name;
     int SPUsed, lvlReq, damage;
     
+    public Skill(String skillName, String path, int SP, int lvl, int dmg)
+    {
+        name = skillName;
+        imagePath = path;
+        SPUsed = SP;
+        lvlReq = lvl;
+        damage = dmg;
+        
+    }
+    
     public String getImagePath()
     {
         return imagePath;

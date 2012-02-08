@@ -35,7 +35,7 @@ public class DesignerInterface {
             frame.setLayout(new BorderLayout());
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-            iActor fActor = new iActor();
+            iActor fActor = new iActor(frame);
             iMap iMap = new iMap();
             
             //Lets add our tabs

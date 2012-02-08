@@ -2,8 +2,13 @@ package rpgdesigner;
 
 
 
+import java.awt.event.ActionEvent;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionListener;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+
 
 /**
  *
@@ -17,10 +22,16 @@ public class iActor extends JPanel{
     private JLabel image;
     private JButton btnAdd, btnEdit, btnDelete, btnChangeImg;
     private JRadioButton rbPlayable, rbEnemy, rbNPC;
+    private JPanel pStats, pSkills;
+    JList list;
+    DefaultListModel skills;
     
     
-    public  iActor()
+    JFrame mainFrame;
+    
+    public  iActor(JFrame f)
     {
+        mainFrame = f;
         //test2
         this.setLayout(new BorderLayout());
         tfName = new JTextField("Type name...");
@@ -48,7 +59,7 @@ public class iActor extends JPanel{
         pCenter.add(tfName,BorderLayout.NORTH);
         add(pCenter,BorderLayout.CENTER);
         //Stats
-        JPanel pStats= new JPanel();
+        pStats= new JPanel();
         pStats.setLayout(new GridLayout(4,3 ));
         //pStats.setSize(2, 1);
         JLabel lblBegState = new JLabel ("BeginningState");
@@ -83,29 +94,52 @@ public class iActor extends JPanel{
         add(pStats, BorderLayout.EAST);
         
         //Skills
-        JPanel pSkills= new JPanel();
-        pSkills.setLayout(new GridLayout(2,9));
+        pSkills= new JPanel();
+        JPanel pSkillLabels = new JPanel();
+        pSkillLabels.setLayout(new GridLayout(1,4));
+        pSkills.setLayout(new BorderLayout());
         JLabel lblSkillName, lblSPUsed, lblLevelReq, lblDamage;
         lblSkillName = new JLabel("Skill Name");
         lblSPUsed= new JLabel("SP Used");
         lblLevelReq = new JLabel("Level Required");
         lblDamage = new JLabel("Damage");
-        pSkills.add(lblSkillName);
-        pSkills.add(lblSPUsed);        
-        pSkills.add(lblLevelReq);
-        pSkills.add(lblDamage);
+        pSkillLabels.add(lblSkillName);
+        pSkillLabels.add(lblSPUsed);        
+        pSkillLabels.add(lblLevelReq);
+        pSkillLabels.add(lblDamage);
         
         btnAdd= new JButton("Add");
         btnEdit= new JButton("Edit");
         btnDelete = new JButton("Delete");
-        pSkills.add(btnAdd);
-        pSkills.add(btnEdit);
-        pSkills.add(btnDelete);
+        btnAdd.addActionListener(new iActorListener());
+        
+        pSkills.add(pSkillLabels, BorderLayout.NORTH);
         add(pSkills, BorderLayout.SOUTH);
         
         //Image
         btnChangeImg = new JButton("Change Image");
         add(btnChangeImg, BorderLayout.WEST);
+        
+        //
+            
+            skills = new DefaultListModel();
+            list = new JList(skills); //data has type Object[]
+            list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+            list.setLayoutOrientation(JList.HORIZONTAL_WRAP);
+            list.addListSelectionListener(null);
+            
+            //list.setV.setVisibleRowCount(-1);
+
+            JScrollPane listScroller = new JScrollPane(list);
+            listScroller.setPreferredSize(new Dimension(250, 80));
+
+            pSkills.add(listScroller, BorderLayout.CENTER);
+            System.err.println("After opening dialog.");
+            JPanel pSkillButtons = new JPanel();
+            pSkillButtons.add(btnAdd);
+        pSkillButtons.add(btnEdit);
+        pSkillButtons.add(btnDelete);
+        pSkills.add(pSkillButtons, BorderLayout.SOUTH);
     }
     
     public Actor getActor()
@@ -152,4 +186,45 @@ public class iActor extends JPanel{
 
         
     }
+    
+  private class iActorListener implements ActionListener , ListSelectionListener
+          {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            iSkillEditor skill;
+            skill = new iSkillEditor(mainFrame, true);
+            
+            System.out.println(skill.getSkill().getName());
+            Skill newSkill = skill.getSkill();
+            //iSkill[] skz = new iSkill[2];
+            if (newSkill!=null)
+            {
+                list.setCellRenderer(new SkillCellRenderer());
+                //skills.addElement(newSkill.getListCellRendererComponent(list, newSkill, list.getSelectedIndex(), false, false));
+                skills.addElement(newSkill);
+                
+                //listScroller.add(newSkill);
+                //list.setSelectedIndex(list.getSelectedIndex());
+                //list.ensureIndexIsVisible(list.getSelectedIndex());
+                iActor.this.mainFrame.pack();
+            }
+            //iActor.this.removeAll();
+            //iActor.this.
+            //iActor.this.add(skill);
+            //throw new UnsupportedOperationException("Not supported yet.");
+        }
+
+        
+
+        @Override
+        public void valueChanged(ListSelectionEvent e) {
+            //JList source = (JList) evt.getSource();
+            //Font font = (Font) source.getSelectedValue();
+            //label.setFont(font);
+            
+        }
+                
+            }
 }
+  

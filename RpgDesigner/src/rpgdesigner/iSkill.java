@@ -4,14 +4,19 @@
  */
 package rpgdesigner;
 
+import java.awt.event.ActionEvent;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionListener;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+
 
 /**
  *
  * @author Fran
  */
-public class iSkill extends JPanel{
+public class iSkill extends JPanel implements ListCellRenderer{
     JLabel lblName, lblSP, lblLevel, lblDamage;
     Skill skill;
     
@@ -41,5 +46,20 @@ public class iSkill extends JPanel{
         add(lblLevel);
         add(lblDamage);
     }
+
+    @Override
+    public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
+        this.setBackground(isSelected ? Color.blue : Color.white);
+        this.setForeground(isSelected ? Color.white : Color.black);
+        //this.addComponentListener(new SkillListener());
+        return this;
+        //throw new UnsupportedOperationException("Not supported yet.");
+    }
+    
+    
+    
+   
+    
+    
     
 }
