@@ -27,12 +27,12 @@ public class iMap extends JPanel{
     private JButton btnLayer3;
     private JButton btnLayerEvents;
     private JButton btnBlock;
-    private JButton btnDBlock;
     private JComboBox cbDBlock;
     private JComboBox cbEvents;
     private JComboBox cbTileSet;
     private Map workingMap;
     private Image workingLayer;
+    private JButton copy, cut;
     
    /*
     * This is the constructor, it always requires a map.  If the map is blank create a new Map without 
@@ -41,13 +41,15 @@ public class iMap extends JPanel{
     public iMap(Map workingMap) {
         this.workingMap = workingMap;
         this.setLayout(new BorderLayout());
+        ActionListener buttonActions = new IMapListener();
+        FocusListener textBoxListener = new IMapListener();
         
         //This is the name field for the map
         JPanel nameField = new JPanel();
         tfName = new JTextField("Enter Map Name...");
         tfName.setForeground(Color.gray);
         tfName.setColumns(15);
-        tfName.addFocusListener(new IMapListener());
+        tfName.addFocusListener(textBoxListener);
         nameField.add(tfName);
         add(nameField, BorderLayout.WEST);
         
@@ -56,39 +58,33 @@ public class iMap extends JPanel{
         controls.setLayout(new BorderLayout());
         JPanel mapButtons = new JPanel();
         mapButtons.setLayout(new GridLayout(2,15));
-        JButton copy, cut;
         btnPlaceTile = new JButton("Place");
+        btnPlaceTile.addActionListener(buttonActions);
         btnFillTile = new JButton("Fill");
+        btnFillTile.addActionListener(buttonActions);
         btnFillSquare = new JButton("Selection");
+        btnFillSquare.addActionListener(buttonActions);
         btnEraseTile = new JButton("Eraser");
+        btnEraseTile.addActionListener(buttonActions);
         copy = new JButton("Copy");
+        copy.addActionListener(buttonActions);
         cut = new JButton("Cut");
+        cut.addActionListener(buttonActions);
         btnBlock = new JButton("Block");
-        btnDBlock = new JButton("DBlock");
+        btnBlock.addActionListener(buttonActions);
         btnLayer1 = new JButton("Layer 1");
+        btnLayer1.addActionListener(buttonActions);
         btnLayer2 = new JButton("Layer 2");
+        btnLayer2.addActionListener(buttonActions);
         btnLayer3 = new JButton("Layer 3");
+        btnLayer3.addActionListener(buttonActions);
         btnLayerEvents = new JButton("Event");
+        btnLayerEvents.addActionListener(buttonActions);
         JLabel blankLabel = new JLabel("");
         cbEvents = new JComboBox();
         cbEvents.addItem("Event 1");
         cbEvents.addItem("Event 2");
         cbEvents.addItem("Event 3...");
-        cbDBlock = new JComboBox();
-        cbDBlock.addItem("U");
-        cbDBlock.addItem("D");
-        cbDBlock.addItem("L");
-        cbDBlock.addItem("R");
-        cbDBlock.addItem("U + D");
-        cbDBlock.addItem("U + R");
-        cbDBlock.addItem("U + L");
-        cbDBlock.addItem("D + R");
-        cbDBlock.addItem("D + L");
-        cbDBlock.addItem("R + L");
-        cbDBlock.addItem("U + D + R");
-        cbDBlock.addItem("U + D + L");
-        cbDBlock.addItem("U + R + L");
-        cbDBlock.addItem("D + L + R");
         mapButtons.add(btnPlaceTile);
         mapButtons.add(btnFillTile);
         mapButtons.add(btnFillSquare);
@@ -96,7 +92,6 @@ public class iMap extends JPanel{
         mapButtons.add(copy);
         mapButtons.add(cut);
         mapButtons.add(btnBlock);
-        mapButtons.add(btnDBlock);
         mapButtons.add(btnLayer1);
         mapButtons.add(btnLayer2);
         mapButtons.add(btnLayer3);
@@ -104,7 +99,6 @@ public class iMap extends JPanel{
         mapButtons.add(cbEvents);
         mapButtons.add(new JLabel(" "));
         mapButtons.add(new JLabel(" "));
-        mapButtons.add(cbDBlock);
         controls.add(mapButtons, BorderLayout.WEST);
         add(controls, BorderLayout.CENTER);
         
@@ -169,7 +163,36 @@ public class iMap extends JPanel{
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            throw new UnsupportedOperationException("Not supported yet.");
+            //This code checks which button was clicked and performs the correct operation
+            if(e.getActionCommand().equals("Place")) {
+                System.out.println("Placing a tile now.");
+            } 
+            else if(e.getActionCommand().equals("Fill")) {
+                
+            }
+            else if(e.getActionCommand().equals("Selection")) {
+                
+            }
+            else if(e.getActionCommand().equals("Eraser")) {
+                
+            }
+            else if(e.getActionCommand().equals("Copy")) {
+                
+            }
+            else if(e.getActionCommand().equals("Cut")) {
+                
+            }
+            else if(e.getActionCommand().equals("Layer1")) {
+                
+            }
+            else if(e.getActionCommand().equals("Layer2")) {
+                
+            }
+            else if(e.getActionCommand().equals("Layer3")) {
+                
+            } else {
+                
+            }
         }
     }
 }
