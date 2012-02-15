@@ -4,6 +4,8 @@
  */
 package rpgdesigner;
 
+import java.awt.Image;
+import java.awt.image.BufferedImage;
 import org.newdawn.slick.SpriteSheet;
 
 /**
@@ -12,33 +14,25 @@ import org.newdawn.slick.SpriteSheet;
  */
 class Tile {
     //private SpriteSheet tileset; I am going to not use this anymore
-    private int X;
-    private int Y;
+    private int id;
     private boolean block;
     private Event event;
+    private Image tileImage;
+    private String tilesetName;
     
-    public Tile(SpriteSheet tileset, int x, int y, boolean block, Event event) {
+    public Tile(SpriteSheet tileset, int id, boolean block, Event event) {
         //this.tileset = tileset;
-        this.X = x;
-        this.X = x;
+        this.id = id;
         this.block = block;
         this.event = event;
     }
     
-    public Tile() {
-        
+    public Tile(int id) {
+       this.id = id;
     }
     
-    public void setTileset(SpriteSheet tileset) {
-        //this.tileset = tileset;
-    }
-    
-    public void setX(int x) {
-        this.X = x;
-    }
-    
-    public void setY(int y) {
-        this.Y = y;
+    public void setTilesetName(String tileset) {
+        this.tilesetName = tileset;
     }
     
     public void setBlock(boolean block) {
@@ -49,16 +43,12 @@ class Tile {
         this.event = event;
     }
     
-//    public SpriteSheet getTileset() {
-//        return this.tileset;
-//    }
-    
-    public int getX() {
-        return this.X;
+    public void setImage(BufferedImage image) {
+        this.tileImage = image;
     }
     
-    public int getY() {
-        return this.Y;
+    public String getTilesetName() {
+        return this.tilesetName;
     }
     
     public boolean getBlock() {
@@ -67,5 +57,9 @@ class Tile {
     
     public Event getEvent() {
         return this.event;
+    }
+    
+    public Image getTileImage() {
+        return this.tileImage;
     }
 }
