@@ -41,7 +41,7 @@ public class DesignerInterface {
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
             //iActor fActor = new iActor(frame);
-            iMap iMap = new iMap();
+            iMap iMap = new iMap(new Map());
             
             Actor[] a = new Actor[3];
             iActor[] ia = new iActor[3];

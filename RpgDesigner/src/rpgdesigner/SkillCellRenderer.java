@@ -40,9 +40,10 @@ import javax.swing.*;
           setBackground(Color.white);
           setForeground(Color.black);
         }
-        //this.setSize(500, 10);
+        this.setPreferredSize(new java.awt.Dimension(list.getWidth(), 15));
         //lblName.setSize(500, 500);
         this.removeAll();
+        this.setLayout(new java.awt.GridLayout(1,4));
         this.add(lblName);
         this.add(lblSP);
         this.add(lblLevel);
