@@ -1,12 +1,6 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package rpgdesigner;
 
-import java.awt.*;
-
-import java.awt.event.*;
+import java.awt.BorderLayout;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.*;
@@ -14,12 +8,15 @@ import javax.swing.*;
 /**
  *
  * @author james
+ * 
+ * This class is the main interface class that puts all of the other interface
+ * classes together in their own tabs.  
  */
 public class DesignerInterface {
     
     
     iObjectList ActorList;
-    
+    Game game;
     
     public DesignerInterface()
     {
@@ -42,6 +39,7 @@ public class DesignerInterface {
 
             //iActor fActor = new iActor(frame);
             iMap iMap = new iMap(new Map());
+            iSettings iSettings = new iSettings();
             
             Actor[] a = new Actor[3];
             iActor[] ia = new iActor[3];
@@ -74,6 +72,9 @@ public class DesignerInterface {
             JPanel mapTab = new JPanel();
             mapTab.add(iMap);
             tabbedPane.addTab("Map Editor", mapTab);
+            JPanel settingsTab = new JPanel();
+            settingsTab.add(iSettings);
+            tabbedPane.addTab("Settings", settingsTab);
 
             frame.getContentPane().setLayout(new BorderLayout());
             frame.getContentPane().add(tabbedPane, BorderLayout.NORTH);
@@ -91,10 +92,6 @@ public class DesignerInterface {
             
     
     public static void main(String[] args) {
-        DesignerInterface di = new DesignerInterface();
-        
-        
-    
-    
+        DesignerInterface di = new DesignerInterface(); 
     }
 }
