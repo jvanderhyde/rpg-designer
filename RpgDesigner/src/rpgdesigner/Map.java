@@ -1,31 +1,24 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package rpgdesigner;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.GridLayout;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-import javax.swing.*;
-import javax.swing.border.EmptyBorder;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
+import javax.swing.JLayeredPane;
+import javax.swing.JPanel;
 
 
 /**
  *
  * @author james
- * SOME NOTES(for later): I was thinking today, 2/2/2012 that when implementing the 
- * maps in the game that it would be nice to have it scroll by larger section that 
- * one row or column while moving to tiles from offscreen.  
- * Some Notes(for now): Use BufferedImage to create a new image if there is not yet
- * an image for each of the layers(a new map).  This class also has lots of tools
- * for cutting out sections of images, and I think overlaying images.  Subimage will
- * be particularly useful.  I also need MouseListener implemented
+ * 
+ * This class holds all the data of a map in the game, as well as has a class for
+ * drawing the map with both a grid and without.  
  */
 public class Map {
     private String name;
@@ -44,6 +37,7 @@ public class Map {
     
     public Map() {
         BufferedImage blankImage = new BufferedImage(32,32,BufferedImage.TYPE_INT_RGB);
+        BufferedImage blankImageWithTransparency = new BufferedImage(32,32,BufferedImage.TYPE_INT_ARGB);
         for(int i=0; i<2500; i++){
             Tile tileToAdd = new Tile(i);
             tileToAdd.setImage(blankImage);
@@ -51,12 +45,12 @@ public class Map {
         }
         for(int i=0; i<2500; i++){
             Tile tileToAdd = new Tile(i);
-            tileToAdd.setImage(blankImage);
+            tileToAdd.setImage(blankImageWithTransparency);
             layer2.add(tileToAdd);
         }
         for(int i=0; i<2500; i++){
             Tile tileToAdd = new Tile(i);
-            tileToAdd.setImage(blankImage);
+            tileToAdd.setImage(blankImageWithTransparency);
             layer3.add(tileToAdd);
         }
     }
@@ -81,18 +75,21 @@ public class Map {
         return 0;
     }
     
-    public JPanel generateMap() {
-        JPanel generatedMap = new JPanel();
-        generatedMap.setLayout(new OverlayLayout(generatedMap));
-        GridLayout layoutForMaps = new GridLayout(50,50,-30,0);
-        //layoutForMaps.setHgap(-30);
+    public JLayeredPane generateMap() {
+        JLayeredPane generatedMap = new JLayeredPane();
+        generatedMap.setBounds(0, 0, 1600, 1600);
+        GridLayout layoutForMaps = new GridLayout(50,50,0,0);
         JPanel layer1Panel = new JPanel();
         layer1Panel.setLayout(layoutForMaps);
-        layer1Panel.setBorder(new EmptyBorder(-20,-20,0,0));
+        layer1Panel.setBounds(0, 0, 1600, 1600);
         JPanel layer2Panel = new JPanel();
         layer2Panel.setLayout(layoutForMaps);
+        layer2Panel.setBounds(0, 0, 1600, 1600);
+        layer2Panel.setOpaque(false);
         JPanel layer3Panel = new JPanel();
         layer3Panel.setLayout(layoutForMaps);
+        layer3Panel.setBounds(0, 0, 1600, 1600);
+        layer3Panel.setOpaque(false);
         for(int i=0; i<layer1.size(); i++){
             ImageIcon icon = new ImageIcon(layer1.get(i).getTileImage());
             JLabel labelForImage = new JLabel(icon);
@@ -108,9 +105,15 @@ public class Map {
             JLabel labelForImage = new JLabel(icon);
             layer3Panel.add(labelForImage);
         }
-        generatedMap.add(layer3Panel);
-        generatedMap.add(layer2Panel);
+        generatedMap.setAlignmentX(0);
+        generatedMap.setAlignmentY(0);
         generatedMap.add(layer1Panel);
+        generatedMap.add(layer2Panel);
+        generatedMap.add(layer3Panel);
+        generatedMap.setLayer(layer3Panel, 3, 0);
+        generatedMap.setLayer(layer2Panel, 2, 0);
+        generatedMap.setLayer(layer1Panel, 1, 0);
+        
         return generatedMap;
     }
     
@@ -124,9 +127,11 @@ public class Map {
         JPanel layer2Panel = new JPanel();
         layer2Panel.setLayout(layoutForMaps);
         layer2Panel.setBounds(0, 0, 1600, 1600);
+        layer2Panel.setOpaque(false);
         JPanel layer3Panel = new JPanel();
         layer3Panel.setLayout(layoutForMaps);
         layer3Panel.setBounds(0, 0, 1600, 1600);
+        layer3Panel.setOpaque(false);
         for(int i=0; i<layer1.size(); i++){
             ImageIcon icon = new ImageIcon(layer1.get(i).getTileImage());
             JLabel labelForImage = new JLabel(icon);
@@ -160,6 +165,7 @@ public class Map {
         generatedMap.setLayer(layer3Panel, 3, 0);
         generatedMap.setLayer(layer2Panel, 2, 0);
         generatedMap.setLayer(layer1Panel, 1, 0);
+        
         return generatedMap;
     }
     

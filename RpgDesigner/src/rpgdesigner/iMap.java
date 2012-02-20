@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package rpgdesigner;
 
 import java.awt.*;
@@ -12,6 +8,8 @@ import javax.swing.*;
 /**
  *
  * @author james
+ * 
+ * This class is responsible for creating the map editor tab.  
  */
 public class iMap extends JPanel{
     private JTextField tfName;
@@ -40,6 +38,7 @@ public class iMap extends JPanel{
     
     private Map workingMap;
     private BufferedImage currentTileset;
+    private Game game;
     
    /*
     * This is the constructor, it always requires a map.  If the map is blank create a new Map without 
@@ -171,11 +170,11 @@ public class iMap extends JPanel{
     }
     
     private class IBlockDirections extends JPanel {
-        
-    }
-    
-    private class INotImplemented extends JPanel {
-        
+        /*
+         * TODO:  This code should implement a pop-up panel that allows switching
+         * which directions are blocked.  The importance of this function
+         * is pretty low at this point, though I would like to get it done.
+         */
     }
     
     private class IMapListener implements FocusListener, ActionListener {
@@ -203,8 +202,6 @@ public class iMap extends JPanel{
         public void actionPerformed(ActionEvent e) {
             //This code checks which button was clicked and performs the correct operation
             if(e.getActionCommand().equals("Place")) {
-                System.out.println("Placing a tile now.");
-                
                 //flip off any other buttons not needed
                 btnFillTile.setSelected(false);
                 btnFillSquare.setSelected(false);
