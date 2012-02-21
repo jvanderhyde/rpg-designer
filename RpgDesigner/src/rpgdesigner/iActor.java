@@ -1,15 +1,19 @@
 package rpgdesigner;
 
 import java.awt.event.ActionEvent;
+import java.io.IOException;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import javax.imageio.ImageIO;
 
 /**
  *
  * @author Fran
  */
-public class iActor extends JPanel{
+public class iActor extends JPanel implements iListableObject{
     private JTextField tfName;
     private Actor actor;
     
@@ -17,21 +21,27 @@ public class iActor extends JPanel{
     private JLabel image;
     private JButton btnAdd, btnEdit, btnDelete, btnChangeImg;
     private JRadioButton rbPlayable, rbEnemy, rbNPC;
-    private JPanel pStats, pSkills;
+    private JPanel pStats, pSkills, pImage;
     JList list;
     DefaultListModel skills;
+    final JFileChooser fcImage;
     
     
     JFrame mainFrame;
     
-    
+    @Override
+    public JPanel getPanel()
+    {
+        return this;
+    }
     
     public  iActor(JFrame f, Actor a)
     {
         mainFrame = f;
-        //test2
         this.setLayout(new BorderLayout());
         actor = a;
+        
+        //Actor Name
         if(actor.getName() != null 
                 && actor.getName().length() != 0)
             tfName = new JTextField (actor.getName());
@@ -40,10 +50,8 @@ public class iActor extends JPanel{
         
         tfName.setColumns(20);
         add(tfName, BorderLayout.WEST);
-        //JLabel lblName = new JLabel("Name");
-        //add(lblName,BorderLayout.WEST);
         
-        //Actor Types
+        //Actor Type Radio Buttons
         ButtonGroup group = new ButtonGroup();
         rbPlayable = new JRadioButton("Playable");
         rbEnemy = new JRadioButton("Enemy");
@@ -57,41 +65,33 @@ public class iActor extends JPanel{
         pRadioButtons.add(rbPlayable );
         pRadioButtons.add(rbNPC);
         pRadioButtons.add(rbEnemy);
+        
         pCenter.add(pRadioButtons, BorderLayout.SOUTH);
         pCenter.add(tfName,BorderLayout.NORTH);
         add(pCenter,BorderLayout.CENTER);
+        
         //Stats
         pStats= new JPanel();
         pStats.setLayout(new GridLayout(6,3 ));
-        //pStats.setSize(2, 1);
         JLabel lblBegState = new JLabel ("BeginningState");
         JLabel lblIncrease= new JLabel ("Increase on Level");
         JLabel lblHP = new JLabel ("HP");
-        //lblHP.setHorizontalTextPosition(0);
         JLabel lblSP = new JLabel ("SP");
         JLabel lblXP = new JLabel ("XP req'd for level up");
-        
-                
         tfBegHP = new JTextField(Integer.toString(actor.getBegHP()));
         tfIncHP = new JTextField(Integer.toString(actor.getIncreaseHP()));
         tfBegSP = new JTextField(Integer.toString(actor.getBegSP()));
         tfIncSP = new JTextField(Integer.toString(actor.getIncreaseSP()));
-        //tfBegXP = new JTextField();
         tfIncXP = new JTextField(Integer.toString(actor.getIncreaseXP()));
-        
         pStats.add(new JLabel ());
         pStats.add(lblBegState);
         pStats.add(lblIncrease);
         pStats.add(lblHP);
         pStats.add(tfBegHP);
         pStats.add(tfIncHP);
-        
         pStats.add(lblSP);
         pStats.add(tfBegSP);
         pStats.add(tfIncSP);
-        
-        
-        //pStats.add(tfBegXP);
         pStats.add(new JLabel());
         pStats.add(new JLabel());
         pStats.add(new JLabel());
@@ -116,6 +116,7 @@ public class iActor extends JPanel{
         pSkillLabels.add(lblLevelReq);
         pSkillLabels.add(lblDamage);
         
+        //Add, edit, and delete buttons
         btnAdd= new JButton("Add");
         btnEdit= new JButton("Edit");
         btnDelete = new JButton("Delete");
@@ -127,25 +128,35 @@ public class iActor extends JPanel{
         add(pSkills, BorderLayout.SOUTH);
         
         //Image
+        pImage = new JPanel();
+        pImage.setLayout(new BorderLayout());
         btnChangeImg = new JButton("Change Image");
-        add(btnChangeImg, BorderLayout.WEST);
+        pImage.add(btnChangeImg, BorderLayout.SOUTH);
+        image = new JLabel();
+        pImage.add(image, BorderLayout.NORTH);
+        add(pImage, BorderLayout.WEST);
+        btnChangeImg.addActionListener(new iActorListener());
+        //Create a file chooser for the image
+        fcImage = new JFileChooser();
+
+        if (actor.getSkillsList() == null)
+            skills = new DefaultListModel();            
+        else
+            skills = actor.getSkillsList();
         
-        //
-            
-            skills = new DefaultListModel();
-            list = new JList(skills); //data has type Object[]
-            list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-            list.setLayoutOrientation(JList.HORIZONTAL_WRAP);
-            list.addListSelectionListener(null);
-            
-            //list.setV.setVisibleRowCount(-1);
+        //Display a list of skills in a scroll pane
+        list = new JList(skills); 
+        list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        list.setLayoutOrientation(JList.HORIZONTAL_WRAP);
+        list.addListSelectionListener(null);
+        JScrollPane listScroller = new JScrollPane(list);
+        listScroller.setPreferredSize(new Dimension(250, 80));
 
-            JScrollPane listScroller = new JScrollPane(list);
-            listScroller.setPreferredSize(new Dimension(250, 80));
-
-            pSkills.add(listScroller, BorderLayout.CENTER);
-            JPanel pSkillButtons = new JPanel();
-            pSkillButtons.add(btnAdd);
+        pSkills.add(listScroller, BorderLayout.CENTER);
+        
+        //Add, edit and delete buttons for skills
+        JPanel pSkillButtons = new JPanel();
+        pSkillButtons.add(btnAdd);
         pSkillButtons.add(btnEdit);
         pSkillButtons.add(btnDelete);
         pSkills.add(pSkillButtons, BorderLayout.SOUTH);
@@ -153,7 +164,6 @@ public class iActor extends JPanel{
     
     public Actor getActor()
     {
-        //saveActor();
         return actor;
     }
     
@@ -162,8 +172,6 @@ public class iActor extends JPanel{
         actor = a;
         tfName.setText(actor.getName());
         tfBegHP.setText(Integer.toString(actor.getBegHP()));
-        
-        
         tfIncHP.setText(Integer.toString(actor.getIncreaseHP()));
         tfBegSP.setText(Integer.toString(actor.getBegSP()));
         tfIncSP.setText(Integer.toString(actor.getIncreaseSP()));
@@ -181,6 +189,7 @@ public class iActor extends JPanel{
         actor.setIncreaseHP(getFieldInt(tfIncHP));
         actor.setIncreaseSP(getFieldInt(tfIncSP));
         actor.setIncreaseXP(getFieldInt(tfIncXP));
+        actor.setSkillsList(skills);
     }
     
     public int getActorType()
@@ -205,7 +214,11 @@ public class iActor extends JPanel{
         else if (n==2)
             rbNPC.setSelected(true);
     }
-    
+    /**
+     * Gets the input integer value of a textField
+     * @param tf - the text field to get the int from
+     * @return 
+     */
     public int getFieldInt(JTextField tf)
     {
         String input = tf.getText();
@@ -217,48 +230,54 @@ public class iActor extends JPanel{
             tf.setForeground(Color.red);
             return -1;
         }
+    }
+    
+    /*
+     * Used in iObjectList
+     */
 
+    @Override
+    public String toString() {
+        return actor.toString();
+    }
 
-        
+    @Override
+    public void saveObject() {
+        saveActor();
     }
     
   private class iActorListener implements ActionListener 
-          {
+  {
 
         @Override
         public void actionPerformed(ActionEvent e) {
             if (e.getSource()==btnAdd)
             {
                 iSkillEditor skill;
+                //Displays iSkillEditor in a new window
                 skill = new iSkillEditor(mainFrame, true);
 
+                //When iSkillEditor is closed, we get the newSkill
                 Skill newSkill = skill.getSkill();
+                
+                //If save was clicked (not cancel) add the new skill to the list
                 if (newSkill!=null)
                 {
                     list.setCellRenderer(new SkillCellRenderer());
-                    
                     skills.addElement(newSkill);
-
-                    //listScroller.add(newSkill);
-                    //list.setSelectedIndex(list.getSelectedIndex());
-                    //list.ensureIndexIsVisible(list.getSelectedIndex());
-                    //iActor.this.mainFrame.pack();
                 }
-                //iActor.this.removeAll();
-                //iActor.this.
-                //iActor.this.add(skill);
-                //throw new UnsupportedOperationException("Not supported yet.");
-            
             }
             else if (e.getSource()==btnEdit)
             {
-                
+                //Load iSkillEditor with the selectedValue
                 iSkillEditor skillEdit;
                 Skill value = (Skill)list.getSelectedValue();
                 skillEdit = new iSkillEditor(mainFrame, true, value);
                 
+                //When iSkillEditor is closed, we get the new skill
                 Skill newSkill = skillEdit.getSkill();
                 
+                //Delete the original skill from the list and add the modified skill
                 if (newSkill!=null)
                 {
                     list.setCellRenderer(new SkillCellRenderer());
@@ -272,34 +291,55 @@ public class iActor extends JPanel{
                     }
                     skills.addElement(newSkill);
                     list.setSelectedValue(newSkill, true);
-
-                    //list.setSelectedIndex(index);
                     list.ensureIndexIsVisible(index);
                 }   
             }
             else if (e.getSource()==btnDelete)
             {
-                
-                
+                //Get the selected skill
                 Skill value = (Skill)list.getSelectedValue();
+                int index = list.getSelectedIndex();
                 
-                //iSkill[] skz = new iSkill[2];
-                
-                    int index = list.getSelectedIndex();
-                    skills.remove(index);
-                    int size = skills.getSize();
-                    if (index == skills.getSize()) {
-                        //removed item in last position
-                        index--;
+                //Remove if from the list
+                skills.remove(index);
+                int size = skills.getSize();
+                if (index == skills.getSize()) {
+                    //removed item in last position
+                    index--;
+                }
+                list.ensureIndexIsVisible(index);
+            } 
+            else if (e.getSource() == btnChangeImg) {
+                int returnVal = fcImage.showOpenDialog(iActor.this);
+
+                if (returnVal == JFileChooser.APPROVE_OPTION) {
+                    File file = fcImage.getSelectedFile();
+                    //This is where a real application would open the file.
+                    String FilePath = file.getPath();
+                    System.out.println("Opening: " + FilePath + "." );
+                    BufferedImage myPicture;
+                    try {
+                        myPicture = ImageIO.read(new File(FilePath));
+                        pImage.remove(image);
+                        image = new JLabel(new ImageIcon( myPicture ));
+                        image.setSize(50, 50);
+                        
+                        
+                        pImage.add(image,BorderLayout.NORTH);
+                        mainFrame.pack();
+                    } catch (IOException ex) {
+                        System.out.println(ex.toString());
                     }
-                    
-                    //list.setSelectedIndex(index);
-                    list.ensureIndexIsVisible(index);
-                } 
+
+
+                } else {
+                    System.out.println("Open command cancelled by user." );
+                }
+            }
         
-            }
+        }
                 
-            }
+   }
           
   }
 

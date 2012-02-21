@@ -35,6 +35,12 @@ public class Map {
         
     }
     
+    @Override
+    public String toString()
+    {
+        return name;
+    }
+    
     public Map() {
         BufferedImage blankImage = new BufferedImage(32,32,BufferedImage.TYPE_INT_RGB);
         BufferedImage blankImageWithTransparency = new BufferedImage(32,32,BufferedImage.TYPE_INT_ARGB);

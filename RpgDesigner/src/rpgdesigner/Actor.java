@@ -3,6 +3,7 @@
  * and open the template in the editor.
  */
 package rpgdesigner;
+import javax.swing.DefaultListModel;
 import org.newdawn.slick.SpriteSheet;
 /**
  *
@@ -15,6 +16,7 @@ public class Actor {
     //Skill[] skills;
     private int locX, locY;
     private int type;
+    private DefaultListModel skills;
     
     public Actor()
     {
@@ -25,6 +27,16 @@ public class Actor {
     public String toString()
     {
         return name;
+    }
+    
+    public DefaultListModel getSkillsList()
+    {
+        return skills;
+    }
+    
+    public void setSkillsList(DefaultListModel l)
+    {
+        skills= l;
     }
     public String getName()
     {
@@ -96,12 +108,5 @@ public class Actor {
     {
         return type;
     }
-    /** This should go in the game Actor class
-    public void moveRight(int distance)
-    {
-        locX+=distance;
-        //change sprite
-        spriteSheet.getSprite(3, 3);
-    }
-     * */
+    
 }

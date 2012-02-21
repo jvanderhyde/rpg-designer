@@ -11,7 +11,7 @@ import javax.swing.*;
  * 
  * This class is responsible for creating the map editor tab.  
  */
-public class iMap extends JPanel{
+public class iMap extends JPanel implements iListableObject{
     private JTextField tfName;
     private JToggleButton btnPlaceTile;
     private JToggleButton btnFillTile;
@@ -44,6 +44,10 @@ public class iMap extends JPanel{
     * This is the constructor, it always requires a map.  If the map is blank create a new Map without 
     * any parameters and pass it in.  
     */ 
+    public String toString()
+    {
+        return workingMap.toString();
+    }
     public iMap(Map workingMap) {
         this.workingMap = workingMap;
         this.setLayout(new BorderLayout());
@@ -167,6 +171,16 @@ public class iMap extends JPanel{
         
         add(topSection, BorderLayout.NORTH);
         add(bottomSection, BorderLayout.SOUTH);  
+    }
+
+    @Override
+    public JPanel getPanel() {
+        return this;
+    }
+
+    @Override
+    public void saveObject() {
+        throw new UnsupportedOperationException("Not supported yet.  ");
     }
     
     private class IBlockDirections extends JPanel {

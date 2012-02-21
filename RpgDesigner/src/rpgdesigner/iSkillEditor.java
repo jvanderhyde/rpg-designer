@@ -8,6 +8,10 @@ import java.awt.event.ActionEvent;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import javax.imageio.ImageIO;
 
 /**
  *
@@ -21,6 +25,8 @@ public class iSkillEditor extends JDialog {
     private JButton btnChangeAnimation, btnSave, btnCancel;
     private JPanel pWest, pEast, pSouth;
     private Skill skill;
+    JFileChooser fcImage;
+    private String imagePath;
     
     private void setUpFields()
     {
@@ -30,13 +36,15 @@ public class iSkillEditor extends JDialog {
         //West Panel contains image and change image button
         pWest = new JPanel();
         pWest.setSize(1, 5);
-        pWest.setLayout(new GridLayout(2,1));
+        pWest.setLayout(new BorderLayout());
         lblImage = new JLabel("Image goes here");
         btnChangeAnimation = new JButton ("Change Animation");
         btnChangeAnimation.setSize(1,3);
-        pWest.add(lblImage);
-        pWest.add(btnChangeAnimation);
-        //pWest.
+        pWest.add(lblImage, BorderLayout.NORTH);
+        pWest.add(btnChangeAnimation, BorderLayout.SOUTH);
+        btnChangeAnimation.addActionListener(new SkillListener());
+        //Create a file chooser for the image
+        fcImage = new JFileChooser();
         this.add(pWest, BorderLayout.WEST);
         
         //East Panel Contains text areas and labels for Name, level, damage, SP
@@ -96,6 +104,8 @@ public class iSkillEditor extends JDialog {
         this.taLvl.setText(Integer.toString(skill.getLvlReq()));
         this.taName.setText(skill.getName());
         this.taSP.setText(Integer.toString(skill.getSPUsed()));
+        imagePath = skill.getImagePath();
+        loadImage();
         pack();
         setLocationRelativeTo(frame);
         setVisible(true);
@@ -107,6 +117,25 @@ public class iSkillEditor extends JDialog {
         return skill;
     }
     
+    public void loadImage()
+    {
+        BufferedImage myPicture;
+        try {
+            myPicture = ImageIO.read(new File(imagePath));
+            pWest.remove(lblImage);
+            lblImage = new JLabel(new ImageIcon( myPicture ));
+            lblImage.setSize(50, 50);
+
+
+            pWest.add(lblImage,BorderLayout.NORTH);
+
+            //mainFrame.pack();
+        } catch (IOException ex) {
+            System.out.println(ex.toString());
+
+        }
+    }
+    
     private class SkillListener implements ActionListener
     {
 
@@ -114,10 +143,31 @@ public class iSkillEditor extends JDialog {
         public void actionPerformed(ActionEvent e) 
         {
             if (e.getSource()==btnSave)
-                skill = new Skill(taName.getText(),  "no path", getFieldInt(taSP), getFieldInt(taLvl), getFieldInt(taDamage));
-            
-            iSkillEditor.this.setVisible(false);
-            
+            {
+                skill = new Skill(taName.getText(),  imagePath, getFieldInt(taSP), getFieldInt(taLvl), getFieldInt(taDamage));           
+                iSkillEditor.this.setVisible(false);
+            }
+            else if (e.getSource() == btnCancel)
+            {
+                iSkillEditor.this.setVisible(false);
+            }
+            else if (e.getSource() == btnChangeAnimation)
+            {
+                int returnVal = fcImage.showOpenDialog(iSkillEditor.this);
+
+                if (returnVal == JFileChooser.APPROVE_OPTION) {
+                    File file = fcImage.getSelectedFile();
+                    //This is where a real application would open the file.
+                    imagePath = file.getPath();
+                    System.out.println("Opening: " + imagePath + "." );
+                    
+                    iSkillEditor.this.loadImage();
+
+
+                } else {
+                    System.out.println("Open command cancelled by user." );
+                }
+            }
             //throw new UnsupportedOperationException("Not supported yet.");
         }
         
