@@ -61,6 +61,7 @@ public class DesignerInterface {
             JPanel settingsTab = new JPanel();
             settingsTab.add(iSettings);
             tabbedPane.addTab("Settings", settingsTab);
+            tabbedPane.addTab("Events", new iEvent(new Event()));
 
             frame.getContentPane().setLayout(new BorderLayout());
             frame.getContentPane().add(tabbedPane, BorderLayout.NORTH);

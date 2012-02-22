@@ -14,7 +14,8 @@ public class Event {
     Boolean onActionKey;
     //ArrayList<command> actions;
     public Event() {
-        
+        name ="";
+        onActionKey = true;
     }
     
     public String getName()
