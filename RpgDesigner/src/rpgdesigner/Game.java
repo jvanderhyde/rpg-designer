@@ -1,6 +1,8 @@
 package rpgdesigner;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -16,10 +18,13 @@ public class Game {
     private boolean isSaveAnywhere;
     private Event loseEvent;
     private Event winEvent;
+    List<Event> eventList = new ArrayList();
+    List<Map> mapList = new ArrayList();
+    List<Actor> actorList = new ArrayList();
     
     //This class works for creating a new game project
     public Game() {
-        
+        eventList.add(new Event());
     }
     
     //This class works for loading an already created project

@@ -61,6 +61,10 @@ public class Map {
         }
     }
     
+    public void setName(String name) {
+        this.name = name;
+    }
+    
     public List getLayer1(){
         return layer1;
     }

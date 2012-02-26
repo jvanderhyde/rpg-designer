@@ -40,6 +40,8 @@ public class iMap extends JPanel implements iListableObject{
     private BufferedImage currentTileset;
     private Game game;
     
+    TileViewMouseListener tileViewListener = new TileViewMouseListener();
+    
    /*
     * This is the constructor, it always requires a map.  If the map is blank create a new Map without 
     * any parameters and pass it in.  
@@ -155,6 +157,7 @@ public class iMap extends JPanel implements iListableObject{
         JLabel tileGridLabel = new JLabel(tileSetGrid);
         tileView.add(tileGridLabel);
         tileView.add(tilesetLabel);
+        tileView.addMouseListener(tileViewListener);
         JScrollPane tilesetScroll = new JScrollPane();
         tilesetScroll.getViewport().add(tileView);
         tilesetScroll.setPreferredSize(new Dimension(300, 500));
@@ -166,9 +169,6 @@ public class iMap extends JPanel implements iListableObject{
         
         JPanel bottomSection = new JPanel();
         bottomSection.setLayout(new BorderLayout());
-        JButton save = new JButton("Save");
-        save.addActionListener(buttonActions);
-        bottomSection.add(save, BorderLayout.WEST);
         
         add(topSection, BorderLayout.NORTH);
         add(bottomSection, BorderLayout.SOUTH);  
@@ -181,7 +181,7 @@ public class iMap extends JPanel implements iListableObject{
 
     @Override
     public void saveObject() {
-        throw new UnsupportedOperationException("Not supported yet.  ");
+        workingMap.setName(tfName.getText());
     }
     
     private class IBlockDirections extends JPanel {
@@ -425,5 +425,57 @@ public class iMap extends JPanel implements iListableObject{
             return number;
         }
         
+    }
+    
+    private class TileViewMouseListener implements MouseListener {
+
+        @Override
+        public void mouseClicked(MouseEvent e) {
+            
+        }
+
+        @Override
+        public void mousePressed(MouseEvent e) {
+            System.out.println(getTileNumber(e.getX(), e.getY()));
+        }
+
+        @Override
+        public void mouseReleased(MouseEvent e) {
+            
+        }
+
+        @Override
+        public void mouseEntered(MouseEvent e) {
+            
+        }
+
+        @Override
+        public void mouseExited(MouseEvent e) {
+            
+        }
+        
+        private int getTileNumber(int x, int y) {
+            int multiple = 0;
+            int number;
+            int numberx = 0;
+            int numbery = 0;
+            
+            //First solve which tile in the x range it is
+            for(int i=0; i < x; i = i+32) {
+                multiple = i;
+                numberx++;
+            }
+            numberx--;
+            //Now solve for the tile in which the y range
+            for(int i=0; i < y; i = i+32) {
+                multiple = i;
+                numbery++;
+            }
+            numbery--;
+            
+            number = (numbery*50 + numberx);
+            
+            return number;
+        }
     }
 }
