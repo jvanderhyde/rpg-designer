@@ -39,7 +39,7 @@ public class DesignerInterface {
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
             //iActor fActor = new iActor(frame);
-            iMap iMap = new iMap(new Map());
+            iMap iMap = new iMap(frame, new Map());
             iSettings iSettings = new iSettings();
             
             iActor[] ia = new iActor[0];
@@ -79,8 +79,12 @@ public class DesignerInterface {
         
     }
             
-    
-    public static void main(String[] args) {
-        DesignerInterface di = new DesignerInterface(); 
+    public static void main(String[] args) { 
+        javax.swing.SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                DesignerInterface di = new DesignerInterface(); 
+            }
+        });
     }
 }

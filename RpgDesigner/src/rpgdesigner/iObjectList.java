@@ -115,7 +115,7 @@ public class iObjectList extends JPanel {
                      }
                     case MAP:
                     {
-                        iObject = new iMap(new Map());
+                        iObject = new iMap(frame, new Map());
                     }
                 }
                

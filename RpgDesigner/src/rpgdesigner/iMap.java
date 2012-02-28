@@ -3,6 +3,11 @@ package rpgdesigner;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.imageio.ImageIO;
 import javax.swing.*;
 
 /**
@@ -12,6 +17,11 @@ import javax.swing.*;
  * This class is responsible for creating the map editor tab.  
  */
 public class iMap extends JPanel implements iListableObject{
+    JFrame frame = new JFrame();
+    JPanel tileView = new JPanel();
+    
+    JLabel tilesetLabel = new JLabel();
+            
     private JTextField tfName;
     private JToggleButton btnPlaceTile;
     private JToggleButton btnFillTile;
@@ -51,7 +61,8 @@ public class iMap extends JPanel implements iListableObject{
     {
         return workingMap.toString();
     }
-    public iMap(Map workingMap) {
+    public iMap(JFrame frame, Map workingMap) {
+        this.frame = frame;
         this.workingMap = workingMap;
         this.setLayout(new BorderLayout());
         JPanel topSection = new JPanel();
@@ -123,9 +134,11 @@ public class iMap extends JPanel implements iListableObject{
         JPanel cbTilesetPanel = new JPanel();
         cbTilesetPanel.setLayout(new BorderLayout());
         this.cbTileset = new JComboBox();
-        cbTileset.addItem("Hello");
-        cbTileset.addItem("Hello12345678910");
-        cbTileset.addItem("I am a tileset dawg!");
+        File folder = new File("Resources/Tilesets");
+        File[] tileSetsFolder = folder.listFiles();
+        for(File f : tileSetsFolder)
+            cbTileset.addItem(f.getName());
+        //System.out.println(new File("").getAbsolutePath()); 
         JLabel tilesetSelectLabel = new JLabel("Tilesets:");
         cbTilesetPanel.add(tilesetSelectLabel, BorderLayout.NORTH);
         cbTilesetPanel.add(cbTileset, BorderLayout.SOUTH);
@@ -143,10 +156,17 @@ public class iMap extends JPanel implements iListableObject{
         
         //This code sets up the view of the tilesets for selecting images to place in tiles
         //on the map
-        JPanel tileView = new JPanel();
+        tileView = new JPanel();
         tileView.setLayout(new OverlayLayout(tileView));
-        ImageIcon tileset = new ImageIcon(new BufferedImage(800,500,1));
-        JLabel tilesetLabel = new JLabel();
+        BufferedImage tilesetImage = null;
+        cbTileset.setSelectedIndex(1);
+        try {
+            tilesetImage = ImageIO.read(new File("Resources/Tilesets/"+(String)cbTileset.getSelectedItem()));
+        } catch (IOException ex) {
+            Logger.getLogger(iMap.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        ImageIcon tileset = new ImageIcon(tilesetImage);
+        tilesetLabel = new JLabel();
         tilesetLabel.setIcon(tileset);
         BufferedImage gridTileSets = new BufferedImage(tileset.getIconWidth(),tileset.getIconHeight(),BufferedImage.TRANSLUCENT);
         Graphics2D gridToDraw2 = gridTileSets.createGraphics();
@@ -171,7 +191,7 @@ public class iMap extends JPanel implements iListableObject{
         bottomSection.setLayout(new BorderLayout());
         
         add(topSection, BorderLayout.NORTH);
-        add(bottomSection, BorderLayout.SOUTH);  
+        add(bottomSection, BorderLayout.SOUTH); 
     }
 
     @Override
@@ -423,6 +443,25 @@ public class iMap extends JPanel implements iListableObject{
             number = (numbery*50 + numberx);
             
             return number;
+        }
+        
+    }
+    
+    private class TileViewActionListener implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            BufferedImage tilesetImage = null;
+            try {
+                tilesetImage = ImageIO.read(new File("Resources/Tilesets/"+(String)cbTileset.getSelectedItem()));
+            } catch (IOException ex) {
+                Logger.getLogger(iMap.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            ImageIcon tileset = new ImageIcon(tilesetImage);
+            tilesetLabel = new JLabel();
+            tilesetLabel.setIcon(tileset);
+            tilesetLabel.repaint();
+            frame.pack();
         }
         
     }
