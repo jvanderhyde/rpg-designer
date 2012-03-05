@@ -1,6 +1,8 @@
 package rpgdesigner;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.*;
@@ -16,7 +18,7 @@ import rpgdesigner.iObjectList.ObjectType;
 public class DesignerInterface {
     
     
-    iObjectList ActorList, MapList;
+    iObjectList ActorList, MapList, EventList;
     Game game;
     
     public DesignerInterface()
@@ -42,13 +44,21 @@ public class DesignerInterface {
             iMap iMap = new iMap(frame, new Map());
             iSettings iSettings = new iSettings();
             
-            iActor[] ia = new iActor[0];
-            iMap[] im = new iMap[0];
+            //iActor ia = new iActor[0];
+//            iMap[] im = new iMap[0];
+//            iEvent[] ie = new iEvent[0];
             
-            
+            Actor a = new Actor();
+            iActor ia = new iActor(frame, a);
+            ArrayList<Object> alActor =  new ArrayList();
+            ArrayList<Object> alEvent = new ArrayList();
+            ArrayList<Object> alMap = new ArrayList();
            
-            ActorList = new iObjectList(ia, frame, ObjectType.ACTOR);
-            MapList = new iObjectList(im, frame, ObjectType.MAP);
+            ActorList = new iObjectList((ArrayList<Object>)alActor, frame, ObjectType.ACTOR);
+            //MapList = new iObjectList(im, frame, ObjectType.MAP);
+            EventList = new iObjectList((ArrayList<Object>)alEvent, frame, ObjectType.EVENT);
+            MapList = new iObjectList((ArrayList<Object>)alMap, frame, ObjectType.MAP);
+            //EventList = new iObjectList(ie, frame, ObjectType.EVENT);
             //Lets add our tabs
             JTabbedPane tabbedPane = new JTabbedPane();
             tabbedPane.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0));
@@ -58,15 +68,18 @@ public class DesignerInterface {
             JPanel mapTab = new JPanel();
             mapTab.add(MapList);
             tabbedPane.addTab("Map Editor", mapTab);
-            JPanel settingsTab = new JPanel();
-            settingsTab.add(iSettings);
-            tabbedPane.addTab("Settings", settingsTab);
-            tabbedPane.addTab("Events", new iEvent(new Event()));
+//            JPanel settingsTab = new JPanel();
+//            settingsTab.add(iSettings);
+//            tabbedPane.addTab("Settings", settingsTab);
+            JPanel eventsTab = new JPanel();
+            eventsTab.add(EventList);
+            tabbedPane.addTab("Events", eventsTab);
 
+            
             frame.getContentPane().setLayout(new BorderLayout());
             frame.getContentPane().add(tabbedPane, BorderLayout.NORTH);
             
-            frame.setSize(600, 400);
+            frame.setPreferredSize(new Dimension(1146, 705));
             
             //frame.getContentPane().add(new JButton("Edit"), BorderLayout.SOUTH);
             frame.pack();

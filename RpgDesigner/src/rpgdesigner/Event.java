@@ -2,6 +2,7 @@ package rpgdesigner;
 
 import java.awt.Image;
 import java.util.ArrayList;
+import javax.swing.DefaultListModel;
 
 /**
  *
@@ -12,10 +13,27 @@ public class Event {
     //private Item key;
     Image icon;
     Boolean onActionKey;
+    DefaultListModel eventListModel;
     //ArrayList<command> actions;
     public Event() {
-        name ="";
+        name ="new event";
         onActionKey = true;
+    }
+    
+    public DefaultListModel getEventListModel()
+    {
+        return eventListModel;
+    }
+    
+    public void setEventListModel(DefaultListModel list)
+    {
+        eventListModel = list;
+    }
+    
+    @Override
+    public String toString()
+    {
+        return getName();
     }
     
     public String getName()

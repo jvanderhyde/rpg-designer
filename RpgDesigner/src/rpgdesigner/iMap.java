@@ -61,6 +61,13 @@ public class iMap extends JPanel implements iListableObject{
     {
         return workingMap.toString();
     }
+    
+    @Override
+    public void reset() {
+        System.out.println("Add code in reset in iMap which resets everything in the panel to the original values");
+        System.out.println("...see iActor.reset()");
+    }
+    
     public iMap(JFrame frame, Map workingMap) {
         this.frame = frame;
         this.workingMap = workingMap;
@@ -141,6 +148,8 @@ public class iMap extends JPanel implements iListableObject{
         //System.out.println(new File("").getAbsolutePath()); 
         JLabel tilesetSelectLabel = new JLabel("Tilesets:");
         cbTilesetPanel.add(tilesetSelectLabel, BorderLayout.NORTH);
+        
+        cbTileset.addItemListener(new TileViewActionListener());
         cbTilesetPanel.add(cbTileset, BorderLayout.SOUTH);
         tilesetPanelHolder.add(cbTilesetPanel, BorderLayout.CENTER);
         topSection.add(controls, BorderLayout.WEST);
@@ -202,6 +211,16 @@ public class iMap extends JPanel implements iListableObject{
     @Override
     public void saveObject() {
         workingMap.setName(tfName.getText());
+    }
+
+    @Override
+    public void setObject(Object o) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public Object getObject() {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
     
     private class IBlockDirections extends JPanel {
@@ -447,10 +466,25 @@ public class iMap extends JPanel implements iListableObject{
         
     }
     
-    private class TileViewActionListener implements ActionListener {
+    private class TileViewActionListener implements ItemListener {
+
+//        @Override
+//        public void actionPerformed(ActionEvent e) {
+//            BufferedImage tilesetImage = null;
+//            try {
+//                tilesetImage = ImageIO.read(new File("Resources/Tilesets/"+(String)cbTileset.getSelectedItem()));
+//            } catch (IOException ex) {
+//                Logger.getLogger(iMap.class.getName()).log(Level.SEVERE, null, ex);
+//            }
+//            ImageIcon tileset = new ImageIcon(tilesetImage);
+//            tilesetLabel = new JLabel();
+//            tilesetLabel.setIcon(tileset);
+//            tilesetLabel.repaint();
+//            frame.pack();
+//        }
 
         @Override
-        public void actionPerformed(ActionEvent e) {
+        public void itemStateChanged(ItemEvent e) {
             BufferedImage tilesetImage = null;
             try {
                 tilesetImage = ImageIO.read(new File("Resources/Tilesets/"+(String)cbTileset.getSelectedItem()));
@@ -458,10 +492,11 @@ public class iMap extends JPanel implements iListableObject{
                 Logger.getLogger(iMap.class.getName()).log(Level.SEVERE, null, ex);
             }
             ImageIcon tileset = new ImageIcon(tilesetImage);
-            tilesetLabel = new JLabel();
+            //tilesetLabel = new JLabel();
+            
             tilesetLabel.setIcon(tileset);
             tilesetLabel.repaint();
-            frame.pack();
+            //frame.pack();
         }
         
     }

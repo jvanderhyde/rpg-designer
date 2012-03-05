@@ -6,6 +6,7 @@ package rpgdesigner;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.util.ArrayList;
 import javax.swing.*;
 
 /**
@@ -24,9 +25,10 @@ public class iObjectList extends JPanel {
     JPanel pObject;
     iListableObject iObject ;
     ObjectType Type;
+    Object obj;
     
     
-    public iObjectList (Object[] a, JFrame f, ObjectType t)
+    public iObjectList (ArrayList<Object> a, JFrame f, ObjectType t)
     {
         Type = t;
         frame = f;
@@ -40,9 +42,9 @@ public class iObjectList extends JPanel {
         list = new JList(listModel); 
         
         //Add the objects to the list
-        for(int i=0;i<a.length;i++)
+        for(int i=0;i<a.size();i++)
         {
-            listModel.addElement(a[i]);
+            listModel.addElement(a.get(i));
         }
         
         JScrollPane listScroller = new JScrollPane(list);
@@ -76,7 +78,8 @@ public class iObjectList extends JPanel {
     }
    public enum ObjectType{
 		ACTOR,
-		MAP;
+		MAP,
+                EVENT;
 	}
 
     private class ListListener implements ActionListener
@@ -89,13 +92,15 @@ public class iObjectList extends JPanel {
             if (e.getSource()==btnEdit)
             {
                 //Get the selected object
-                iObject= (iListableObject)list.getSelectedValue();
-                pObject.removeAll();
+                obj = list.getSelectedValue();
+                iObject.setObject(obj);
+                //iObject= (iListableObject)list.getSelectedValue();
+                //pObject.removeAll();
                 
                 //Display the object
-                pObject.add(iObject.getPanel(), BorderLayout.CENTER);
-                pObject.add(pObjectButtons, BorderLayout.SOUTH);
-                listModel.removeElement(list.getSelectedValue());
+                //pObject.add(iObject.getPanel(), BorderLayout.CENTER);
+                //pObject.add(pObjectButtons, BorderLayout.SOUTH);
+                //listModel.removeElement(list.getSelectedValue());
                 cl.show(iObjectList.this, "Object");
                 
             }
@@ -105,7 +110,10 @@ public class iObjectList extends JPanel {
             }
             else if (e.getSource()==btnAdd)
             {
+                //	Clicking new – reset fields of iActor (iObject.reset), Actor=null
                 //Create the new iObject
+                
+                list.setSelectedIndex(-1);
                 switch (Type)
                 {
                     case ACTOR:
@@ -116,6 +124,12 @@ public class iObjectList extends JPanel {
                     case MAP:
                     {
                         iObject = new iMap(frame, new Map());
+                        break;
+                    }
+                    case EVENT:
+                    {
+                        iObject = new iEvent(frame, new Event());
+                        break;
                     }
                 }
                
@@ -125,6 +139,7 @@ public class iObjectList extends JPanel {
                 pObject.add(pObjectButtons, BorderLayout.SOUTH);
                 cl.show(iObjectList.this, "Object");
             }
+            
             frame.pack();
         }
         
@@ -155,13 +170,18 @@ public class iObjectList extends JPanel {
                 {
                     //Save the object and add it to the list
                     iObject.saveObject();
-                    listModel.addElement(iObject);
+                    obj = iObject.getObject();
+                    //listModel.addElement(iObject);
+                    if (list.getSelectedIndex()>-1)
+                        listModel.setElementAt(obj, list.getSelectedIndex());
+                    else 
+                        listModel.addElement(obj);
+                   
                 }
                 else if (e.getSource() == btnCancel)
                 {
                     //Add the original object back to the list
-                    listModel.addElement(iObject);
-
+                    //listModel.addElement(iObject); 
                 }
                 cl.show(iObjectList.this, "List");
             

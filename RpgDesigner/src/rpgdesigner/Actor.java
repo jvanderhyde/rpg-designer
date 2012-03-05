@@ -14,7 +14,6 @@ public class Actor {
     private int begHP, increaseHP,  increaseXP, begSP, increaseSP;
     private SpriteSheet spriteSheet;
     //Skill[] skills;
-    private int locX, locY;
     private int type;
     private DefaultListModel skills;
     
@@ -27,6 +26,11 @@ public class Actor {
     public String toString()
     {
         return name;
+    }
+    
+    public SpriteSheet getSpriteSheet()
+    {
+        return spriteSheet;
     }
     
     public DefaultListModel getSkillsList()

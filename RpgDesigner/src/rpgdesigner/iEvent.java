@@ -6,17 +6,17 @@ package rpgdesigner;
 
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import javax.swing.*;
 
 /**
  *
  * @author Fran
  */
-public class iEvent extends JPanel implements ItemListener
+public class iEvent extends JPanel implements iListableObject
 {
     JTextField tfName;
     JRadioButton rbOnActionKey, rbOnTouch;
@@ -26,17 +26,39 @@ public class iEvent extends JPanel implements ItemListener
     Event event;
     JComboBox cbCommandType;
     JPanel pCommandOptions;
+    JList possyEventsList, NPCEventsList, environmentEventsList;
+    DefaultListModel listModelActions;
+    JFrame mainFrame;
     
-    public iEvent(Event e) 
+    @Override
+    public String toString()
     {
+        return event.getName();
+    }
+    @Override
+    public void reset() {
+        tfName.setText(event.getName());
+        
+        if (event.onActionKey())
+            rbOnActionKey.setSelected(true);
+        else 
+            rbOnTouch.setSelected(true);
+       
+        
+    }
+    
+    public iEvent(JFrame frame, Event e) 
+    {
+        event = e;
+        mainFrame = frame;
         this.setLayout(new BorderLayout());
-        if (e.getName().compareTo("")!=0)
-            tfName = new JTextField(e.getName());
+        if (event.getName().compareTo("")!=0)
+            tfName = new JTextField(event.getName());
         else
             tfName = new JTextField("Enter Name");
         rbOnActionKey= new JRadioButton("On Action");
         rbOnTouch = new JRadioButton("On Touch");
-        if (e.onActionKey())
+        if (event.onActionKey())
             rbOnActionKey.setSelected(true);
         else 
             rbOnTouch.setSelected(true);
@@ -54,6 +76,9 @@ public class iEvent extends JPanel implements ItemListener
         JPanel pRBs = new JPanel();
         pRBs.add(rbOnActionKey);
         pRBs.add(rbOnTouch);
+        ButtonGroup bg = new ButtonGroup();
+        bg.add(rbOnActionKey);
+        bg.add(rbOnTouch);
         JPanel pCenter = new JPanel(new BorderLayout());
         pCenter.add(pButtons, BorderLayout.NORTH);
         pCenter.add(pRBs, BorderLayout.SOUTH);
@@ -73,7 +98,7 @@ public class iEvent extends JPanel implements ItemListener
         pCommandOptions = new JPanel(new CardLayout());
         
         DefaultListModel listModelPossy = new DefaultListModel();
-        JList possyEventsList = new JList(listModelPossy); 
+        possyEventsList = new JList(listModelPossy); 
         listModelPossy.addElement("Battle");
         listModelPossy.addElement("Give Item");
         listModelPossy.addElement("Give Skill");
@@ -85,24 +110,26 @@ public class iEvent extends JPanel implements ItemListener
         listModelPossy.addElement("Move");
         possyEventsList.setLayoutOrientation(JList.HORIZONTAL_WRAP);
         pCommandOptions.add(possyEventsList, "Possy");
+        possyEventsList.addMouseListener(new EventMouseListener());
         
         DefaultListModel listModelEnvironment = new DefaultListModel();
-        JList environmentEventsList = new JList(listModelEnvironment);
+        environmentEventsList = new JList(listModelEnvironment);
         listModelEnvironment.addElement("Change Music");
         pCommandOptions.add(environmentEventsList, "Environment");
         
         
         DefaultListModel listModelNPC = new DefaultListModel();
-        JList NPCEventsList = new JList(listModelNPC);
+        NPCEventsList = new JList(listModelNPC);
         listModelNPC.addElement("Move");
         listModelNPC.addElement("Shop");
         listModelNPC.addElement("Speech");
+        NPCEventsList.addMouseListener(new EventMouseListener());
         pCommandOptions.add(NPCEventsList, "NPC");
         
         
         JPanel pCommands = new JPanel(new BorderLayout());
         pCommands.add(cbCommandType, BorderLayout.NORTH);
-        cbCommandType.addItemListener(this);
+        cbCommandType.addItemListener(new EventItemListener());
         
         pCommandOptions.add(new JPanel(), "Blank");
         CardLayout cl = (CardLayout)(pCommandOptions.getLayout());
@@ -110,21 +137,105 @@ public class iEvent extends JPanel implements ItemListener
         pCommands.add(pCommandOptions, BorderLayout.SOUTH);
         pSettings.add(pCommands, BorderLayout.EAST);
         this.add(pSettings, BorderLayout.NORTH);
-        actions = new JList();
+        listModelActions = new DefaultListModel();
+        actions = new JList(listModelActions);
         this.add(actions, BorderLayout.SOUTH);
         
     }
+    
     public Event getEvent()
     {
         return event;
     }
-    
+
     @Override
+    public JPanel getPanel() {
+        return this;
+    }
+
+    @Override
+    public void saveObject() {
+        //event.setIcon();
+        event.setName(this.tfName.getText());
+        event.setOnActionKey(this.rbOnActionKey.isSelected());
+        event.setEventListModel(listModelActions);
+    }
+
+    @Override
+    public void setObject(Object o) {
+        event = (Event)o;
+        tfName.setText(event.getName());
+        if (event.onActionKey())
+            rbOnActionKey.setSelected(true);
+        else 
+            rbOnTouch.setSelected(true);
+    }
+
+    @Override
+    public Object getObject() {
+        return event;
+    }
+
+    
+    
+    
+    
+    private class EventItemListener implements ItemListener
+    {
+
+        @Override
     public void itemStateChanged(ItemEvent evt) {
         CardLayout cl = (CardLayout)(pCommandOptions.getLayout());
         cl.show(pCommandOptions, (String)evt.getItem());
         System.out.println((String)evt.getItem());
     }
-
+        
+    }
     
+    private class EventMouseListener implements MouseListener
+    {
+
+        @Override
+        public void mouseClicked(MouseEvent e) {
+            if (e.getSource()==NPCEventsList)
+                if (e.getClickCount()>1)
+                {
+                    String inputValue;
+                    if (NPCEventsList.getSelectedValue().equals("Speech"))
+                    {
+                        inputValue = JOptionPane.showInputDialog("What should the NPC say?"); 
+                        listModelActions.addElement("Say " + inputValue);
+                    }
+                    else if (NPCEventsList.getSelectedValue().equals("Move"))
+                    {
+                        iEventDialog ied = new iEventDialog(mainFrame, "Move");
+                        inputValue = ied.getValue();
+                        listModelActions.addElement(inputValue);
+                        System.out.println(inputValue);
+                    }
+                }
+            //throw new UnsupportedOperationException("Not supported yet.");
+        }
+
+        @Override
+        public void mousePressed(MouseEvent e) {
+            
+        }
+
+        @Override
+        public void mouseReleased(MouseEvent e) {
+            
+        }
+
+        @Override
+        public void mouseEntered(MouseEvent e) {
+            
+        }
+
+        @Override
+        public void mouseExited(MouseEvent e) {
+            
+        }
+        
+    }
 }

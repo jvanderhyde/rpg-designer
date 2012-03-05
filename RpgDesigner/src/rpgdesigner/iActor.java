@@ -167,18 +167,7 @@ public class iActor extends JPanel implements iListableObject{
         return actor;
     }
     
-    public void setActor(Actor a)
-    {
-        actor = a;
-        tfName.setText(actor.getName());
-        tfBegHP.setText(Integer.toString(actor.getBegHP()));
-        tfIncHP.setText(Integer.toString(actor.getIncreaseHP()));
-        tfBegSP.setText(Integer.toString(actor.getBegSP()));
-        tfIncSP.setText(Integer.toString(actor.getIncreaseSP()));
-        tfIncXP.setText(Integer.toString(actor.getIncreaseXP()));
-        setActorType(actor.getType());
-        
-    }
+   
     
     public void saveActor()
     {
@@ -244,6 +233,40 @@ public class iActor extends JPanel implements iListableObject{
     @Override
     public void saveObject() {
         saveActor();
+    }
+
+    @Override
+    public void reset() {
+        
+        actor = null;
+        tfName.setText("Enter Name...");
+        setObject(null);
+//        tfBegHP.setText();
+//        tfIncHP.setText(Integer.toString(actor.getIncreaseHP()));
+//        tfBegSP.setText(Integer.toString(actor.getBegSP()));
+//        tfIncSP.setText(Integer.toString(actor.getIncreaseSP()));
+//        tfIncXP.setText(Integer.toString(actor.getIncreaseXP()));
+//        setActorType(actor.getType());
+//        
+    
+    }
+
+    @Override
+    public void setObject(Object o) {
+        actor = (Actor)o;
+        tfName.setText(actor.getName());
+        tfBegHP.setText(Integer.toString(actor.getBegHP()));
+        tfIncHP.setText(Integer.toString(actor.getIncreaseHP()));
+        tfBegSP.setText(Integer.toString(actor.getBegSP()));
+        tfIncSP.setText(Integer.toString(actor.getIncreaseSP()));
+        tfIncXP.setText(Integer.toString(actor.getIncreaseXP()));
+        setActorType(actor.getType());
+        
+    }
+
+    @Override
+    public Object getObject() {
+        return actor;
     }
     
   private class iActorListener implements ActionListener 

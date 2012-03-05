@@ -13,5 +13,8 @@ import javax.swing.JPanel;
 public interface iListableObject  {
     public JPanel getPanel();
     public void saveObject();
+    public void reset();
+    public void setObject(Object o);
+    public Object getObject();
     
 }
