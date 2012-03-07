@@ -6,10 +6,17 @@ package rpgdesigner;
 
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import javax.imageio.ImageIO;
 import javax.swing.*;
 
 /**
@@ -29,6 +36,10 @@ public class iEvent extends JPanel implements iListableObject
     JList possyEventsList, NPCEventsList, environmentEventsList;
     DefaultListModel listModelActions;
     JFrame mainFrame;
+    ArrayList<Object> actorList;
+    JLabel reqItemImg, npcImg;
+    String actorImgPath, itemImgPath;
+    JPanel pImages;
     
     @Override
     public String toString()
@@ -44,11 +55,13 @@ public class iEvent extends JPanel implements iListableObject
         else 
             rbOnTouch.setSelected(true);
        
+        pImages.removeAll();
         
     }
     
-    public iEvent(JFrame frame, Event e) 
+    public iEvent(JFrame frame, Event e, ArrayList<Object> actorList) 
     {
+        this.actorList = actorList;
         event = e;
         mainFrame = frame;
         this.setLayout(new BorderLayout());
@@ -64,6 +77,7 @@ public class iEvent extends JPanel implements iListableObject
             rbOnTouch.setSelected(true);
         btnRequiredItem = new JButton("Required Item");
         btnNPC = new JButton ("Assigned NPC");
+        btnNPC.addActionListener(new EventActionListener());
         cbCommandType = new JComboBox();
         cbCommandType.addItem("Possy");
         cbCommandType.addItem("Environment");
@@ -72,6 +86,11 @@ public class iEvent extends JPanel implements iListableObject
         pButtons.add(btnRequiredItem);
         pButtons.add(btnNPC);
         //pButtons.add(cbCommandType);
+        pImages = new JPanel();
+        npcImg = new JLabel("NPC");
+        reqItemImg = new JLabel("Item");
+        pImages.add(reqItemImg);
+        pImages.add(npcImg);
         
         JPanel pRBs = new JPanel();
         pRBs.add(rbOnActionKey);
@@ -81,6 +100,7 @@ public class iEvent extends JPanel implements iListableObject
         bg.add(rbOnTouch);
         JPanel pCenter = new JPanel(new BorderLayout());
         pCenter.add(pButtons, BorderLayout.NORTH);
+        pCenter.add(pImages, BorderLayout.CENTER);
         pCenter.add(pRBs, BorderLayout.SOUTH);
         JPanel pSettings = new JPanel(new BorderLayout());
         pSettings.add(pCenter, BorderLayout.CENTER);
@@ -93,7 +113,7 @@ public class iEvent extends JPanel implements iListableObject
         pWest.add(pName, BorderLayout.NORTH);
         pWest.add(new JLabel("image goes here"), BorderLayout.SOUTH);
         pSettings.add(pWest, BorderLayout.WEST);
-        pSettings.add(cbCommandType, BorderLayout.EAST);
+        //pSettings.add(cbCommandType, BorderLayout.EAST);
         
         pCommandOptions = new JPanel(new CardLayout());
         
@@ -235,6 +255,46 @@ public class iEvent extends JPanel implements iListableObject
         @Override
         public void mouseExited(MouseEvent e) {
             
+        }
+        
+    }
+    
+    private class EventActionListener implements ActionListener
+    {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            if (e.getSource()== btnNPC)
+            {
+                Object[] possibilities = actorList.toArray();
+                Actor a = (Actor)JOptionPane.showInputDialog(
+                mainFrame,
+                "Choose an Actor",
+                "Customized Dialog",
+                JOptionPane.PLAIN_MESSAGE,
+                null,
+                possibilities,
+                null);
+
+                System.out.println(a);
+                actorImgPath = a.getImagePath();
+                
+                System.out.println("Opening: " + actorImgPath + "." );
+            BufferedImage myPicture;
+            try {
+                myPicture = ImageIO.read(new File(actorImgPath));
+                pImages.removeAll();
+                npcImg = new JLabel(new ImageIcon( myPicture ));
+                //image.setPreferredSize(new Dimension(10,10));
+                //pImage.add(image,BorderLayout.NORTH);
+                pImages.add(reqItemImg);
+                pImages.add(npcImg);
+                mainFrame.pack();
+            } catch (IOException ex) {
+                System.out.println(ex.toString());
+            }
+                
+            }
         }
         
     }

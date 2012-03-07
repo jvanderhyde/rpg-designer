@@ -25,6 +25,7 @@ public class iActor extends JPanel implements iListableObject{
     JList list;
     DefaultListModel skills;
     final JFileChooser fcImage;
+    private String imagePath;
     
     
     JFrame mainFrame;
@@ -179,6 +180,7 @@ public class iActor extends JPanel implements iListableObject{
         actor.setIncreaseSP(getFieldInt(tfIncSP));
         actor.setIncreaseXP(getFieldInt(tfIncXP));
         actor.setSkillsList(skills);
+        actor.setImagePath(imagePath);
     }
     
     public int getActorType()
@@ -238,9 +240,18 @@ public class iActor extends JPanel implements iListableObject{
     @Override
     public void reset() {
         
-        actor = null;
+        actor = new Actor();
         tfName.setText("Enter Name...");
-        setObject(null);
+        setObject(actor);
+        tfName.setText(actor.getName());
+        tfBegHP.setText(Integer.toString(actor.getBegHP()));
+        tfIncHP.setText(Integer.toString(actor.getIncreaseHP()));
+        tfBegSP.setText(Integer.toString(actor.getBegSP()));
+        tfIncSP.setText(Integer.toString(actor.getIncreaseSP()));
+        tfIncXP.setText(Integer.toString(actor.getIncreaseXP()));
+        setActorType(actor.getType());
+        imagePath = "";
+        pImage.remove(image);
 //        tfBegHP.setText();
 //        tfIncHP.setText(Integer.toString(actor.getIncreaseHP()));
 //        tfBegSP.setText(Integer.toString(actor.getBegSP()));
@@ -261,6 +272,22 @@ public class iActor extends JPanel implements iListableObject{
         tfIncSP.setText(Integer.toString(actor.getIncreaseSP()));
         tfIncXP.setText(Integer.toString(actor.getIncreaseXP()));
         setActorType(actor.getType());
+        imagePath = actor.getImagePath();
+        if (imagePath!=null && !imagePath.isEmpty())
+        {
+            System.out.println("Opening: " + imagePath + "." );
+            BufferedImage myPicture;
+            try {
+                myPicture = ImageIO.read(new File(imagePath));
+                pImage.remove(image);
+                image = new JLabel(new ImageIcon( myPicture ));
+                //image.setPreferredSize(new Dimension(10,10));
+                pImage.add(image,BorderLayout.NORTH);
+                mainFrame.pack();
+            } catch (IOException ex) {
+                System.out.println(ex.toString());
+            }
+        }
         
     }
 
@@ -338,16 +365,14 @@ public class iActor extends JPanel implements iListableObject{
                 if (returnVal == JFileChooser.APPROVE_OPTION) {
                     File file = fcImage.getSelectedFile();
                     //This is where a real application would open the file.
-                    String FilePath = file.getPath();
-                    System.out.println("Opening: " + FilePath + "." );
+                    imagePath = file.getPath();
+                    System.out.println("Opening: " + imagePath + "." );
                     BufferedImage myPicture;
                     try {
-                        myPicture = ImageIO.read(new File(FilePath));
+                        myPicture = ImageIO.read(new File(imagePath));
                         pImage.remove(image);
                         image = new JLabel(new ImageIcon( myPicture ));
-                        image.setSize(50, 50);
-                        
-                        
+                        //image.setPreferredSize(new Dimension(10,10));
                         pImage.add(image,BorderLayout.NORTH);
                         mainFrame.pack();
                     } catch (IOException ex) {

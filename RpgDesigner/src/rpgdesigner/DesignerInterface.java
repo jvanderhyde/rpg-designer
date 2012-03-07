@@ -40,24 +40,14 @@ public class DesignerInterface {
             frame.setLayout(new BorderLayout());
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-            //iActor fActor = new iActor(frame);
-            iMap iMap = new iMap(frame, new Map());
-            iSettings iSettings = new iSettings();
-            
-            //iActor ia = new iActor[0];
-//            iMap[] im = new iMap[0];
-//            iEvent[] ie = new iEvent[0];
-            
-            Actor a = new Actor();
-            iActor ia = new iActor(frame, a);
             ArrayList<Object> alActor =  new ArrayList();
             ArrayList<Object> alEvent = new ArrayList();
             ArrayList<Object> alMap = new ArrayList();
            
-            ActorList = new iObjectList((ArrayList<Object>)alActor, frame, ObjectType.ACTOR);
+            ActorList = new iObjectList((ArrayList<Object>)alActor, frame, ObjectType.ACTOR, null);
             //MapList = new iObjectList(im, frame, ObjectType.MAP);
-            EventList = new iObjectList((ArrayList<Object>)alEvent, frame, ObjectType.EVENT);
-            MapList = new iObjectList((ArrayList<Object>)alMap, frame, ObjectType.MAP);
+            EventList = new iObjectList((ArrayList<Object>)alEvent, frame, ObjectType.EVENT,  alActor);
+            MapList = new iObjectList((ArrayList<Object>)alMap, frame, ObjectType.MAP, null);
             //EventList = new iObjectList(ie, frame, ObjectType.EVENT);
             //Lets add our tabs
             JTabbedPane tabbedPane = new JTabbedPane();

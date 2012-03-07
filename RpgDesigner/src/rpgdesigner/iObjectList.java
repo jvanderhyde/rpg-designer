@@ -24,14 +24,34 @@ public class iObjectList extends JPanel {
     CardLayout cl;
     JPanel pObject;
     iListableObject iObject ;
-    ObjectType Type;
+    ObjectType type;
     Object obj;
+    ArrayList<Object> objects;
     
     
-    public iObjectList (ArrayList<Object> a, JFrame f, ObjectType t)
+    public iObjectList (ArrayList<Object> a, JFrame f, ObjectType t, ArrayList<Object> actors)
     {
-        Type = t;
+        objects =a;
+        type = t;
         frame = f;
+        switch (type)
+        {
+                    case ACTOR:
+                     {
+                         iObject= new iActor(frame, new Actor());
+                         break;
+                     }
+                    case MAP:
+                    {
+                        iObject = new iMap(frame, new Map());
+                        break;
+                    }
+                    case EVENT:
+                    {
+                        iObject = new iEvent(frame, new Event(), actors);
+                        break;
+                    }
+        }
         //CardLayout allows you to switch between viewing the list, and veiwing the iObjects
         cl = new CardLayout();
         this.setLayout(cl);
@@ -114,24 +134,7 @@ public class iObjectList extends JPanel {
                 //Create the new iObject
                 
                 list.setSelectedIndex(-1);
-                switch (Type)
-                {
-                    case ACTOR:
-                     {
-                         iObject= new iActor(frame, new Actor());
-                         break;
-                     }
-                    case MAP:
-                    {
-                        iObject = new iMap(frame, new Map());
-                        break;
-                    }
-                    case EVENT:
-                    {
-                        iObject = new iEvent(frame, new Event());
-                        break;
-                    }
-                }
+                iObject.reset();
                
                 //Display iObject
                 pObject.removeAll();
@@ -173,10 +176,15 @@ public class iObjectList extends JPanel {
                     obj = iObject.getObject();
                     //listModel.addElement(iObject);
                     if (list.getSelectedIndex()>-1)
+                    {
+                        objects.set(list.getSelectedIndex(), obj);
                         listModel.setElementAt(obj, list.getSelectedIndex());
+                    }
                     else 
+                    {
                         listModel.addElement(obj);
-                   
+                        objects.add(obj);
+                    }
                 }
                 else if (e.getSource() == btnCancel)
                 {

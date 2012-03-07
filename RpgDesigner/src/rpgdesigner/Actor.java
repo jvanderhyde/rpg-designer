@@ -13,6 +13,8 @@ public class Actor {
     private String name;
     private int begHP, increaseHP,  increaseXP, begSP, increaseSP;
     private SpriteSheet spriteSheet;
+    
+    private String imagePath;
     //Skill[] skills;
     private int type;
     private DefaultListModel skills;
@@ -21,6 +23,16 @@ public class Actor {
     {
         name="";
         
+    }
+    
+    public String getImagePath()
+    {
+        return imagePath;
+    }
+    
+    public void setImagePath(String path)
+    {
+        imagePath = path;
     }
     @Override
     public String toString()
@@ -31,6 +43,11 @@ public class Actor {
     public SpriteSheet getSpriteSheet()
     {
         return spriteSheet;
+    }
+    
+    public void setSpriteSheet(SpriteSheet s)
+    {
+        spriteSheet = s;
     }
     
     public DefaultListModel getSkillsList()
