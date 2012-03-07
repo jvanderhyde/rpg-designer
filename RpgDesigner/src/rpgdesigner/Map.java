@@ -65,15 +65,15 @@ public class Map {
         this.name = name;
     }
     
-    public List getLayer1(){
+    public List<Tile> getLayer1(){
         return layer1;
     }
     
-    public List getLayer2(){
+    public List<Tile> getLayer2(){
         return layer2;
     }
     
-    public List getLayer3(){
+    public List<Tile> getLayer3(){
         return layer3;
     }
     

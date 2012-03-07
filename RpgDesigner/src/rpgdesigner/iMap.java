@@ -5,6 +5,7 @@ import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
@@ -49,8 +50,21 @@ public class iMap extends JPanel implements iListableObject{
     private Map workingMap;
     private BufferedImage currentTileset;
     private Game game;
+    private BufferedImage currentTile;
+    private BufferedImage selectionImage;
+    private java.util.List<Tile> layer1 = new ArrayList();
+    private java.util.List<Tile> layer2 = new ArrayList();
+    private java.util.List<Tile> layer3 = new ArrayList();
+    private java.util.List<Tile> events = new ArrayList();
     
     TileViewMouseListener tileViewListener = new TileViewMouseListener();
+    private JPanel tileSelectionPanel;
+    private JLabel selectionImageLabel;
+    private JPanel mapBody;
+    private JLayeredPane mapLayers;
+    private JPanel layer1Panel;
+    private JPanel layer2Panel;
+    private JPanel layer3Panel;
     
    /*
     * This is the constructor, it always requires a map.  If the map is blank create a new Map without 
@@ -77,6 +91,9 @@ public class iMap extends JPanel implements iListableObject{
         ActionListener buttonActions = new IMapListener();
         FocusListener textBoxListener = new IMapListener();
         MouseListener mapViewMouseListener = new MapViewMouseListener();
+        layer1 = workingMap.getLayer1();
+        layer2 = workingMap.getLayer2();
+        layer3 = workingMap.getLayer3();
         
         //This is the name field for the map
         JPanel nameHolder = new JPanel();
@@ -145,10 +162,8 @@ public class iMap extends JPanel implements iListableObject{
         File[] tileSetsFolder = folder.listFiles();
         for(File f : tileSetsFolder)
             cbTileset.addItem(f.getName());
-        //System.out.println(new File("").getAbsolutePath()); 
         JLabel tilesetSelectLabel = new JLabel("Tilesets:");
         cbTilesetPanel.add(tilesetSelectLabel, BorderLayout.NORTH);
-        
         cbTileset.addItemListener(new TileViewActionListener());
         cbTilesetPanel.add(cbTileset, BorderLayout.SOUTH);
         tilesetPanelHolder.add(cbTilesetPanel, BorderLayout.CENTER);
@@ -156,8 +171,54 @@ public class iMap extends JPanel implements iListableObject{
         topSection.add(tilesetPanelHolder, BorderLayout.EAST);
         
         //This code creates the view of the map being edited 
-        JPanel mapBody = new JPanel();
-        JLayeredPane mapLayers = workingMap.generateMapWithGrid();
+        mapBody = new JPanel();
+        mapLayers = new JLayeredPane();
+        mapLayers.setBounds(0, 0, 1600, 1600);
+        GridLayout layoutForMaps = new GridLayout(50,50,0,0);
+        layer1Panel = new JPanel();
+        layer1Panel.setLayout(layoutForMaps);
+        layer1Panel.setBounds(0, 0, 1600, 1600);
+        layer2Panel = new JPanel();
+        layer2Panel.setLayout(layoutForMaps);
+        layer2Panel.setBounds(0, 0, 1600, 1600);
+        layer2Panel.setOpaque(false);
+        layer3Panel = new JPanel();
+        layer3Panel.setLayout(layoutForMaps);
+        layer3Panel.setBounds(0, 0, 1600, 1600);
+        layer3Panel.setOpaque(false);
+        for(int i=0; i<layer1.size(); i++){
+            ImageIcon icon = new ImageIcon(layer1.get(i).getTileImage());
+            JLabel labelForImage = new JLabel(icon);
+            layer1Panel.add(labelForImage);
+        }
+        for(int i=0; i<layer2.size(); i++){
+            ImageIcon icon = new ImageIcon(layer2.get(i).getTileImage());
+            JLabel labelForImage = new JLabel(icon);
+            layer2Panel.add(labelForImage);
+        }
+        for(int i=0; i<layer3.size(); i++){
+            ImageIcon icon = new ImageIcon(layer3.get(i).getTileImage());
+            JLabel labelForImage = new JLabel(icon);
+            layer3Panel.add(labelForImage);
+        }
+        BufferedImage grid = new BufferedImage(1600,1600,BufferedImage.TRANSLUCENT);
+        Graphics2D gridToDraw = grid.createGraphics();
+        gridToDraw.setColor(Color.red);
+        for (int x=0; x<=1600; x+=32) {gridToDraw.drawLine(x, 0, x, 1600);}
+        for (int y=0; y<=1600; y+=32) {gridToDraw.drawLine(0, y, 1600, y);}
+        ImageIcon mapGrid = new ImageIcon(grid);
+        JLabel mapGridLabel = new JLabel(mapGrid);
+        mapGridLabel.setBounds(0, 0, 1600, 1600);
+        mapLayers.setAlignmentX(0);
+        mapLayers.setAlignmentY(0);
+        mapLayers.add(layer1Panel);
+        mapLayers.add(layer2Panel);
+        mapLayers.add(layer3Panel);
+        mapLayers.add(mapGridLabel);
+        mapLayers.setLayer(mapGridLabel, 4, 0);
+        mapLayers.setLayer(layer3Panel, 3, 0);
+        mapLayers.setLayer(layer2Panel, 2, 0);
+        mapLayers.setLayer(layer1Panel, 1, 0);
         mapLayers.addMouseListener(mapViewMouseListener);
         mapLayers.setPreferredSize(new Dimension(1600,1600));
         JScrollPane mapViewScroll = new JScrollPane(mapLayers);
@@ -167,14 +228,13 @@ public class iMap extends JPanel implements iListableObject{
         //on the map
         tileView = new JPanel();
         tileView.setLayout(new OverlayLayout(tileView));
-        BufferedImage tilesetImage = null;
         cbTileset.setSelectedIndex(1);
         try {
-            tilesetImage = ImageIO.read(new File("Resources/Tilesets/"+(String)cbTileset.getSelectedItem()));
+            currentTileset = ImageIO.read(new File("Resources/Tilesets/"+(String)cbTileset.getSelectedItem()));
         } catch (IOException ex) {
             Logger.getLogger(iMap.class.getName()).log(Level.SEVERE, null, ex);
         }
-        ImageIcon tileset = new ImageIcon(tilesetImage);
+        ImageIcon tileset = new ImageIcon(currentTileset);
         tilesetLabel = new JLabel();
         tilesetLabel.setIcon(tileset);
         BufferedImage gridTileSets = new BufferedImage(tileset.getIconWidth(),tileset.getIconHeight(),BufferedImage.TRANSLUCENT);
@@ -184,6 +244,20 @@ public class iMap extends JPanel implements iListableObject{
         for (int y=0; y<=tileset.getIconHeight(); y+=32) {gridToDraw2.drawLine(0, y, tileset.getIconWidth(), y);}
         ImageIcon tileSetGrid = new ImageIcon(gridTileSets);
         JLabel tileGridLabel = new JLabel(tileSetGrid);
+        tileSelectionPanel = new JPanel();
+        tileSelectionPanel.setLayout(null);
+        tileSelectionPanel.setPreferredSize(tileGridLabel.getPreferredSize());
+        selectionImage = new BufferedImage(32,32,BufferedImage.TYPE_INT_ARGB);
+        Graphics2D tileSelection = selectionImage.createGraphics();
+        tileSelection.setPaint(Color.blue);
+        tileSelection.drawRect(0, 0, 31, 31);
+        tileSelection.drawRect(1,1,29,29);
+        ImageIcon selectionImageIcon = new ImageIcon(selectionImage);
+        selectionImageLabel = new JLabel(selectionImageIcon);
+        selectionImageLabel.setBounds(0*32+1, 0*32+1, 32, 32);
+        tileSelectionPanel.add(selectionImageLabel);
+        tileSelectionPanel.setOpaque(false);
+        tileView.add(tileSelectionPanel);
         tileView.add(tileGridLabel);
         tileView.add(tilesetLabel);
         tileView.addMouseListener(tileViewListener);
@@ -200,7 +274,7 @@ public class iMap extends JPanel implements iListableObject{
         bottomSection.setLayout(new BorderLayout());
         
         add(topSection, BorderLayout.NORTH);
-        add(bottomSection, BorderLayout.SOUTH); 
+        add(bottomSection, BorderLayout.SOUTH);
     }
 
     @Override
@@ -419,10 +493,81 @@ public class iMap extends JPanel implements iListableObject{
 
         @Override
         public void mousePressed(MouseEvent e) {
-            switch(currentTool) {
-                case(PLACETOOL):
-                    System.out.println(getTileNumber(e.getX(), e.getY()));
+            if(currentTool == PLACETOOL) {
+                    int tileNumber = getTileNumber(e.getX(), e.getY());
+                    Tile newTile = new Tile(tileNumber);
+                    newTile.setImage(currentTile);
+                    if(btnLayer1.isSelected()) {
+                        layer1.set(tileNumber, newTile);
+                        layer1Panel.removeAll();
+                        for(int i=0; i<layer1.size(); i++){
+                            ImageIcon icon = new ImageIcon(layer1.get(i).getTileImage());
+                            JLabel labelForImage = new JLabel(icon);
+                            layer1Panel.add(labelForImage);
+                        }
+                        layer1Panel.repaint();
+                    }
+                    else if(btnLayer2.isSelected()) {
+                        layer2.set(tileNumber, newTile);
+                        layer2Panel.removeAll();
+                        for(int i=0; i<layer2.size(); i++){
+                            ImageIcon icon = new ImageIcon(layer2.get(i).getTileImage());
+                            JLabel labelForImage = new JLabel(icon);
+                            layer2Panel.add(labelForImage);
+                        }
+                        layer2Panel.repaint();
+                    }
+                    else {
+                        layer3.set(tileNumber, newTile);
+                        layer3Panel.removeAll();
+                        for(int i=0; i<layer3.size(); i++){
+                            ImageIcon icon = new ImageIcon(layer3.get(i).getTileImage());
+                            JLabel labelForImage = new JLabel(icon);
+                            layer3Panel.add(labelForImage);
+                        }
+                        layer3Panel.repaint();
+                    }
+            }else if(currentTool == FILLTOOL){
+                    Tile newTile = new Tile();
+                    newTile.setImage(currentTile);
+                    if(btnLayer1.isSelected()) {
+                        for(int i=0; i < layer1.size(); i++)
+                            layer1.set(i, newTile);
+                        layer1Panel.removeAll();
+                        for(int i=0; i<layer1.size(); i++){
+                            ImageIcon icon = new ImageIcon(layer1.get(i).getTileImage());
+                            JLabel labelForImage = new JLabel(icon);
+                            layer1Panel.add(labelForImage);
+                        }
+                    }
+                    else if(btnLayer2.isSelected()) {
+                        for(int i=0; i < layer2.size(); i++)
+                            layer2.set(i, newTile);
+                        layer2Panel.removeAll();
+                        for(int i=0; i<layer2.size(); i++){
+                            ImageIcon icon = new ImageIcon(layer2.get(i).getTileImage());
+                            JLabel labelForImage = new JLabel(icon);
+                            layer2Panel.add(labelForImage);
+                        }
+                        layer2Panel.repaint();
+                    }
+                    else {
+                        for(int i=0; i < layer3.size(); i++)
+                            layer3.set(i, newTile);
+                        layer3Panel.removeAll();
+                        for(int i=0; i<layer3.size(); i++){
+                            ImageIcon icon = new ImageIcon(layer3.get(i).getTileImage());
+                            JLabel labelForImage = new JLabel(icon);
+                            layer3Panel.add(labelForImage);
+                        }
+                        layer3Panel.repaint();
+                    }
             }
+//            layer1Panel.repaint();
+//            layer2Panel.repaint();
+//            layer3Panel.repaint();
+            mapLayers.repaint();
+            frame.pack();
         }
 
         @Override
@@ -468,35 +613,17 @@ public class iMap extends JPanel implements iListableObject{
     
     private class TileViewActionListener implements ItemListener {
 
-//        @Override
-//        public void actionPerformed(ActionEvent e) {
-//            BufferedImage tilesetImage = null;
-//            try {
-//                tilesetImage = ImageIO.read(new File("Resources/Tilesets/"+(String)cbTileset.getSelectedItem()));
-//            } catch (IOException ex) {
-//                Logger.getLogger(iMap.class.getName()).log(Level.SEVERE, null, ex);
-//            }
-//            ImageIcon tileset = new ImageIcon(tilesetImage);
-//            tilesetLabel = new JLabel();
-//            tilesetLabel.setIcon(tileset);
-//            tilesetLabel.repaint();
-//            frame.pack();
-//        }
-
         @Override
         public void itemStateChanged(ItemEvent e) {
-            BufferedImage tilesetImage = null;
             try {
-                tilesetImage = ImageIO.read(new File("Resources/Tilesets/"+(String)cbTileset.getSelectedItem()));
+                currentTileset = ImageIO.read(new File("Resources/Tilesets/"+(String)cbTileset.getSelectedItem()));
             } catch (IOException ex) {
                 Logger.getLogger(iMap.class.getName()).log(Level.SEVERE, null, ex);
             }
-            ImageIcon tileset = new ImageIcon(tilesetImage);
-            //tilesetLabel = new JLabel();
+            ImageIcon tileset = new ImageIcon(currentTileset);
             
             tilesetLabel.setIcon(tileset);
             tilesetLabel.repaint();
-            //frame.pack();
         }
         
     }
@@ -510,7 +637,15 @@ public class iMap extends JPanel implements iListableObject{
 
         @Override
         public void mousePressed(MouseEvent e) {
-            System.out.println(getTileNumber(e.getX(), e.getY()));
+            int xTile = e.getX()/32;
+            int yTile = e.getY()/32;
+            currentTile = currentTileset.getSubimage(xTile*32, yTile*32, xTile+32, yTile+32);
+            tileSelectionPanel.removeAll();
+            ImageIcon selectionImageIcon = new ImageIcon(selectionImage);
+            selectionImageLabel = new JLabel(selectionImageIcon);
+            selectionImageLabel.setBounds(xTile*32+1, yTile*32+1, 32, 32);
+            tileSelectionPanel.add(selectionImageLabel);
+            tileSelectionPanel.repaint();
         }
 
         @Override

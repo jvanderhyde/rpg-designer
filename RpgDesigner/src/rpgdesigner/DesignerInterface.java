@@ -69,7 +69,7 @@ public class DesignerInterface {
             frame.getContentPane().setLayout(new BorderLayout());
             frame.getContentPane().add(tabbedPane, BorderLayout.NORTH);
             
-            frame.setPreferredSize(new Dimension(1146, 705));
+            frame.setPreferredSize(new Dimension(1146, 730));
             
             //frame.getContentPane().add(new JButton("Edit"), BorderLayout.SOUTH);
             frame.pack();

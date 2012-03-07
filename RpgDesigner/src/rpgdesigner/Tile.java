@@ -12,7 +12,7 @@ import org.newdawn.slick.SpriteSheet;
  *
  * @author james
  */
-class Tile {
+public class Tile {
     //private SpriteSheet tileset; I am going to not use this anymore
     private int id;
     private boolean block;
@@ -20,7 +20,7 @@ class Tile {
     private Image tileImage;
     private String tilesetName;
     
-    public Tile(SpriteSheet tileset, int id, boolean block, Event event) {
+    public Tile(String tileset, int id, boolean block, Event event) {
         //this.tileset = tileset;
         this.id = id;
         this.block = block;
@@ -29,6 +29,10 @@ class Tile {
     
     public Tile(int id) {
        this.id = id;
+    }
+    
+    public Tile() {
+        
     }
     
     public void setTilesetName(String tileset) {
