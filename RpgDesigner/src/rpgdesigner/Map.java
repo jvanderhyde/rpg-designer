@@ -1,16 +1,9 @@
 package rpgdesigner;
 
-import java.awt.Color;
-import java.awt.Graphics2D;
-import java.awt.GridLayout;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-import javax.swing.ImageIcon;
-import javax.swing.JLabel;
-import javax.swing.JLayeredPane;
-import javax.swing.JPanel;
 
 
 /**
@@ -32,7 +25,7 @@ public class Map {
     private List<Tile> events = new ArrayList();
     
     public Map(File mapZip) {
-        
+
     }
     
     @Override
@@ -61,6 +54,10 @@ public class Map {
         }
     }
     
+    public String getName() {
+        return this.name;
+    }
+    
     public void setName(String name) {
         this.name = name;
     }
@@ -84,99 +81,4 @@ public class Map {
     public int checkForEvent(int x, int y) {
         return 0;
     }
-    
-    public JLayeredPane generateMap() {
-        JLayeredPane generatedMap = new JLayeredPane();
-        generatedMap.setBounds(0, 0, 1600, 1600);
-        GridLayout layoutForMaps = new GridLayout(50,50,0,0);
-        JPanel layer1Panel = new JPanel();
-        layer1Panel.setLayout(layoutForMaps);
-        layer1Panel.setBounds(0, 0, 1600, 1600);
-        JPanel layer2Panel = new JPanel();
-        layer2Panel.setLayout(layoutForMaps);
-        layer2Panel.setBounds(0, 0, 1600, 1600);
-        layer2Panel.setOpaque(false);
-        JPanel layer3Panel = new JPanel();
-        layer3Panel.setLayout(layoutForMaps);
-        layer3Panel.setBounds(0, 0, 1600, 1600);
-        layer3Panel.setOpaque(false);
-        for(int i=0; i<layer1.size(); i++){
-            ImageIcon icon = new ImageIcon(layer1.get(i).getTileImage());
-            JLabel labelForImage = new JLabel(icon);
-            layer1Panel.add(labelForImage);
-        }
-        for(int i=0; i<layer2.size(); i++){
-            ImageIcon icon = new ImageIcon(layer2.get(i).getTileImage());
-            JLabel labelForImage = new JLabel(icon);
-            layer2Panel.add(labelForImage);
-        }
-        for(int i=0; i<layer3.size(); i++){
-            ImageIcon icon = new ImageIcon(layer3.get(i).getTileImage());
-            JLabel labelForImage = new JLabel(icon);
-            layer3Panel.add(labelForImage);
-        }
-        generatedMap.setAlignmentX(0);
-        generatedMap.setAlignmentY(0);
-        generatedMap.add(layer1Panel);
-        generatedMap.add(layer2Panel);
-        generatedMap.add(layer3Panel);
-        generatedMap.setLayer(layer3Panel, 3, 0);
-        generatedMap.setLayer(layer2Panel, 2, 0);
-        generatedMap.setLayer(layer1Panel, 1, 0);
-        
-        return generatedMap;
-    }
-    
-    public JLayeredPane generateMapWithGrid() {
-        JLayeredPane generatedMap = new JLayeredPane();
-        generatedMap.setBounds(0, 0, 1600, 1600);
-        GridLayout layoutForMaps = new GridLayout(50,50,0,0);
-        JPanel layer1Panel = new JPanel();
-        layer1Panel.setLayout(layoutForMaps);
-        layer1Panel.setBounds(0, 0, 1600, 1600);
-        JPanel layer2Panel = new JPanel();
-        layer2Panel.setLayout(layoutForMaps);
-        layer2Panel.setBounds(0, 0, 1600, 1600);
-        layer2Panel.setOpaque(false);
-        JPanel layer3Panel = new JPanel();
-        layer3Panel.setLayout(layoutForMaps);
-        layer3Panel.setBounds(0, 0, 1600, 1600);
-        layer3Panel.setOpaque(false);
-        for(int i=0; i<layer1.size(); i++){
-            ImageIcon icon = new ImageIcon(layer1.get(i).getTileImage());
-            JLabel labelForImage = new JLabel(icon);
-            layer1Panel.add(labelForImage);
-        }
-        for(int i=0; i<layer2.size(); i++){
-            ImageIcon icon = new ImageIcon(layer2.get(i).getTileImage());
-            JLabel labelForImage = new JLabel(icon);
-            layer2Panel.add(labelForImage);
-        }
-        for(int i=0; i<layer3.size(); i++){
-            ImageIcon icon = new ImageIcon(layer3.get(i).getTileImage());
-            JLabel labelForImage = new JLabel(icon);
-            layer3Panel.add(labelForImage);
-        }
-        BufferedImage grid = new BufferedImage(1600,1600,BufferedImage.TRANSLUCENT);
-        Graphics2D gridToDraw = grid.createGraphics();
-        gridToDraw.setColor(Color.red);
-        for (int x=0; x<=1600; x+=32) {gridToDraw.drawLine(x, 0, x, 1600);}
-        for (int y=0; y<=1600; y+=32) {gridToDraw.drawLine(0, y, 1600, y);}
-        ImageIcon mapGrid = new ImageIcon(grid);
-        JLabel mapGridLabel = new JLabel(mapGrid);
-        mapGridLabel.setBounds(0, 0, 1600, 1600);
-        generatedMap.setAlignmentX(0);
-        generatedMap.setAlignmentY(0);
-        generatedMap.add(layer1Panel);
-        generatedMap.add(layer2Panel);
-        generatedMap.add(layer3Panel);
-        generatedMap.add(mapGridLabel);
-        generatedMap.setLayer(mapGridLabel, 4, 0);
-        generatedMap.setLayer(layer3Panel, 3, 0);
-        generatedMap.setLayer(layer2Panel, 2, 0);
-        generatedMap.setLayer(layer1Panel, 1, 0);
-        
-        return generatedMap;
-    }
-    
 }

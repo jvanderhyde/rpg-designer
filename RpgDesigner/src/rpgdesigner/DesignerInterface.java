@@ -19,6 +19,7 @@ public class DesignerInterface {
     
     
     iObjectList ActorList, MapList, EventList;
+    iSettings iSettings;
     Game game;
     
     public DesignerInterface()
@@ -48,6 +49,8 @@ public class DesignerInterface {
             //MapList = new iObjectList(im, frame, ObjectType.MAP);
             EventList = new iObjectList((ArrayList<Object>)alEvent, frame, ObjectType.EVENT,  alActor);
             MapList = new iObjectList((ArrayList<Object>)alMap, frame, ObjectType.MAP, null);
+            iSettings = new iSettings();
+            
             //EventList = new iObjectList(ie, frame, ObjectType.EVENT);
             //Lets add our tabs
             JTabbedPane tabbedPane = new JTabbedPane();
@@ -58,12 +61,12 @@ public class DesignerInterface {
             JPanel mapTab = new JPanel();
             mapTab.add(MapList);
             tabbedPane.addTab("Map Editor", mapTab);
-//            JPanel settingsTab = new JPanel();
-//            settingsTab.add(iSettings);
-//            tabbedPane.addTab("Settings", settingsTab);
             JPanel eventsTab = new JPanel();
             eventsTab.add(EventList);
             tabbedPane.addTab("Events", eventsTab);
+            JPanel settingsTab = new JPanel();
+            settingsTab.add(iSettings);
+            tabbedPane.addTab("Settings", settingsTab);
 
             
             frame.getContentPane().setLayout(new BorderLayout());

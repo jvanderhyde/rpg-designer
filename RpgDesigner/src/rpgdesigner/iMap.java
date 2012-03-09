@@ -78,8 +78,9 @@ public class iMap extends JPanel implements iListableObject{
     
     @Override
     public void reset() {
-        System.out.println("Add code in reset in iMap which resets everything in the panel to the original values");
-        System.out.println("...see iActor.reset()");
+        workingMap = new Map();
+        tfName.setText("Enter Map Name...");
+        setObject(workingMap);
     }
     
     public iMap(JFrame frame, Map workingMap) {
@@ -289,12 +290,39 @@ public class iMap extends JPanel implements iListableObject{
 
     @Override
     public void setObject(Object o) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        workingMap = (Map) o;
+        tfName.setText(workingMap.getName());
+        layer1 = workingMap.getLayer1();
+        layer2 = workingMap.getLayer2();
+        layer3 = workingMap.getLayer3();
+        layer1Panel.removeAll();
+        layer2Panel.removeAll();
+        layer3Panel.removeAll();
+        for(int i=0; i<layer1.size(); i++){
+            ImageIcon icon = new ImageIcon(layer1.get(i).getTileImage());
+            JLabel labelForImage = new JLabel(icon);
+            layer1Panel.add(labelForImage);
+        }
+        for(int i=0; i<layer2.size(); i++){
+            ImageIcon icon = new ImageIcon(layer2.get(i).getTileImage());
+            JLabel labelForImage = new JLabel(icon);
+            layer2Panel.add(labelForImage);
+        }
+        for(int i=0; i<layer3.size(); i++){
+            ImageIcon icon = new ImageIcon(layer3.get(i).getTileImage());
+            JLabel labelForImage = new JLabel(icon);
+            layer3Panel.add(labelForImage);
+        }
+        layer1Panel.repaint();
+        layer2Panel.repaint();
+        layer3Panel.repaint();
+        mapLayers.repaint();
+        frame.pack();
     }
 
     @Override
     public Object getObject() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return workingMap;
     }
     
     private class IBlockDirections extends JPanel {
@@ -562,6 +590,8 @@ public class iMap extends JPanel implements iListableObject{
                         }
                         layer3Panel.repaint();
                     }
+            } else if(currentTool == ERASETOOL) {
+                
             }
 //            layer1Panel.repaint();
 //            layer2Panel.repaint();
@@ -639,7 +669,7 @@ public class iMap extends JPanel implements iListableObject{
         public void mousePressed(MouseEvent e) {
             int xTile = e.getX()/32;
             int yTile = e.getY()/32;
-            currentTile = currentTileset.getSubimage(xTile*32, yTile*32, xTile+32, yTile+32);
+            currentTile = currentTileset.getSubimage(xTile*32, yTile*32, xTile+31, yTile+31);
             tileSelectionPanel.removeAll();
             ImageIcon selectionImageIcon = new ImageIcon(selectionImage);
             selectionImageLabel = new JLabel(selectionImageIcon);

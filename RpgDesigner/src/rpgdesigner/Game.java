@@ -85,4 +85,8 @@ public class Game {
     public void setLoseEvent(Event toLoseEvent) {
         loseEvent = toLoseEvent;
     }
+
+    public List<Map> getMapList() {
+        return this.mapList;
+    }
 }
