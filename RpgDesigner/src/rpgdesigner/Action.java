@@ -14,30 +14,30 @@ package rpgdesigner;
  * Action action1 = new Action(action1.TYPE_NPC, action1.ACTION_SPEECH);
  */
 public class Action {
-    private int type;
-    //The following are the different types of actions which can be assigned to the type
-    public int TYPE_POSSY = 0;
-    public int TYPE_ENVIRONMENT = 1;
-    public int TYPE_NPC = 2;
     
-    private int action;
-    //The following are the different actions that can be performed
-    //Actions for Possy 0-19
-    public int ACTION_BATTLE = 0;
-    public int ACTION_MOVE = 1;
-    public int ACTION_ADDCHARACTER = 2;
-    public int ACTION_REMOVECHARACTER = 3;
-    public int ACTION_WARP = 4;
-    public int ACTION_GIVEITEM = 5;
-    public int ACTION_TAKEITEM = 6;
-    public int ACTION_GIVESKILL = 7;
-    public int ACTION_TAKESKILL = 8;
-    //Actions for Environment 20-39
-    public int ACTION_CHANGEMUSIC = 20;
-    //Actions for NPC's 40-59
-    public int ACTION_MOVE_NPC = 40;
-    public int ACTION_SHOP = 41;
-    public int ACTION_SPEECH = 42;
+    
+    
+    public enum Category{
+		CATEGORY_POSSY, CATEGORY_ENVIRONMENT,CATEGORY_NPC
+	}
+    
+    //The following are the different types of actions
+    public enum Type{
+        //Possy Actions
+        ACTION_BATTLE,ACTION_MOVE ,ACTION_ADDCHARACTER , ACTION_REMOVECHARACTER,
+        ACTION_WARP , ACTION_GIVEITEM ,ACTION_TAKEITEM ,ACTION_GIVESKILL, 
+        ACTION_TAKESKILL , 
+        //Evironment Actions
+        ACTION_CHANGEMUSIC ,
+        //NPC Actions
+        ACTION_MOVE_NPC ,ACTION_SHOP ,
+        ACTION_SPEECH 
+    }
+    private Category category;
+    
+   
+    private Type type;
+    
     
     //This variable keeps track of the main setting.  For speech input what should be said
     //for movement it should be a direction.  
@@ -46,9 +46,9 @@ public class Action {
     //need it leave it at 0, for something like movement keep track of the amount of spaces 
     private int value = 0;
     
-    public Action(int type, int action) {
-        this.type = type;
-        this.action = action;
+    public Action(Category c, Type t) {
+        category= c;
+        type = t;
     }
     
     public String getSetting() {
@@ -66,4 +66,7 @@ public class Action {
     public void setValue(int value) {
         this.value = value;
     }
+    
 }
+
+
