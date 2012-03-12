@@ -34,8 +34,6 @@ public class Action {
         ACTION_SPEECH 
     }
     private Category category;
-    
-   
     private Type type;
     
     
@@ -46,9 +44,29 @@ public class Action {
     //need it leave it at 0, for something like movement keep track of the amount of spaces 
     private int value = 0;
     
+    //This is the string that will be displayed for the particular item in the list
+    //Example: Move up 5
+    private String displayedValue;
+    
     public Action(Category c, Type t) {
         category= c;
         type = t;
+    }
+    
+    public void setDisplayedValue(String s)
+    {
+        displayedValue = s;
+    }
+    
+    public String getDisplayedValue()
+    {
+        return displayedValue;
+    }
+    
+    @Override
+    public String toString()
+    {
+        return displayedValue;
     }
     
     public String getSetting() {

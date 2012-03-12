@@ -27,10 +27,12 @@ public class iObjectList extends JPanel {
     ObjectType type;
     Object obj;
     ArrayList<Object> objects;
+    Boolean newObject;
     
     
     public iObjectList (ArrayList<Object> a, JFrame f, ObjectType t, ArrayList<Object> actors)
     {
+        newObject = true;
         objects =a;
         type = t;
         frame = f;
@@ -81,8 +83,9 @@ public class iObjectList extends JPanel {
         pButtons.add(btnAdd);
         pButtons.add(btnEdit);
         pButtons.add(btnDelete);
+        System.out.println(pButtons.getSize());
         pList.add(pButtons, BorderLayout.SOUTH);
-        
+        //pButtons.setPreferredSize(new Dimension (100,10));
         add(pList, "List");
         
         //Save and Cancel buttons for the objects
@@ -94,6 +97,8 @@ public class iObjectList extends JPanel {
         pObjectButtons.add(btnSave);
         pObjectButtons.add(btnCancel);
         pObject = new JPanel(new BorderLayout());
+        pObject.add(iObject.getPanel(), BorderLayout.NORTH);   
+        pObject.add(pObjectButtons, BorderLayout.SOUTH);
         add(pObject, "Object");
     }
    public enum ObjectType{
@@ -111,6 +116,7 @@ public class iObjectList extends JPanel {
         {
             if (e.getSource()==btnEdit)
             {
+                newObject = false;
                 //Get the selected object
                 obj = list.getSelectedValue();
                 iObject.setObject(obj);
@@ -132,14 +138,13 @@ public class iObjectList extends JPanel {
             {
                 //	Clicking new – reset fields of iActor (iObject.reset), Actor=null
                 //Create the new iObject
-                
-                list.setSelectedIndex(-1);
+                newObject = true;
                 iObject.reset();
                
                 //Display iObject
-                pObject.removeAll();
-                pObject.add(iObject.getPanel(), BorderLayout.CENTER);   
-                pObject.add(pObjectButtons, BorderLayout.SOUTH);
+                //pObject.removeAll();
+                //pObject.add(iObject.getPanel(), BorderLayout.CENTER);   
+                //pObject.add(pObjectButtons, BorderLayout.SOUTH);
                 cl.show(iObjectList.this, "Object");
             }
             
@@ -173,25 +178,32 @@ public class iObjectList extends JPanel {
                 {
                     //Save the object and add it to the list
                     iObject.saveObject();
-                    obj = iObject.getObject();
-                    //listModel.addElement(iObject);
-                    if (list.getSelectedIndex()>-1)
+                    if (!iObject.hasInvalidInput())
                     {
-                        objects.set(list.getSelectedIndex(), obj);
-                        listModel.setElementAt(obj, list.getSelectedIndex());
-                    }
-                    else 
-                    {
-                        listModel.addElement(obj);
-                        objects.add(obj);
+                        obj = iObject.getObject();
+                        //listModel.addElement(iObject);
+                        if (newObject)
+                        {
+                            listModel.addElement(obj);
+                            objects.add(obj);
+
+                        }
+                        else 
+                        {
+                            objects.set(list.getSelectedIndex(), obj);
+                            listModel.setElementAt(obj, list.getSelectedIndex());
+                        }
+                        cl.show(iObjectList.this, "List");
                     }
                 }
                 else if (e.getSource() == btnCancel)
                 {
                     //Add the original object back to the list
                     //listModel.addElement(iObject); 
+                    cl.show(iObjectList.this, "List");
                 }
-                cl.show(iObjectList.this, "List");
+                
+                
             
         }
     }

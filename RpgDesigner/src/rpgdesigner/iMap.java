@@ -324,6 +324,14 @@ public class iMap extends JPanel implements iListableObject{
     public Object getObject() {
         return workingMap;
     }
+
+    @Override
+    public boolean hasInvalidInput() {
+        //add logic if there if the input needs to be verified before it can be saved
+        //For example, in iActor I set invalidInput to false if soemthing other than
+        //an int is entered in a box that should only accept ints
+        return true;
+    }
     
     private class IBlockDirections extends JPanel {
         /*

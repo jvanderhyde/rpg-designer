@@ -16,5 +16,6 @@ public interface iListableObject  {
     public void reset();
     public void setObject(Object o);
     public Object getObject();
+    public boolean hasInvalidInput();
     
 }

@@ -29,7 +29,7 @@ public class iActor extends JPanel implements iListableObject{
     DefaultListModel skills;
     final JFileChooser fcImage;
     private String imagePath;
-    
+    private boolean invalidInput = false;
     
     JFrame mainFrame;
     
@@ -175,6 +175,7 @@ public class iActor extends JPanel implements iListableObject{
     
     public void saveActor()
     {
+        invalidInput = false;
         actor.setName(tfName.getText());
         actor.setType(getActorType());
         actor.setBegHP(getFieldInt(tfBegHP));
@@ -182,6 +183,8 @@ public class iActor extends JPanel implements iListableObject{
         actor.setIncreaseHP(getFieldInt(tfIncHP));
         actor.setIncreaseSP(getFieldInt(tfIncSP));
         actor.setIncreaseXP(getFieldInt(tfIncXP));
+        
+        
         actor.setSkillsList(skills);
         actor.setImagePath(imagePath);
     }
@@ -222,10 +225,15 @@ public class iActor extends JPanel implements iListableObject{
         }
         catch(NumberFormatException nFE) {
             tf.setForeground(Color.red);
+            invalidInput = true;
             return -1;
         }
     }
     
+    public boolean hasInvalidInput()
+    {
+        return invalidInput;
+    }
     /*
      * Used in iObjectList
      */
@@ -242,7 +250,7 @@ public class iActor extends JPanel implements iListableObject{
 
     @Override
     public void reset() {
-        
+        invalidInput = false;
         actor = new Actor();
         tfName.setText("Enter Name...");
         setObject(actor);

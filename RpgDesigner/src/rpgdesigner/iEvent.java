@@ -25,21 +25,22 @@ import javax.swing.*;
  */
 public class iEvent extends JPanel implements iListableObject
 {
-    JTextField tfName;
-    JRadioButton rbOnActionKey, rbOnTouch;
-    JButton btnRequiredItem, btnNPC;
-    JList actions;//table?
-    JTabbedPane actionTabs;
-    Event event;
-    JComboBox cbCommandType;
-    JPanel pCommandOptions;
-    JList possyEventsList, NPCEventsList, environmentEventsList;
-    DefaultListModel listModelActions;
-    JFrame mainFrame;
-    ArrayList<Object> actorList;
-    JLabel reqItemImg, npcImg;
-    String actorImgPath, itemImgPath;
-    JPanel pImages;
+    private JTextField tfName;
+    private JRadioButton rbOnActionKey, rbOnTouch;
+    private JButton btnRequiredItem, btnNPC;
+    private JList actions;//table?
+    private JTabbedPane actionTabs;
+    private Event event;
+    private JComboBox cbCommandType;
+    private JPanel pCommandOptions;
+    private JList possyEventsList, NPCEventsList, environmentEventsList;
+    private DefaultListModel listModelActions;
+    private JFrame mainFrame;
+    private ArrayList<Object> actorList;
+    private JLabel reqItemImg, npcImg;
+    private String actorImgPath, itemImgPath;
+    private JPanel pImages;
+    private boolean invalidInput;
     
     @Override
     public String toString()
@@ -48,13 +49,12 @@ public class iEvent extends JPanel implements iListableObject
     }
     @Override
     public void reset() {
-        tfName.setText(event.getName());
-        
-        if (event.onActionKey())
-            rbOnActionKey.setSelected(true);
-        else 
-            rbOnTouch.setSelected(true);
-       
+        invalidInput = false;
+        event = new Event();
+        setObject(event);
+        tfName.setText("Enter name...");
+        rbOnActionKey.setSelected(true);
+        listModelActions.removeAllElements();
         pImages.removeAll();
         
     }
@@ -196,6 +196,11 @@ public class iEvent extends JPanel implements iListableObject
         return event;
     }
 
+    @Override
+    public boolean hasInvalidInput() {
+        return invalidInput;
+    }
+
     
     
     
@@ -217,24 +222,42 @@ public class iEvent extends JPanel implements iListableObject
 
         @Override
         public void mouseClicked(MouseEvent e) {
-            if (e.getSource()==NPCEventsList)
-                if (e.getClickCount()>1)
+            Action a;
+            if (e.getClickCount()>1)
+                
+                if (e.getSource()==NPCEventsList)
                 {
-                    String inputValue;
+                    
+                    
                     if (NPCEventsList.getSelectedValue().equals("Speech"))
                     {
+                        String inputValue;
+                        a = new Action(Action.Category.CATEGORY_NPC, Action.Type.ACTION_SPEECH);
                         inputValue = JOptionPane.showInputDialog("What should the NPC say?"); 
-                        listModelActions.addElement("Say " + inputValue);
+                        a.setSetting(inputValue);
+                        a.setDisplayedValue("Say "+inputValue);
+                        listModelActions.addElement(a);
                     }
                     else if (NPCEventsList.getSelectedValue().equals("Move"))
                     {
-                        iEventDialog ied = new iEventDialog(mainFrame, "Move");
-                        inputValue = ied.getValue();
-                        listModelActions.addElement(inputValue);
-                        System.out.println(inputValue);
+                        iActionDialog ied = new iActionDialog(mainFrame,Action.Category.CATEGORY_NPC,
+                                Action.Type.ACTION_MOVE_NPC);
+                        a = ied.getValue();
+                        if (a!=(rpgdesigner.Action)null)
+                            listModelActions.addElement(a);
+                        //System.out.println(inputValue);
                     }
                 }
-            //throw new UnsupportedOperationException("Not supported yet.");
+                else if (e.getSource()==possyEventsList)
+                    if (possyEventsList.getSelectedValue().equals("Move"))
+                    {
+                        iActionDialog ied = new iActionDialog(mainFrame,Action.Category.CATEGORY_POSSY,
+                                Action.Type.ACTION_MOVE);
+                        a = ied.getValue();
+                        if (a!=(rpgdesigner.Action)null)
+                            listModelActions.addElement(a);
+                        //System.out.println(inputValue);
+                    }
         }
 
         @Override
