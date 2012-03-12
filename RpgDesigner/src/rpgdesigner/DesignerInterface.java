@@ -49,7 +49,7 @@ public class DesignerInterface {
             //MapList = new iObjectList(im, frame, ObjectType.MAP);
             EventList = new iObjectList((ArrayList<Object>)alEvent, frame, ObjectType.EVENT,  alActor);
             MapList = new iObjectList((ArrayList<Object>)alMap, frame, ObjectType.MAP, null);
-            iSettings = new iSettings();
+            iSettings = new iSettings(new Game());
             
             //EventList = new iObjectList(ie, frame, ObjectType.EVENT);
             //Lets add our tabs

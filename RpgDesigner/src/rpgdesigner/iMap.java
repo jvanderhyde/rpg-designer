@@ -624,20 +624,17 @@ public class iMap extends JPanel implements iListableObject{
         }
         
         private int getTileNumber(int x, int y) {
-            int multiple = 0;
             int number;
             int numberx = 0;
             int numbery = 0;
             
             //First solve which tile in the x range it is
             for(int i=0; i < x; i = i+32) {
-                multiple = i;
                 numberx++;
             }
             numberx--;
             //Now solve for the tile in which the y range
             for(int i=0; i < y; i = i+32) {
-                multiple = i;
                 numbery++;
             }
             numbery--;
@@ -677,7 +674,7 @@ public class iMap extends JPanel implements iListableObject{
         public void mousePressed(MouseEvent e) {
             int xTile = e.getX()/32;
             int yTile = e.getY()/32;
-            currentTile = currentTileset.getSubimage(xTile*32, yTile*32, xTile+31, yTile+31);
+            currentTile = currentTileset.getSubimage(xTile*32, yTile*32, 32, 32);
             tileSelectionPanel.removeAll();
             ImageIcon selectionImageIcon = new ImageIcon(selectionImage);
             selectionImageLabel = new JLabel(selectionImageIcon);
@@ -699,30 +696,6 @@ public class iMap extends JPanel implements iListableObject{
         @Override
         public void mouseExited(MouseEvent e) {
             
-        }
-        
-        private int getTileNumber(int x, int y) {
-            int multiple = 0;
-            int number;
-            int numberx = 0;
-            int numbery = 0;
-            
-            //First solve which tile in the x range it is
-            for(int i=0; i < x; i = i+32) {
-                multiple = i;
-                numberx++;
-            }
-            numberx--;
-            //Now solve for the tile in which the y range
-            for(int i=0; i < y; i = i+32) {
-                multiple = i;
-                numbery++;
-            }
-            numbery--;
-            
-            number = (numbery*50 + numberx);
-            
-            return number;
         }
     }
 }

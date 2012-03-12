@@ -22,13 +22,9 @@ public class iSettings extends JPanel{
     private JRadioButton rbSaveEvent, rbSaveAnywhere;
     Game game;
     
-    //When opening a previously saved project, us this method and pass in the game
-    public iSettings(Game game) {
-        
-    }
-    
     //When creating a new project use this method with default settings
-    public iSettings() {
+    public iSettings(Game game) {
+        this.game = game;
         this.setLayout(new BorderLayout());
         JPanel iSettingsPanel = new JPanel();
         iSettingsPanel.setLayout(new BoxLayout(iSettingsPanel, BoxLayout.Y_AXIS));
