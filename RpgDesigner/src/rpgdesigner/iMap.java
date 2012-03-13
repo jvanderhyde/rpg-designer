@@ -337,10 +337,10 @@ public class iMap extends JPanel implements iListableObject{
 
     @Override
     public boolean hasInvalidInput() {
-        if("Enter Map Name...".equals(workingMap.getName()) || "".equals(workingMap.getName()))
-            return false;
-        else
+        if("Enter Map Name...".equals(tfName.getText()) || "".equals(tfName.getText()))
             return true;
+        else
+            return false;
     }
     
     private class IBlockDirections extends JPanel {
