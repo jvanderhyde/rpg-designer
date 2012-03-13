@@ -4,9 +4,10 @@
  */
 package rpgdesigner;
 
-import java.awt.Image;
 import java.awt.image.BufferedImage;
-import org.newdawn.slick.SpriteSheet;
+import org.newdawn.slick.Image;
+import org.newdawn.slick.ImageBuffer;
+import org.newdawn.slick.SlickException;
 
 /**
  *
@@ -17,7 +18,7 @@ public class Tile {
     private int id;
     private boolean block;
     private Event event;
-    private Image tileImage;
+    private BufferedImage tileImage;
     private String tilesetName;
     
     public Tile(String tileset, int id, boolean block, Event event) {
@@ -63,7 +64,19 @@ public class Tile {
         return this.event;
     }
     
-    public Image getTileImage() {
+    public java.awt.Image getTileImage() {
         return this.tileImage;
+    }
+    
+    public Image getSlickImage() throws SlickException {
+        ImageBuffer buf = new ImageBuffer(tileImage.getWidth(), tileImage.getHeight());
+        int x,y,argb;
+        for (y = 0;y < tileImage.getHeight();y++) {
+            for (x = 0;x < tileImage.getWidth();x++) {
+                argb = tileImage.getRGB(x,y);
+                buf.setRGBA(x,y,(argb>>16)&0xff,(argb>>8)&0xff,argb&0xff,(argb>>24)&0xff);
+            }
+        }
+        return buf.getImage();
     }
 }

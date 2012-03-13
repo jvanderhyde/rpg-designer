@@ -19,6 +19,7 @@ public class Map {
     private int SIZEY=1600; //making a total image size of 1600x1600 for each layer
     private int SIZEXTILE=50;
     private int SIZEYTILE=50;
+    private int id;
     private List<Tile> layer1 = new ArrayList();
     private List<Tile> layer2 = new ArrayList();
     private List<Tile> layer3 = new ArrayList();
@@ -34,7 +35,8 @@ public class Map {
         return name;
     }
     
-    public Map() {
+    public Map(int id) {
+        this.id = id;
         BufferedImage blankImage = new BufferedImage(32,32,BufferedImage.TYPE_INT_RGB);
         BufferedImage blankImageWithTransparency = new BufferedImage(32,32,BufferedImage.TYPE_INT_ARGB);
         for(int i=0; i<2500; i++){
@@ -66,12 +68,24 @@ public class Map {
         return layer1;
     }
     
+    public void setLayer1(List<Tile> layer) {
+        this.layer1 = layer;
+    }
+    
     public List<Tile> getLayer2(){
         return layer2;
     }
     
+    public void setLayer2(List<Tile> layer) {
+        this.layer2 = layer;
+    }
+    
     public List<Tile> getLayer3(){
         return layer3;
+    }
+    
+    public void setLayer3(List<Tile> layer) {
+        this.layer3 = layer;
     }
     
     public boolean checkForBlock(int x, int y){
@@ -80,5 +94,13 @@ public class Map {
     
     public int checkForEvent(int x, int y) {
         return 0;
+    }
+    
+    public int getId() {
+        return this.id;
+    }
+    
+    public void setId(int id) {
+        this.id = id;
     }
 }

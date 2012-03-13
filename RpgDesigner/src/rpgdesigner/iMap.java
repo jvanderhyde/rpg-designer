@@ -78,14 +78,17 @@ public class iMap extends JPanel implements iListableObject{
     
     @Override
     public void reset() {
-        workingMap = new Map();
-        tfName.setText("Enter Map Name...");
+        if(game != null)
+            workingMap = new Map(game.getMapList().size());
+        else
+            workingMap = new Map(0);
         setObject(workingMap);
     }
     
-    public iMap(JFrame frame, Map workingMap) {
+    public iMap(JFrame frame, Game game, Map map) {
         this.frame = frame;
-        this.workingMap = workingMap;
+        this.game = game;
+        workingMap = map;
         this.setLayout(new BorderLayout());
         JPanel topSection = new JPanel();
         topSection.setLayout(new BorderLayout());
@@ -229,7 +232,7 @@ public class iMap extends JPanel implements iListableObject{
         //on the map
         tileView = new JPanel();
         tileView.setLayout(new OverlayLayout(tileView));
-        cbTileset.setSelectedIndex(1);
+        //cbTileset.setSelectedIndex(0);
         try {
             currentTileset = ImageIO.read(new File("Resources/Tilesets/"+(String)cbTileset.getSelectedItem()));
         } catch (IOException ex) {
@@ -255,7 +258,7 @@ public class iMap extends JPanel implements iListableObject{
         tileSelection.drawRect(1,1,29,29);
         ImageIcon selectionImageIcon = new ImageIcon(selectionImage);
         selectionImageLabel = new JLabel(selectionImageIcon);
-        selectionImageLabel.setBounds(0*32+1, 0*32+1, 32, 32);
+        selectionImageLabel.setBounds(0, 0, 32, 32);
         tileSelectionPanel.add(selectionImageLabel);
         tileSelectionPanel.setOpaque(false);
         tileView.add(tileSelectionPanel);
@@ -286,6 +289,13 @@ public class iMap extends JPanel implements iListableObject{
     @Override
     public void saveObject() {
         workingMap.setName(tfName.getText());
+        workingMap.setLayer1(layer1);
+        workingMap.setLayer2(layer2);
+        workingMap.setLayer3(layer3);
+        if(game.mapList.size() > 0)
+            game.mapList.set(workingMap.getId(), workingMap);
+        else
+            game.mapList.add(workingMap);
     }
 
     @Override
@@ -327,10 +337,10 @@ public class iMap extends JPanel implements iListableObject{
 
     @Override
     public boolean hasInvalidInput() {
-        //add logic if there if the input needs to be verified before it can be saved
-        //For example, in iActor I set invalidInput to true if soemthing other than
-        //an int is entered in a box that should only accept ints
-        return false;
+        if("Enter Map Name...".equals(workingMap.getName()) || "".equals(workingMap.getName()))
+            return false;
+        else
+            return true;
     }
     
     private class IBlockDirections extends JPanel {
@@ -624,20 +634,17 @@ public class iMap extends JPanel implements iListableObject{
         }
         
         private int getTileNumber(int x, int y) {
-            int multiple = 0;
             int number;
             int numberx = 0;
             int numbery = 0;
             
             //First solve which tile in the x range it is
             for(int i=0; i < x; i = i+32) {
-                multiple = i;
                 numberx++;
             }
             numberx--;
             //Now solve for the tile in which the y range
             for(int i=0; i < y; i = i+32) {
-                multiple = i;
                 numbery++;
             }
             numbery--;
@@ -659,7 +666,6 @@ public class iMap extends JPanel implements iListableObject{
                 Logger.getLogger(iMap.class.getName()).log(Level.SEVERE, null, ex);
             }
             ImageIcon tileset = new ImageIcon(currentTileset);
-            
             tilesetLabel.setIcon(tileset);
             tilesetLabel.repaint();
         }
@@ -677,7 +683,7 @@ public class iMap extends JPanel implements iListableObject{
         public void mousePressed(MouseEvent e) {
             int xTile = e.getX()/32;
             int yTile = e.getY()/32;
-            currentTile = currentTileset.getSubimage(xTile*32, yTile*32, xTile+31, yTile+31);
+            currentTile = currentTileset.getSubimage(xTile*32, yTile*32, 32, 32);
             tileSelectionPanel.removeAll();
             ImageIcon selectionImageIcon = new ImageIcon(selectionImage);
             selectionImageLabel = new JLabel(selectionImageIcon);
@@ -699,30 +705,6 @@ public class iMap extends JPanel implements iListableObject{
         @Override
         public void mouseExited(MouseEvent e) {
             
-        }
-        
-        private int getTileNumber(int x, int y) {
-            int multiple = 0;
-            int number;
-            int numberx = 0;
-            int numbery = 0;
-            
-            //First solve which tile in the x range it is
-            for(int i=0; i < x; i = i+32) {
-                multiple = i;
-                numberx++;
-            }
-            numberx--;
-            //Now solve for the tile in which the y range
-            for(int i=0; i < y; i = i+32) {
-                multiple = i;
-                numbery++;
-            }
-            numbery--;
-            
-            number = (numbery*50 + numberx);
-            
-            return number;
         }
     }
 }
