@@ -4,9 +4,13 @@
  */
 package rpgdesigner;
 
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.CardLayout;
+import java.awt.Color;
+import java.awt.GridLayout;
 import java.awt.event.*;
 import java.util.ArrayList;
+import java.util.List;
 import javax.swing.*;
 
 /**
@@ -26,11 +30,11 @@ public class iObjectList extends JPanel {
     iListableObject iObject ;
     ObjectType type;
     Object obj;
-    ArrayList<Object> objects;
+    List<Object> objects;
     Boolean newObject;
     
     
-    public iObjectList (ArrayList<Object> a, JFrame f, ObjectType t, ArrayList<Object> actors, Game game)
+    public iObjectList (List<Object> a, JFrame f, ObjectType t, List<Object> actors, Game game)
     {
         newObject = true;
         objects =a;

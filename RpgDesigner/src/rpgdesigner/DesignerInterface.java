@@ -2,7 +2,10 @@ package rpgdesigner;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.*;
@@ -42,16 +45,16 @@ public class DesignerInterface {
             frame.setLayout(new BorderLayout());
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-            ArrayList<Object> alActor =  new ArrayList();
-            ArrayList<Object> alEvent = new ArrayList();
+            game.actorList =  new ArrayList();
+            game.eventList = new ArrayList();
             ArrayList<Object> alMap = new ArrayList();
            
-            ActorList = new iObjectList((ArrayList<Object>)alActor, frame, ObjectType.ACTOR, null, game);
+            ActorList = new iObjectList(game.actorList, frame, ObjectType.ACTOR, null, game);
             //MapList = new iObjectList(im, frame, ObjectType.MAP);
-            EventList = new iObjectList((ArrayList<Object>)alEvent, frame, ObjectType.EVENT,  alActor, game);
+            EventList = new iObjectList(game.eventList, frame, ObjectType.EVENT,  game.actorList, game);
             MapList = new iObjectList((ArrayList<Object>)alMap, frame, ObjectType.MAP, null, game);
             iSettings = new iSettings(new Game());
-            
+            //game.actorList = new ArrayList();
             //EventList = new iObjectList(ie, frame, ObjectType.EVENT);
             //Lets add our tabs
             JTabbedPane tabbedPane = new JTabbedPane();
@@ -72,7 +75,9 @@ public class DesignerInterface {
             
             frame.getContentPane().setLayout(new BorderLayout());
             frame.getContentPane().add(tabbedPane, BorderLayout.NORTH);
-            
+            JButton test = new JButton("Print Actors");
+            test.addActionListener(new testListener());
+            frame.getContentPane().add(test, BorderLayout.SOUTH);
             frame.setPreferredSize(new Dimension(1146, 730));
             
             //frame.getContentPane().add(new JButton("Edit"), BorderLayout.SOUTH);
@@ -94,4 +99,19 @@ public class DesignerInterface {
             }
         });
     }
+    
+    private class testListener  implements ActionListener
+    {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            System.out.println(game.actorList.size());
+            for (Object a: game.actorList)
+                System.out.println(a);
+            for (Object a: game.eventList)
+                System.out.println(a);
+        }
+        
+    }
+    
 }

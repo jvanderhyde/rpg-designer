@@ -183,8 +183,6 @@ public class iActor extends JPanel implements iListableObject{
         actor.setIncreaseHP(getFieldInt(tfIncHP));
         actor.setIncreaseSP(getFieldInt(tfIncSP));
         actor.setIncreaseXP(getFieldInt(tfIncXP));
-        
-        
         actor.setSkillsList(skills);
         actor.setImagePath(imagePath);
     }

@@ -16,6 +16,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 
@@ -36,7 +37,7 @@ public class iEvent extends JPanel implements iListableObject
     private JList possyEventsList, NPCEventsList, environmentEventsList;
     private DefaultListModel listModelActions;
     private JFrame mainFrame;
-    private ArrayList<Object> actorList;
+    private List<Object> actorList;
     private JLabel reqItemImg, npcImg;
     private String actorImgPath, itemImgPath;
     private JPanel pImages;
@@ -59,7 +60,7 @@ public class iEvent extends JPanel implements iListableObject
         
     }
     
-    public iEvent(JFrame frame, Event e, ArrayList<Object> actorList) 
+    public iEvent(JFrame frame, Event e, List<Object> actorList) 
     {
         this.actorList = actorList;
         event = e;

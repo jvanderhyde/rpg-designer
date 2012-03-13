@@ -18,9 +18,9 @@ public class Game {
     private boolean isSaveAnywhere;
     private Event loseEvent;
     private Event winEvent;
-    List<Event> eventList = new ArrayList();
-    List<Map> mapList = new ArrayList();
-    List<Actor> actorList = new ArrayList();
+    List<Object> eventList = new ArrayList();
+    List<Object> mapList = new ArrayList();
+    List<Object> actorList = new ArrayList();
     
     //This class works for creating a new game project
     public Game() {
@@ -86,7 +86,7 @@ public class Game {
         loseEvent = toLoseEvent;
     }
 
-    public List<Map> getMapList() {
+    public List<Object> getMapList() {
         return this.mapList;
     }
 }

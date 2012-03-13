@@ -20,7 +20,7 @@ public class GameMapView extends BasicGame{
     public GameMapView(Game game) {
         super(game.getGameName());
         this.game = game;
-        workingMap = game.getMapList().get(0);
+        workingMap = (Map)game.getMapList().get(0);
     }
 
     @Override
