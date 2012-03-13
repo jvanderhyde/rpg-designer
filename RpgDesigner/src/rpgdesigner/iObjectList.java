@@ -30,7 +30,7 @@ public class iObjectList extends JPanel {
     Boolean newObject;
     
     
-    public iObjectList (ArrayList<Object> a, JFrame f, ObjectType t, ArrayList<Object> actors)
+    public iObjectList (ArrayList<Object> a, JFrame f, ObjectType t, ArrayList<Object> actors, Game game)
     {
         newObject = true;
         objects =a;
@@ -45,7 +45,7 @@ public class iObjectList extends JPanel {
                      }
                     case MAP:
                     {
-                        iObject = new iMap(frame, new Map());
+                        iObject = new iMap(frame, game, new Map(game.getMapList().size()));
                         break;
                     }
                     case EVENT:

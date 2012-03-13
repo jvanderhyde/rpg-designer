@@ -38,6 +38,7 @@ public class DesignerInterface {
             }
         
             JFrame frame = new JFrame ("RPG Designer");
+            game = new Game();
             frame.setLayout(new BorderLayout());
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -45,10 +46,10 @@ public class DesignerInterface {
             ArrayList<Object> alEvent = new ArrayList();
             ArrayList<Object> alMap = new ArrayList();
            
-            ActorList = new iObjectList((ArrayList<Object>)alActor, frame, ObjectType.ACTOR, null);
+            ActorList = new iObjectList((ArrayList<Object>)alActor, frame, ObjectType.ACTOR, null, game);
             //MapList = new iObjectList(im, frame, ObjectType.MAP);
-            EventList = new iObjectList((ArrayList<Object>)alEvent, frame, ObjectType.EVENT,  alActor);
-            MapList = new iObjectList((ArrayList<Object>)alMap, frame, ObjectType.MAP, null);
+            EventList = new iObjectList((ArrayList<Object>)alEvent, frame, ObjectType.EVENT,  alActor, game);
+            MapList = new iObjectList((ArrayList<Object>)alMap, frame, ObjectType.MAP, null, game);
             iSettings = new iSettings(new Game());
             
             //EventList = new iObjectList(ie, frame, ObjectType.EVENT);

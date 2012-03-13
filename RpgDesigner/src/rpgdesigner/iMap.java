@@ -78,14 +78,17 @@ public class iMap extends JPanel implements iListableObject{
     
     @Override
     public void reset() {
-        workingMap = new Map();
-        tfName.setText("Enter Map Name...");
+        if(game != null)
+            workingMap = new Map(game.getMapList().size());
+        else
+            workingMap = new Map(0);
         setObject(workingMap);
     }
     
-    public iMap(JFrame frame, Map workingMap) {
+    public iMap(JFrame frame, Game game, Map map) {
         this.frame = frame;
-        this.workingMap = workingMap;
+        this.game = game;
+        workingMap = map;
         this.setLayout(new BorderLayout());
         JPanel topSection = new JPanel();
         topSection.setLayout(new BorderLayout());
@@ -229,7 +232,7 @@ public class iMap extends JPanel implements iListableObject{
         //on the map
         tileView = new JPanel();
         tileView.setLayout(new OverlayLayout(tileView));
-        cbTileset.setSelectedIndex(1);
+        //cbTileset.setSelectedIndex(0);
         try {
             currentTileset = ImageIO.read(new File("Resources/Tilesets/"+(String)cbTileset.getSelectedItem()));
         } catch (IOException ex) {
@@ -255,7 +258,7 @@ public class iMap extends JPanel implements iListableObject{
         tileSelection.drawRect(1,1,29,29);
         ImageIcon selectionImageIcon = new ImageIcon(selectionImage);
         selectionImageLabel = new JLabel(selectionImageIcon);
-        selectionImageLabel.setBounds(0*32+1, 0*32+1, 32, 32);
+        selectionImageLabel.setBounds(0, 0, 32, 32);
         tileSelectionPanel.add(selectionImageLabel);
         tileSelectionPanel.setOpaque(false);
         tileView.add(tileSelectionPanel);
@@ -286,6 +289,13 @@ public class iMap extends JPanel implements iListableObject{
     @Override
     public void saveObject() {
         workingMap.setName(tfName.getText());
+        workingMap.setLayer1(layer1);
+        workingMap.setLayer2(layer2);
+        workingMap.setLayer3(layer3);
+        if(game.mapList.size() > 0)
+            game.mapList.set(workingMap.getId(), workingMap);
+        else
+            game.mapList.add(workingMap);
     }
 
     @Override
@@ -327,10 +337,10 @@ public class iMap extends JPanel implements iListableObject{
 
     @Override
     public boolean hasInvalidInput() {
-        //add logic if there if the input needs to be verified before it can be saved
-        //For example, in iActor I set invalidInput to false if soemthing other than
-        //an int is entered in a box that should only accept ints
-        return true;
+        if("Enter Map Name...".equals(workingMap.getName()) || "".equals(workingMap.getName()))
+            return false;
+        else
+            return true;
     }
     
     private class IBlockDirections extends JPanel {
@@ -656,7 +666,6 @@ public class iMap extends JPanel implements iListableObject{
                 Logger.getLogger(iMap.class.getName()).log(Level.SEVERE, null, ex);
             }
             ImageIcon tileset = new ImageIcon(currentTileset);
-            
             tilesetLabel.setIcon(tileset);
             tilesetLabel.repaint();
         }
