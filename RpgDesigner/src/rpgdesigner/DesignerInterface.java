@@ -5,7 +5,6 @@ import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.*;
@@ -47,13 +46,13 @@ public class DesignerInterface {
 
             game.actorList =  new ArrayList();
             game.eventList = new ArrayList();
-            ArrayList<Object> alMap = new ArrayList();
+            game.mapList = new ArrayList();
            
             ActorList = new iObjectList(game.actorList, frame, ObjectType.ACTOR, null, game);
             //MapList = new iObjectList(im, frame, ObjectType.MAP);
             EventList = new iObjectList(game.eventList, frame, ObjectType.EVENT,  game.actorList, game);
-            MapList = new iObjectList((ArrayList<Object>)alMap, frame, ObjectType.MAP, null, game);
-            iSettings = new iSettings(new Game());
+            MapList = new iObjectList(game.mapList, frame, ObjectType.MAP, null, game);
+            iSettings = new iSettings(game);
             //game.actorList = new ArrayList();
             //EventList = new iObjectList(ie, frame, ObjectType.EVENT);
             //Lets add our tabs
@@ -109,6 +108,8 @@ public class DesignerInterface {
             for (Object a: game.actorList)
                 System.out.println(a);
             for (Object a: game.eventList)
+                System.out.println(a);
+            for(Object a: game.mapList)
                 System.out.println(a);
         }
         

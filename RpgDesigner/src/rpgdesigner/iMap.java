@@ -49,7 +49,6 @@ public class iMap extends JPanel implements iListableObject{
     
     private Map workingMap;
     private BufferedImage currentTileset;
-    private Game game;
     private BufferedImage currentTile;
     private BufferedImage selectionImage;
     private java.util.List<Tile> layer1 = new ArrayList();
@@ -78,16 +77,13 @@ public class iMap extends JPanel implements iListableObject{
     
     @Override
     public void reset() {
-        if(game != null)
-            workingMap = new Map(game.getMapList().size());
-        else
-            workingMap = new Map(0);
+        workingMap = new Map();
+        workingMap.setName("Enter Map Name...");
         setObject(workingMap);
     }
     
-    public iMap(JFrame frame, Game game, Map map) {
+    public iMap(JFrame frame, Map map) {
         this.frame = frame;
-        this.game = game;
         workingMap = map;
         this.setLayout(new BorderLayout());
         JPanel topSection = new JPanel();
@@ -292,10 +288,6 @@ public class iMap extends JPanel implements iListableObject{
         workingMap.setLayer1(layer1);
         workingMap.setLayer2(layer2);
         workingMap.setLayer3(layer3);
-        if(game.mapList.size() > 0)
-            game.mapList.set(workingMap.getId(), workingMap);
-        else
-            game.mapList.add(workingMap);
     }
 
     @Override

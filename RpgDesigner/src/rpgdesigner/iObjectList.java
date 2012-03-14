@@ -49,7 +49,7 @@ public class iObjectList extends JPanel {
                      }
                     case MAP:
                     {
-                        iObject = new iMap(frame, game, new Map(game.getMapList().size()));
+                        iObject = new iMap(frame, new Map());
                         break;
                     }
                     case EVENT:
