@@ -228,6 +228,7 @@ public class iActor extends JPanel implements iListableObject{
         }
     }
     
+    @Override
     public boolean hasInvalidInput()
     {
         return invalidInput;

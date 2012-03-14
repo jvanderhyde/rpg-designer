@@ -4,10 +4,15 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.*;
+import javax.swing.event.MenuListener;
+import org.newdawn.slick.SlickException;
+import playTest.GameInterface;
 import rpgdesigner.iObjectList.ObjectType;
 
 /**
@@ -23,6 +28,8 @@ public class DesignerInterface {
     iObjectList ActorList, MapList, EventList;
     iSettings iSettings;
     Game game;
+    JFrame frame;
+    JOptionPane popup;
     
     public DesignerInterface()
     {
@@ -39,8 +46,51 @@ public class DesignerInterface {
                 Logger.getLogger(RpgDesigner.class.getName()).log(Level.SEVERE, null, ex);
             }
         
-            JFrame frame = new JFrame ("RPG Designer");
+            frame = new JFrame ("RPG Designer");
             game = new Game();
+            
+            //The Top Menu
+            JMenuBar menu = new JMenuBar();
+            JMenu fileMenu = new JMenu("File");
+            JMenuItem saveMenu = new JMenuItem("Save");
+            saveMenu.setEnabled(false);
+            JMenuItem saveAsMenu = new JMenuItem("Save As");
+            saveAsMenu.setEnabled(false);
+            JMenuItem exportMenu = new JMenuItem("Export");
+            exportMenu.setEnabled(false);
+            JMenuItem playTestMenu = new JMenuItem("Play Test");
+            playTestMenu.setActionCommand("playtest");
+            playTestMenu.addActionListener(new menuListener());
+            JMenuItem exitMenu = new JMenuItem("Exit");
+            exitMenu.setActionCommand("exit");
+            exitMenu.addActionListener(new menuListener());
+            fileMenu.add(saveMenu);
+            fileMenu.add(saveAsMenu);
+            fileMenu.add(exportMenu);
+            fileMenu.add(playTestMenu);
+            fileMenu.add(exitMenu);
+            JMenu editMenu = new JMenu("Edit");
+            JMenuItem copyMenu = new JMenuItem("Copy");
+            copyMenu.setEnabled(false);
+            JMenuItem cutMenu = new JMenuItem("Cut");
+            cutMenu.setEnabled(false);
+            JMenuItem pasteMenu = new JMenuItem("Paste");
+            pasteMenu.setEnabled(false);
+            editMenu.add(copyMenu);
+            editMenu.add(cutMenu);
+            editMenu.add(pasteMenu);
+            JMenu helpMenu = new JMenu("Help");
+            JMenuItem licenseMenu = new JMenuItem("License");
+            licenseMenu.setEnabled(false);
+            JMenuItem aboutMenu = new JMenuItem("About");
+            aboutMenu.setActionCommand("about");
+            aboutMenu.addActionListener(new menuListener());
+            helpMenu.add(licenseMenu);
+            helpMenu.add(aboutMenu);
+            menu.add(fileMenu);
+            menu.add(editMenu);
+            menu.add(helpMenu);
+            
             frame.setLayout(new BorderLayout());
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -49,12 +99,10 @@ public class DesignerInterface {
             game.mapList = new ArrayList();
            
             ActorList = new iObjectList(game.actorList, frame, ObjectType.ACTOR, null, game);
-            //MapList = new iObjectList(im, frame, ObjectType.MAP);
             EventList = new iObjectList(game.eventList, frame, ObjectType.EVENT,  game.actorList, game);
             MapList = new iObjectList(game.mapList, frame, ObjectType.MAP, null, game);
             iSettings = new iSettings(game);
-            //game.actorList = new ArrayList();
-            //EventList = new iObjectList(ie, frame, ObjectType.EVENT);
+            
             //Lets add our tabs
             JTabbedPane tabbedPane = new JTabbedPane();
             tabbedPane.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0));
@@ -73,21 +121,16 @@ public class DesignerInterface {
 
             
             frame.getContentPane().setLayout(new BorderLayout());
-            frame.getContentPane().add(tabbedPane, BorderLayout.NORTH);
-            JButton test = new JButton("Print Actors");
-            test.addActionListener(new testListener());
-            frame.getContentPane().add(test, BorderLayout.SOUTH);
-            frame.setPreferredSize(new Dimension(1146, 730));
-            
-            //frame.getContentPane().add(new JButton("Edit"), BorderLayout.SOUTH);
+            JPanel content = new JPanel(new BorderLayout());
+            content.add(tabbedPane, BorderLayout.NORTH);
+            frame.getContentPane().add(menu, BorderLayout.NORTH);
+            frame.getContentPane().add(content);
+//            JButton test = new JButton("Print Actors");
+//            test.addActionListener(new testListener());
+//            frame.getContentPane().add(test, BorderLayout.SOUTH);
+            frame.setPreferredSize(new Dimension(1146, 750));
             frame.pack();
-            //frame.setSize(500, 500);
             frame.setVisible(true);
-            // TODO code application logic here
-            
-            
-    
-        
     }
             
     public static void main(String[] args) { 
@@ -115,4 +158,22 @@ public class DesignerInterface {
         
     }
     
+    private class menuListener implements ActionListener{
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            if(e.getActionCommand().equals("playtest")) {
+                GameInterface.main(game);
+            } else if(e.getActionCommand().equals("exit")) {
+                System.exit(0);
+            } else if(e.getActionCommand().equals("license")) {
+                
+            } else if(e.getActionCommand().equals("about")) {
+                Object toShow = "-RPG Designer-\n" + "Created by: Francine Wolfe and James Harris \n"
+                        + "Version: Prototype";
+                JOptionPane.showMessageDialog(frame, toShow, "About", JOptionPane.INFORMATION_MESSAGE);
+            } else
+                System.out.println("Not Yet Implemented");
+        }
+    }
 }

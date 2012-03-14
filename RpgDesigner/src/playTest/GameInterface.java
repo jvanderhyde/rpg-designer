@@ -25,12 +25,12 @@ public class GameInterface {
         gameFrame.add(slickGame);
     }
     
-    public static void main(String[] args) { 
+    public static void main(final Game game) { 
         javax.swing.SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
                 try {
-                    GameInterface di = new GameInterface(new Game());
+                    GameInterface di = new GameInterface(game);
                 } catch (SlickException ex) {
                     Logger.getLogger(GameInterface.class.getName()).log(Level.SEVERE, null, ex);
                 }

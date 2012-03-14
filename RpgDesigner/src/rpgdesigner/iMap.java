@@ -15,7 +15,8 @@ import javax.swing.*;
  *
  * @author james
  * 
- * This class is responsible for creating the map editor tab.  
+ * This class is responsible for creating the map editor tab.
+ * TODO:  Rewrite map to load without ImageIcons in future.  
  */
 public class iMap extends JPanel implements iListableObject{
     JFrame frame = new JFrame();
@@ -78,7 +79,7 @@ public class iMap extends JPanel implements iListableObject{
     @Override
     public void reset() {
         workingMap = new Map();
-        workingMap.setName("Enter Map Name...");
+        workingMap.setName("Map Name...");
         setObject(workingMap);
     }
     
@@ -99,7 +100,7 @@ public class iMap extends JPanel implements iListableObject{
         JPanel nameHolder = new JPanel();
         nameHolder.setLayout(new BorderLayout());
         JPanel nameField = new JPanel();
-        tfName = new JTextField("Enter Map Name...");
+        tfName = new JTextField("Map Name...");
         tfName.setForeground(Color.gray);
         tfName.setColumns(15);
         tfName.addFocusListener(textBoxListener);
@@ -228,7 +229,6 @@ public class iMap extends JPanel implements iListableObject{
         //on the map
         tileView = new JPanel();
         tileView.setLayout(new OverlayLayout(tileView));
-        //cbTileset.setSelectedIndex(0);
         try {
             currentTileset = ImageIO.read(new File("Resources/Tilesets/"+(String)cbTileset.getSelectedItem()));
         } catch (IOException ex) {
@@ -329,9 +329,12 @@ public class iMap extends JPanel implements iListableObject{
 
     @Override
     public boolean hasInvalidInput() {
-        if("Enter Map Name...".equals(tfName.getText()) || "".equals(tfName.getText()))
+        if("Map Name...".equals(tfName.getText()) || "".equals(tfName.getText())) {
+            tfName.setForeground(Color.red);
+            tfName.repaint();
+            frame.pack();
             return true;
-        else
+        } else
             return false;
     }
     
@@ -350,7 +353,7 @@ public class iMap extends JPanel implements iListableObject{
 
         @Override
         public void focusGained(FocusEvent e) {
-            if(tfName.getText().equals("Enter Map Name...")) {
+            if(tfName.getText().equals("Map Name...")) {
                 tfName.setText("");
                 tfName.setForeground(Color.black);
             }
@@ -359,7 +362,7 @@ public class iMap extends JPanel implements iListableObject{
         @Override
         public void focusLost(FocusEvent e) {
             if(tfName.getText().equals("")) {
-                tfName.setText("Enter Map Name...");
+                tfName.setText("Map Name...");
                 tfName.setForeground(Color.gray);
             }
         }
@@ -603,9 +606,6 @@ public class iMap extends JPanel implements iListableObject{
             } else if(currentTool == ERASETOOL) {
                 
             }
-//            layer1Panel.repaint();
-//            layer2Panel.repaint();
-//            layer3Panel.repaint();
             mapLayers.repaint();
             frame.pack();
         }
