@@ -163,7 +163,11 @@ public class DesignerInterface {
         @Override
         public void actionPerformed(ActionEvent e) {
             if(e.getActionCommand().equals("playtest")) {
-                GameInterface.main(game);
+                if(game.mapList.isEmpty())
+                    JOptionPane.showMessageDialog(frame, "You must have at least 1 Map to playtest", 
+                            "Cannot Continue", JOptionPane.ERROR_MESSAGE);
+                else
+                    GameInterface.main(game);
             } else if(e.getActionCommand().equals("exit")) {
                 System.exit(0);
             } else if(e.getActionCommand().equals("license")) {
