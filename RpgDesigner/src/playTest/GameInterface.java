@@ -7,6 +7,7 @@ package playTest;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
+import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.CanvasGameContainer;
 import org.newdawn.slick.SlickException;
 import rpgdesigner.Game;
@@ -23,6 +24,8 @@ public class GameInterface {
         gameFrame.setExtendedState(JFrame.MAXIMIZED_BOTH);
         CanvasGameContainer slickGame = new CanvasGameContainer(new GameMapView(game));
         gameFrame.add(slickGame);
+        gameFrame.setVisible(true);
+        slickGame.start();
     }
     
     public static void main(final Game game) { 

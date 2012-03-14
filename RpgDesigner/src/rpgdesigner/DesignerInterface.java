@@ -4,14 +4,14 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.imageio.ImageIO;
 import javax.swing.*;
-import javax.swing.event.MenuListener;
-import org.newdawn.slick.SlickException;
 import playTest.GameInterface;
 import rpgdesigner.iObjectList.ObjectType;
 
@@ -31,7 +31,7 @@ public class DesignerInterface {
     JFrame frame;
     JOptionPane popup;
     
-    public DesignerInterface()
+    public DesignerInterface() throws IOException
     {
         try {
                 //Lets change the gui to match the operating system
@@ -47,6 +47,8 @@ public class DesignerInterface {
             }
         
             frame = new JFrame ("RPG Designer");
+            BufferedImage logo = ImageIO.read(new File("Resources/logo.png"));
+            frame.setIconImage(logo);
             game = new Game();
             
             //The Top Menu
@@ -137,7 +139,11 @@ public class DesignerInterface {
         javax.swing.SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
-                DesignerInterface di = new DesignerInterface(); 
+                try {
+                    DesignerInterface di = new DesignerInterface();
+                } catch (IOException ex) {
+                    Logger.getLogger(DesignerInterface.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
     }
