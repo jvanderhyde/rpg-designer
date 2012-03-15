@@ -4,10 +4,10 @@
  */
 package playTest;
 
+import java.awt.Dimension;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
-import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.CanvasGameContainer;
 import org.newdawn.slick.SlickException;
 import rpgdesigner.Game;
@@ -20,12 +20,16 @@ public class GameInterface {
     
     public GameInterface(Game game) throws SlickException {
         JFrame gameFrame = new JFrame(game.getGameName());
-        gameFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        gameFrame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        gameFrame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
         CanvasGameContainer slickGame = new CanvasGameContainer(new GameMapView(game));
-        gameFrame.add(slickGame);
+        slickGame.setPreferredSize(new Dimension(1146, 750));
+        //slickGame.setSize(new Dimension(1146, 750));
+        gameFrame.getContentPane().add(slickGame);
         gameFrame.setVisible(true);
         slickGame.start();
+        slickGame.getContainer().setAlwaysRender(true);
+        gameFrame.repaint();
+        gameFrame.pack();
     }
     
     public static void main(final Game game) { 

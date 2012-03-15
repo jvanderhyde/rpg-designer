@@ -4,6 +4,7 @@
  */
 package playTest;
 
+import javax.swing.JFrame;
 import org.newdawn.slick.*;
 import rpgdesigner.Game;
 import rpgdesigner.Map;
