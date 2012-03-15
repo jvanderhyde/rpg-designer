@@ -13,9 +13,8 @@ public class Actor {
     private String name;
     private int begHP, increaseHP,  increaseXP, begSP, increaseSP;
     private SpriteSheet spriteSheet;
-    
+    private float locX, locY;
     private String imagePath;
-    //Skill[] skills;
     private int type;
     private DefaultListModel skills;
     
@@ -23,6 +22,23 @@ public class Actor {
     {
         name="";
         
+    }
+    
+    public float getLocX()
+    {
+        return locX;
+    }
+    
+    public float getLocY()
+    {
+        return locY;
+    }
+    
+    public void move (double x, double y)
+    {
+        locX+=x;
+        locY+=y;
+        System.out.println(locY);
     }
     
     public String getImagePath()

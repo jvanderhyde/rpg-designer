@@ -172,6 +172,9 @@ public class DesignerInterface {
                 if(game.mapList.isEmpty())
                     JOptionPane.showMessageDialog(frame, "You must have at least 1 Map to playtest", 
                             "Cannot Continue", JOptionPane.ERROR_MESSAGE);
+                else if (game.actorList.isEmpty())
+                    JOptionPane.showMessageDialog(frame, "You must have at least 1 actor to playtest", 
+                            "Cannot Continue", JOptionPane.ERROR_MESSAGE);
                 else
                     GameInterface.main(game);
             } else if(e.getActionCommand().equals("exit")) {

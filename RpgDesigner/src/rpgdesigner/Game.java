@@ -89,4 +89,8 @@ public class Game {
     public List<Object> getMapList() {
         return this.mapList;
     }
+    
+    public List<Object> getActorList(){
+        return actorList;
+    }
 }

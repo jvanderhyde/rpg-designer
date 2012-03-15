@@ -91,6 +91,7 @@ public class GameActor {
     {
         locX+=x;
         locY+=y;
+        
     }
     
     public void levelUP(int numLevels)

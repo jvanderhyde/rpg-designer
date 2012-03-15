@@ -262,13 +262,6 @@ public class iActor extends JPanel implements iListableObject{
         setActorType(actor.getType());
         imagePath = "";
         pImage.remove(image);
-//        tfBegHP.setText();
-//        tfIncHP.setText(Integer.toString(actor.getIncreaseHP()));
-//        tfBegSP.setText(Integer.toString(actor.getBegSP()));
-//        tfIncSP.setText(Integer.toString(actor.getIncreaseSP()));
-//        tfIncXP.setText(Integer.toString(actor.getIncreaseXP()));
-//        setActorType(actor.getType());
-//        
     
     }
 
