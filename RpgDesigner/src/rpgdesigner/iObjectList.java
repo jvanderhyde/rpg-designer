@@ -199,6 +199,9 @@ public class iObjectList extends JPanel {
                         }
                         cl.show(iObjectList.this, "List");
                     }
+                    else
+                        JOptionPane.showMessageDialog(frame, "Please fix the fields highlighted in red", 
+                             "Cannot Continue", JOptionPane.ERROR_MESSAGE);
                 }
                 else if (e.getSource() == btnCancel)
                 {

@@ -219,6 +219,7 @@ public class iActor extends JPanel implements iListableObject{
         String input = tf.getText();
         try {
             int x = Integer.parseInt(input);
+            tf.setForeground(Color.BLACK);
             return x;
         }
         catch(NumberFormatException nFE) {

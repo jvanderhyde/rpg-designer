@@ -22,6 +22,7 @@ public class GameMapView extends BasicGame{
     Image layer1;
     Image layer2;
     Image layer3;
+    SpriteSheet sheet;
     
     public GameMapView(Game game) throws SlickException {
         super(game.getGameName());
@@ -64,7 +65,9 @@ public class GameMapView extends BasicGame{
         if (!game.getActorList().isEmpty())
         {
         actor1 = (Actor)game.getActorList().get(0);
-        player = new Image(actor1.getImagePath());
+        Image sheetImage = new Image(actor1.getImagePath());
+        sheet = new SpriteSheet(sheetImage, 32, 32);
+        player = sheet.getSprite(1, 1);
         }
     }
 
@@ -77,20 +80,24 @@ public class GameMapView extends BasicGame{
             //sprite = up;
             //player.update(delta);
             // The lower the delta the slowest the sprite will animate.
-            actor1.move(0, delta * 0.1f);
+            actor1.move(0, -delta * 0.1d);
+            player = sheet.getSprite(1, 0);
             //y -= delta * 0.1f;
         }
         else if (input.isKeyDown(Input.KEY_DOWN))
         {
-            actor1.move(0, -delta * 0.1f);
+            player = sheet.getSprite(1, 2);
+            actor1.move(0, delta * 0.1d);
         }
         else if (input.isKeyDown(Input.KEY_RIGHT))
         {
-            actor1.move(delta * 0.1f, 0);
+            player = sheet.getSprite(1, 1);
+            actor1.move(delta * 0.1d, 0);
         }
         else if (input.isKeyDown(Input.KEY_LEFT))
         {
-            actor1.move(-delta * 0.1f, 0);
+            player = sheet.getSprite(1, 3);
+            actor1.move(-delta * 0.1d, 0);
         }
         
     }

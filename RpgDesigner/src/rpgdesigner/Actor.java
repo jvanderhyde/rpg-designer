@@ -38,7 +38,6 @@ public class Actor {
     {
         locX+=x;
         locY+=y;
-        System.out.println(locY);
     }
     
     public String getImagePath()
