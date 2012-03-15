@@ -17,13 +17,13 @@ import rpgdesigner.Game;
  * @author james
  */
 public class GameInterface {
-    
+
     public GameInterface(Game game) throws SlickException {
         JFrame gameFrame = new JFrame(game.getGameName());
         gameFrame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
         CanvasGameContainer slickGame = new CanvasGameContainer(new GameMapView(game));
         slickGame.setPreferredSize(new Dimension(1146, 750));
-        //slickGame.setSize(new Dimension(1146, 750));
+        gameFrame.setSize(new Dimension(1146, 750));
         gameFrame.getContentPane().add(slickGame);
         gameFrame.setVisible(true);
         slickGame.start();
