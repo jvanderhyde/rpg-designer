@@ -9,7 +9,6 @@ import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.event.*;
-import java.util.ArrayList;
 import java.util.List;
 import javax.swing.*;
 
@@ -87,9 +86,7 @@ public class iObjectList extends JPanel {
         pButtons.add(btnAdd);
         pButtons.add(btnEdit);
         pButtons.add(btnDelete);
-        System.out.println(pButtons.getSize());
         pList.add(pButtons, BorderLayout.SOUTH);
-        //pButtons.setPreferredSize(new Dimension (100,10));
         add(pList, "List");
         
         //Save and Cancel buttons for the objects
@@ -124,13 +121,6 @@ public class iObjectList extends JPanel {
                 //Get the selected object
                 obj = list.getSelectedValue();
                 iObject.setObject(obj);
-                //iObject= (iListableObject)list.getSelectedValue();
-                //pObject.removeAll();
-                
-                //Display the object
-                //pObject.add(iObject.getPanel(), BorderLayout.CENTER);
-                //pObject.add(pObjectButtons, BorderLayout.SOUTH);
-                //listModel.removeElement(list.getSelectedValue());
                 cl.show(iObjectList.this, "Object");
                 
             }
@@ -146,9 +136,6 @@ public class iObjectList extends JPanel {
                 iObject.reset();
                
                 //Display iObject
-                //pObject.removeAll();
-                //pObject.add(iObject.getPanel(), BorderLayout.CENTER);   
-                //pObject.add(pObjectButtons, BorderLayout.SOUTH);
                 cl.show(iObjectList.this, "Object");
             }
             
@@ -205,8 +192,6 @@ public class iObjectList extends JPanel {
                 }
                 else if (e.getSource() == btnCancel)
                 {
-                    //Add the original object back to the list
-                    //listModel.addElement(iObject); 
                     cl.show(iObjectList.this, "List");
                 }
                 

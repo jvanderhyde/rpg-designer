@@ -15,7 +15,6 @@ import rpgdesigner.Map;
  */
 public class GameMapView extends BasicGame{
     Game game;
-    //Image player;
     Map workingMap;
     Actor actor1;
     Image layer1;

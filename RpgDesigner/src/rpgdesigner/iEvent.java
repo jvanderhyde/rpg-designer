@@ -213,7 +213,6 @@ public class iEvent extends JPanel implements iListableObject
     public void itemStateChanged(ItemEvent evt) {
         CardLayout cl = (CardLayout)(pCommandOptions.getLayout());
         cl.show(pCommandOptions, (String)evt.getItem());
-        System.out.println((String)evt.getItem());
     }
         
     }
@@ -299,11 +298,7 @@ public class iEvent extends JPanel implements iListableObject
                 null,
                 possibilities,
                 null);
-
-                System.out.println(a);
                 actorImgPath = a.getImagePath();
-                
-                System.out.println("Opening: " + actorImgPath + "." );
             BufferedImage myPicture;
             try {
                 myPicture = ImageIO.read(new File(actorImgPath));

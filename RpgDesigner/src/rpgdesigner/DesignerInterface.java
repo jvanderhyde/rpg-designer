@@ -148,21 +148,7 @@ public class DesignerInterface {
         });
     }
     
-    private class testListener  implements ActionListener
-    {
-
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            System.out.println(game.actorList.size());
-            for (Object a: game.actorList)
-                System.out.println(a);
-            for (Object a: game.eventList)
-                System.out.println(a);
-            for(Object a: game.mapList)
-                System.out.println(a);
-        }
-        
-    }
+    
     
     private class menuListener implements ActionListener{
 

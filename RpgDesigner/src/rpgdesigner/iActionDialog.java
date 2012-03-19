@@ -88,16 +88,8 @@ public class iActionDialog extends JDialog
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            System.out.println("Action performed");
-            
             if (e.getSource()==btnOk)
             {
-                System.out.println("Ok Clicked");
-                
-                //value should be passed in to the action dialog instead so you can 
-                //check what type it is
-                //...or use "type" that I already have being passed in the constructor
-                
                 //if category is move...
                 if (type == Action.Type.ACTION_MOVE_NPC || type == Action.Type.ACTION_MOVE )
                 {
@@ -115,10 +107,7 @@ public class iActionDialog extends JDialog
                     else if (type == Action.Type.ACTION_MOVE )
                         value.setDisplayedValue("Possy move "+ value.getSetting() + " "+ tfDistance.getText());
                             
-                            
-                    System.out.println("The value is: "+value);
                 }
-                
                 
             }
             else value =null;

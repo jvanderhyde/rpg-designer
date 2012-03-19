@@ -279,7 +279,6 @@ public class iActor extends JPanel implements iListableObject{
         imagePath = actor.getImagePath();
         if (imagePath!=null && !imagePath.isEmpty())
         {
-            System.out.println("Opening: " + imagePath + "." );
             BufferedImage myPicture;
             try {
                 myPicture = ImageIO.read(new File(imagePath));
@@ -370,7 +369,6 @@ public class iActor extends JPanel implements iListableObject{
                     File file = fcImage.getSelectedFile();
                     //This is where a real application would open the file.
                     imagePath = file.getPath();
-                    System.out.println("Opening: " + imagePath + "." );
                     BufferedImage myPicture;
                     try {
                         myPicture = ImageIO.read(new File(imagePath));
