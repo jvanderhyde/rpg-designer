@@ -8,7 +8,6 @@ import org.newdawn.slick.*;
 import rpgdesigner.Actor;
 import rpgdesigner.Game;
 import rpgdesigner.Map;
-import rpgdesigner.Tile;
 
 /**
  *
@@ -16,13 +15,14 @@ import rpgdesigner.Tile;
  */
 public class GameMapView extends BasicGame{
     Game game;
-    Image player;
+    //Image player;
     Map workingMap;
     Actor actor1;
     Image layer1;
     Image layer2;
     Image layer3;
     SpriteSheet sheet;
+    Animation up, left,down, right, spriteAnimation;
     
     public GameMapView(Game game) throws SlickException {
         super(game.getGameName());
@@ -62,13 +62,29 @@ public class GameMapView extends BasicGame{
                 i++;
             }
         }
-        if (!game.getActorList().isEmpty())
-        {
+        setUpSprite(); 
+    }
+
+    private void setUpSprite() throws SlickException {
         actor1 = (Actor)game.getActorList().get(0);
         Image sheetImage = new Image(actor1.getImagePath());
         sheet = new SpriteSheet(sheetImage, 32, 32);
-        player = sheet.getSprite(1, 1);
-        }
+        
+        Image [] movementUp = {sheet.getSprite(0, 0), sheet.getSprite(1, 0), sheet.getSprite(2, 0)};
+        Image [] movementRight = {sheet.getSprite(0, 1), sheet.getSprite(1, 1), sheet.getSprite(2, 1)};
+        Image [] movementDown = {sheet.getSprite(0, 2), sheet.getSprite(1, 2), sheet.getSprite(2, 2)};
+        Image [] movementLeft = {sheet.getSprite(0, 3), sheet.getSprite(1, 3), sheet.getSprite(2, 3)};
+        
+        //change animation every 300 ms
+        int [] duration = {300, 300, 300};
+        
+        up = new Animation(movementUp, duration, false);
+        right = new Animation(movementRight, duration, false);
+        down = new Animation(movementDown, duration, false);
+        left = new Animation(movementLeft, duration, false);
+
+        // Original orientation of the sprite. It will look right.
+        spriteAnimation= up;
     }
 
     @Override
@@ -77,26 +93,26 @@ public class GameMapView extends BasicGame{
         Input input = gc.getInput();
         if (input.isKeyDown(Input.KEY_UP))
         {
-            //sprite = up;
-            //player.update(delta);
-            // The lower the delta the slowest the sprite will animate.
+            spriteAnimation = up;
+            spriteAnimation.update(delta);
             actor1.move(0, -delta * 0.1d);
-            player = sheet.getSprite(1, 0);
-            //y -= delta * 0.1f;
         }
         else if (input.isKeyDown(Input.KEY_DOWN))
         {
-            player = sheet.getSprite(1, 2);
+            spriteAnimation = down;
+            spriteAnimation.update(delta);
             actor1.move(0, delta * 0.1d);
         }
         else if (input.isKeyDown(Input.KEY_RIGHT))
         {
-            player = sheet.getSprite(1, 1);
+            spriteAnimation = right;
+            spriteAnimation.update(delta);
             actor1.move(delta * 0.1d, 0);
         }
         else if (input.isKeyDown(Input.KEY_LEFT))
         {
-            player = sheet.getSprite(1, 3);
+            spriteAnimation = left;
+            spriteAnimation.update(delta);
             actor1.move(-delta * 0.1d, 0);
         }
         
@@ -107,7 +123,8 @@ public class GameMapView extends BasicGame{
         //render the first layer
         layer1.draw();
         //render actor image
-        player.draw(actor1.getLocX(), actor1.getLocY());
+        spriteAnimation.draw(actor1.getLocX(), actor1.getLocY());
+        
         //render 2nd and 3rd layer
         layer2.draw();
         layer3.draw();
