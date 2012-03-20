@@ -62,12 +62,12 @@ public class iSkillEditor extends JDialog {
         
         pEast.add(lblName);
         pEast.add(taName);
+        pEast.add(lblSP);
+        pEast.add(taSP);
         pEast.add(lblLvl);
         pEast.add(taLvl);
         pEast.add(lblDamage);
         pEast.add(taDamage);
-        pEast.add(lblSP);
-        pEast.add(taSP);
         add(pEast, BorderLayout.EAST);
         
         //South Panel contains save and cancel button

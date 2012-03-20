@@ -53,7 +53,11 @@ public class iActor extends JPanel implements iListableObject{
             tfName = new JTextField("Type name...");
         
         tfName.setColumns(20);
-        add(tfName, BorderLayout.WEST);
+        JLabel lblName = new JLabel("Name");
+        JPanel pName = new JPanel();
+        pName.add(lblName);
+        pName.add(tfName);
+        //add(tfName, BorderLayout.WEST);
         
         //Actor Type Radio Buttons
         ButtonGroup group = new ButtonGroup();
@@ -71,7 +75,7 @@ public class iActor extends JPanel implements iListableObject{
         pRadioButtons.add(rbEnemy);
         
         pCenter.add(pRadioButtons, BorderLayout.SOUTH);
-        pCenter.add(tfName,BorderLayout.NORTH);
+        pCenter.add(pName,BorderLayout.NORTH);
         add(pCenter,BorderLayout.CENTER);
         
         //Stats
@@ -325,27 +329,31 @@ public class iActor extends JPanel implements iListableObject{
                 //Load iSkillEditor with the selectedValue
                 iSkillEditor skillEdit;
                 Skill value = (Skill)list.getSelectedValue();
-                skillEdit = new iSkillEditor(mainFrame, true, value);
                 
-                //When iSkillEditor is closed, we get the new skill
-                Skill newSkill = skillEdit.getSkill();
-                
-                //Delete the original skill from the list and add the modified skill
-                if (newSkill!=null)
+                if (value != null)
                 {
-                    list.setCellRenderer(new SkillCellRenderer());
-                    value=newSkill;
-                    int index = list.getSelectedIndex();
-                    skills.remove(index);
-                    int size = skills.getSize();
-                    if (index == skills.getSize()) {
-                        //removed item in last position
-                        index--;
-                    }
-                    skills.addElement(newSkill);
-                    list.setSelectedValue(newSkill, true);
-                    list.ensureIndexIsVisible(index);
-                }   
+                    skillEdit = new iSkillEditor(mainFrame, true, value);
+
+                    //When iSkillEditor is closed, we get the new skill
+                    Skill newSkill = skillEdit.getSkill();
+
+                    //Delete the original skill from the list and add the modified skill
+                    if (newSkill!=null)
+                    {
+                        list.setCellRenderer(new SkillCellRenderer());
+                        value=newSkill;
+                        int index = list.getSelectedIndex();
+                        skills.remove(index);
+                        int size = skills.getSize();
+                        if (index == skills.getSize()) {
+                            //removed item in last position
+                            index--;
+                        }
+                        skills.addElement(newSkill);
+                        list.setSelectedValue(newSkill, true);
+                        list.ensureIndexIsVisible(index);
+                    }   
+                }
             }
             else if (e.getSource()==btnDelete)
             {

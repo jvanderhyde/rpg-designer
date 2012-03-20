@@ -21,7 +21,7 @@ public class Game {
     List<Object> eventList = new ArrayList();
     List<Object> mapList = new ArrayList();
     List<Object> actorList = new ArrayList();
-    
+    List<Object> itemList = new ArrayList();
     //This class works for creating a new game project
     public Game() {
         eventList.add(new Event());

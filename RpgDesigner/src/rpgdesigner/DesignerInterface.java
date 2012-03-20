@@ -25,7 +25,7 @@ import rpgdesigner.iObjectList.ObjectType;
 public class DesignerInterface {
     
     
-    iObjectList ActorList, MapList, EventList;
+    iObjectList ActorList, MapList, EventList, ItemList;
     iSettings iSettings;
     Game game;
     JFrame frame;
@@ -99,10 +99,12 @@ public class DesignerInterface {
             game.actorList =  new ArrayList();
             game.eventList = new ArrayList();
             game.mapList = new ArrayList();
+            game.itemList = new ArrayList();
            
             ActorList = new iObjectList(game.actorList, frame, ObjectType.ACTOR, null, game);
             EventList = new iObjectList(game.eventList, frame, ObjectType.EVENT,  game.actorList, game);
             MapList = new iObjectList(game.mapList, frame, ObjectType.MAP, null, game);
+            ItemList = new iObjectList(game.itemList, frame, ObjectType.ITEM, null, game);
             iSettings = new iSettings(game);
             
             //Lets add our tabs
@@ -114,9 +116,12 @@ public class DesignerInterface {
             JPanel mapTab = new JPanel();
             mapTab.add(MapList);
             tabbedPane.addTab("Map Editor", mapTab);
-            JPanel eventsTab = new JPanel();
-            eventsTab.add(EventList);
-            tabbedPane.addTab("Events", eventsTab);
+            JPanel eventTab = new JPanel();
+            eventTab.add(EventList);
+            tabbedPane.addTab("Events", eventTab);
+            JPanel itemTab = new JPanel();
+            itemTab.add(ItemList);
+            tabbedPane.addTab("Items", itemTab);
             JPanel settingsTab = new JPanel();
             settingsTab.add(iSettings);
             tabbedPane.addTab("Settings", settingsTab);
@@ -160,8 +165,9 @@ public class DesignerInterface {
                             "Cannot Continue", JOptionPane.ERROR_MESSAGE);
                 else if (game.actorList.isEmpty())
                     JOptionPane.showMessageDialog(frame, "You must have at least 1 actor to playtest", 
+                            "Cannot Continue", JOptionPane.ERROR_MESSAGE);      
+                    JOptionPane.showMessageDialog(frame, "You must have at least 1 actor to playtest", 
                             "Cannot Continue", JOptionPane.ERROR_MESSAGE);
-                else
                     GameInterface.main(game);
             } else if(e.getActionCommand().equals("exit")) {
                 System.exit(0);

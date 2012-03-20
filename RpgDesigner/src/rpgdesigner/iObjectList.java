@@ -56,6 +56,11 @@ public class iObjectList extends JPanel {
                         iObject = new iEvent(frame, new Event(), actors);
                         break;
                     }
+                    case ITEM:
+                    {
+                        iObject = new iItem();
+                        break;
+                    }
         }
         //CardLayout allows you to switch between viewing the list, and veiwing the iObjects
         cl = new CardLayout();
@@ -105,7 +110,8 @@ public class iObjectList extends JPanel {
    public enum ObjectType{
 		ACTOR,
 		MAP,
-                EVENT;
+                EVENT,
+                ITEM;
 	}
 
     private class ListListener implements ActionListener
