@@ -26,6 +26,8 @@ public class GameInterface {
         gameFrame.setSize(new Dimension(1146, 750));
         gameFrame.getContentPane().add(slickGame);
         gameFrame.setVisible(true);
+        gameFrame.repaint();
+        gameFrame.pack();
         slickGame.start();
         slickGame.getContainer().setAlwaysRender(true);
         gameFrame.repaint();

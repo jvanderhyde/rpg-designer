@@ -33,29 +33,17 @@ public class GameMapView extends BasicGame{
         workingMap = (Map)game.getMapList().get(0);
         layer1 = new Image(1600,1600);
         Graphics layer1Graphics = layer1.getGraphics();
+        layer2 = new Image(1600,1600);
+        Graphics layer2Graphics = layer2.getGraphics();
+        layer3 = new Image(1600,1600);
+        Graphics layer3Graphics = layer3.getGraphics();
         int i = 0;
         for(int y = 0; y < 1600; y+=32) {
             for(int x = 0; x < 1600; x+=32) {
                 layer1Graphics.drawImage(
                         workingMap.getLayer1().get(i).getSlickImage(), x, y);
-                i++;
-            }
-        }
-        layer2 = new Image(1600,1600);
-        Graphics layer2Graphics = layer2.getGraphics();
-        i = 0;
-        for(int y = 0; y < 1600; y+=32) {
-            for(int x = 0; x < 1600; x+=32) {
                 layer2Graphics.drawImage(
                         workingMap.getLayer2().get(i).getSlickImage(), x, y);
-                i++;
-            }
-        }
-        layer3 = new Image(1600,1600);
-        Graphics layer3Graphics = layer3.getGraphics();
-        i = 0;
-        for(int y = 0; y < 1600; y+=32) {
-            for(int x = 0; x < 1600; x+=32) {
                 layer3Graphics.drawImage(
                         workingMap.getLayer3().get(i).getSlickImage(), x, y);
                 i++;
@@ -119,13 +107,13 @@ public class GameMapView extends BasicGame{
 
     @Override
     public void render(GameContainer gc, Graphics grphcs) throws SlickException {
-        //render the first layer
+        //render the 1st and 2nd layers
         layer1.draw();
+        layer2.draw();
         //render actor image
         spriteAnimation.draw(actor1.getLocX(), actor1.getLocY());
         
-        //render 2nd and 3rd layer
-        layer2.draw();
+        //render 3rd layer
         layer3.draw();
     }
     
