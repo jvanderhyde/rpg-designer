@@ -1,5 +1,7 @@
 package rpgdesigner;
 
+import java.awt.Color;
+import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.ArrayList;
@@ -22,7 +24,8 @@ public class Map {
     private List<Tile> layer1 = new ArrayList();
     private List<Tile> layer2 = new ArrayList();
     private List<Tile> layer3 = new ArrayList();
-    private List<Tile> events = new ArrayList();
+    private List<Boolean> blocks = new ArrayList();
+    private List<Event> events = new ArrayList();
     
     public Map(File mapZip) {
 
@@ -46,11 +49,10 @@ public class Map {
             Tile tileToAdd = new Tile(i);
             tileToAdd.setImage(blankImageWithTransparency);
             layer2.add(tileToAdd);
+            layer3.add(tileToAdd);
         }
         for(int i=0; i<2500; i++){
-            Tile tileToAdd = new Tile(i);
-            tileToAdd.setImage(blankImageWithTransparency);
-            layer3.add(tileToAdd);
+            blocks.add(false);
         }
     }
     
@@ -86,11 +88,62 @@ public class Map {
         this.layer3 = layer;
     }
     
+    public List<Event> getEvents() {
+        return this.events;
+    }
+    
+    public void setEvents(List<Event> eventList) {
+        this.events = eventList;
+    }
+    
+    public List<Boolean> getBlocks() {
+        return this.blocks;
+    }
+    
+    public void setBlocks(List<Boolean> blockList) {
+        this.blocks = blockList;
+    }
+    
+    public BufferedImage getBlockImage(int i) {
+        if(blocks.get(i)) {
+            BufferedImage image = new BufferedImage(32,32,BufferedImage.TYPE_INT_ARGB);
+            Graphics2D graphics = image.createGraphics();
+            graphics.setColor(Color.blue);
+            graphics.drawString("B", 12, 22);
+            return image;
+        } else 
+            return new BufferedImage(32,32,BufferedImage.TYPE_INT_ARGB);
+    }
+    
     public boolean checkForBlock(int x, int y){
+        int tileNumber = getTileNumber(x, y);
+        if(blocks.get(tileNumber))
+            return true;
         return false;
     }
     
     public int checkForEvent(int x, int y) {
         return 0;
     }
+    
+    private int getTileNumber(int x, int y) {
+            int number;
+            int numberx = 0;
+            int numbery = 0;
+            
+            //First solve which tile in the x range it is
+            for(int i=0; i < x; i = i+32) {
+                numberx++;
+            }
+            numberx--;
+            //Now solve for the tile in which the y range
+            for(int i=0; i < y; i = i+32) {
+                numbery++;
+            }
+            numbery--;
+            
+            number = (numbery*50 + numberx);
+            
+            return number;
+        }
 }
