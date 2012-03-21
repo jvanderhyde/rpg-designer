@@ -69,7 +69,7 @@ public class iMap extends JPanel implements iListableObject{
     private ImageIcon tileSetGrid;
     private JLabel tileGridLabel;
     private JPanel mapBlockPanel;
-    private List<Boolean> blocks = new ArrayList();
+    private List<Block> blocks = new ArrayList();
     
    /*
     * This is the constructor, it always requires a map.  If the map is blank create a new Map without 
@@ -192,6 +192,9 @@ public class iMap extends JPanel implements iListableObject{
         layer3Panel.setLayout(layoutForMaps);
         layer3Panel.setBounds(0, 0, 1600, 1600);
         layer3Panel.setOpaque(false);
+        mapBlockPanel = new JPanel(layoutForMaps);
+        mapBlockPanel.setBounds(0, 0, 1600, 1600);
+        mapBlockPanel.setOpaque(false);
         for(int i=0; i<layer1.size(); i++){
             ImageIcon icon = new ImageIcon(layer1.get(i).getTileImage());
             JLabel labelForImage = new JLabel(icon);
@@ -202,6 +205,9 @@ public class iMap extends JPanel implements iListableObject{
             icon = new ImageIcon(layer3.get(i).getTileImage());
             labelForImage = new JLabel(icon);
             layer3Panel.add(labelForImage);
+            icon = new ImageIcon(blocks.get(i).getBlockImage());
+            labelForImage = new JLabel(icon);
+            mapBlockPanel.add(labelForImage);
         }
         BufferedImage grid = new BufferedImage(1600,1600,BufferedImage.TRANSLUCENT);
         Graphics2D gridToDraw = grid.createGraphics();
@@ -211,14 +217,6 @@ public class iMap extends JPanel implements iListableObject{
         ImageIcon mapGrid = new ImageIcon(grid);
         JLabel mapGridLabel = new JLabel(mapGrid);
         mapGridLabel.setBounds(0, 0, 1600, 1600);
-        mapBlockPanel = new JPanel(layoutForMaps);
-        mapBlockPanel.setBounds(0, 0, 1600, 1600);
-        mapBlockPanel.setOpaque(false);
-        for(int i=0; i<blocks.size(); i++) {
-            ImageIcon icon = new ImageIcon(workingMap.getBlockImage(i));
-            JLabel labelForImage = new JLabel(icon);
-            mapBlockPanel.add(labelForImage);
-        }
         mapLayers.setAlignmentX(0);
         mapLayers.setAlignmentY(0);
         mapLayers.add(layer1Panel);
@@ -300,6 +298,7 @@ public class iMap extends JPanel implements iListableObject{
         workingMap.setLayer1(layer1);
         workingMap.setLayer2(layer2);
         workingMap.setLayer3(layer3);
+        workingMap.setBlocks(blocks);
     }
 
     @Override
@@ -309,27 +308,29 @@ public class iMap extends JPanel implements iListableObject{
         layer1 = workingMap.getLayer1();
         layer2 = workingMap.getLayer2();
         layer3 = workingMap.getLayer3();
+        blocks = workingMap.getBlocks();
         layer1Panel.removeAll();
         layer2Panel.removeAll();
         layer3Panel.removeAll();
+        mapBlockPanel.removeAll();
         for(int i=0; i<layer1.size(); i++){
             ImageIcon icon = new ImageIcon(layer1.get(i).getTileImage());
             JLabel labelForImage = new JLabel(icon);
             layer1Panel.add(labelForImage);
-        }
-        for(int i=0; i<layer2.size(); i++){
-            ImageIcon icon = new ImageIcon(layer2.get(i).getTileImage());
-            JLabel labelForImage = new JLabel(icon);
+            icon = new ImageIcon(layer2.get(i).getTileImage());
+            labelForImage = new JLabel(icon);
             layer2Panel.add(labelForImage);
-        }
-        for(int i=0; i<layer3.size(); i++){
-            ImageIcon icon = new ImageIcon(layer3.get(i).getTileImage());
-            JLabel labelForImage = new JLabel(icon);
+            icon = new ImageIcon(layer3.get(i).getTileImage());
+            labelForImage = new JLabel(icon);
             layer3Panel.add(labelForImage);
+            icon = new ImageIcon(blocks.get(i).getBlockImage());
+            labelForImage = new JLabel(icon);
+            mapBlockPanel.add(labelForImage);
         }
         layer1Panel.repaint();
         layer2Panel.repaint();
         layer3Panel.repaint();
+        mapBlockPanel.repaint();
         mapLayers.repaint();
         frame.pack();
     }
@@ -543,7 +544,7 @@ public class iMap extends JPanel implements iListableObject{
         public void mousePressed(MouseEvent e) {
             if(currentTool == PLACETOOL) {
                     int tileNumber = getTileNumber(e.getX(), e.getY());
-                    Tile newTile = new Tile(tileNumber);
+                    Tile newTile = new Tile();
                     newTile.setImage(currentTile);
                     if(btnLayer1.isSelected()) {
                         layer1.set(tileNumber, newTile);
@@ -614,15 +615,14 @@ public class iMap extends JPanel implements iListableObject{
                 
             } else if(currentTool == BLOCKTOOL) {
                 int tileNumber = getTileNumber(e.getX(), e.getY());
-                if(!blocks.get(tileNumber)) {
-                    blocks.set(tileNumber, true);
+                if(!blocks.get(tileNumber).getIsBlocked()) {
+                    blocks.set(tileNumber, new Block(true));
                 } else {
-                    blocks.set(tileNumber, false);
+                    blocks.set(tileNumber, new Block(false));
                 }
-                workingMap.setBlocks(blocks);
                 mapBlockPanel.removeAll();
                 for(int i=0; i<layer1.size(); i++){
-                    ImageIcon icon = new ImageIcon(workingMap.getBlockImage(i));
+                    ImageIcon icon = new ImageIcon(blocks.get(i).getBlockImage());
                     JLabel labelForImage = new JLabel(icon);
                     mapBlockPanel.add(labelForImage);
                 }

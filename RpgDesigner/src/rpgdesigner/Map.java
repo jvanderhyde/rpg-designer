@@ -17,14 +17,10 @@ import java.util.List;
  */
 public class Map {
     private String name;
-    private int SIZEX=1600; //The maps are 50x50 tiles, and each is 32x32 pixels 
-    private int SIZEY=1600; //making a total image size of 1600x1600 for each layer
-    private int SIZEXTILE=50;
-    private int SIZEYTILE=50;
     private List<Tile> layer1 = new ArrayList();
     private List<Tile> layer2 = new ArrayList();
     private List<Tile> layer3 = new ArrayList();
-    private List<Boolean> blocks = new ArrayList();
+    private List<Block> blocks = new ArrayList();
     private List<Event> events = new ArrayList();
     
     public Map(File mapZip) {
@@ -41,18 +37,18 @@ public class Map {
         BufferedImage blankImage = new BufferedImage(32,32,BufferedImage.TYPE_INT_RGB);
         BufferedImage blankImageWithTransparency = new BufferedImage(32,32,BufferedImage.TYPE_INT_ARGB);
         for(int i=0; i<2500; i++){
-            Tile tileToAdd = new Tile(i);
+            Tile tileToAdd = new Tile();
             tileToAdd.setImage(blankImage);
             layer1.add(tileToAdd);
         }
         for(int i=0; i<2500; i++){
-            Tile tileToAdd = new Tile(i);
+            Tile tileToAdd = new Tile();
             tileToAdd.setImage(blankImageWithTransparency);
             layer2.add(tileToAdd);
             layer3.add(tileToAdd);
         }
         for(int i=0; i<2500; i++){
-            blocks.add(false);
+            blocks.add(new Block(false));
         }
     }
     
@@ -96,28 +92,17 @@ public class Map {
         this.events = eventList;
     }
     
-    public List<Boolean> getBlocks() {
+    public List<Block> getBlocks() {
         return this.blocks;
     }
     
-    public void setBlocks(List<Boolean> blockList) {
+    public void setBlocks(List<Block> blockList) {
         this.blocks = blockList;
-    }
-    
-    public BufferedImage getBlockImage(int i) {
-        if(blocks.get(i)) {
-            BufferedImage image = new BufferedImage(32,32,BufferedImage.TYPE_INT_ARGB);
-            Graphics2D graphics = image.createGraphics();
-            graphics.setColor(Color.blue);
-            graphics.drawString("B", 12, 22);
-            return image;
-        } else 
-            return new BufferedImage(32,32,BufferedImage.TYPE_INT_ARGB);
     }
     
     public boolean checkForBlock(int x, int y){
         int tileNumber = getTileNumber(x, y);
-        if(blocks.get(tileNumber))
+        if(blocks.get(tileNumber).getIsBlocked())
             return true;
         return false;
     }
@@ -145,5 +130,5 @@ public class Map {
             number = (numbery*50 + numberx);
             
             return number;
-        }
+    }
 }

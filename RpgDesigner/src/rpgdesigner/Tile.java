@@ -16,20 +16,14 @@ import org.newdawn.slick.SlickException;
 public class Tile {
     //private SpriteSheet tileset; I am going to not use this anymore
     private int id;
-    private boolean block;
     private Event event;
     private BufferedImage tileImage;
     private String tilesetName;
     
-    public Tile(String tileset, int id, boolean block, Event event) {
+    public Tile(String tileset, int id, Event event) {
         //this.tileset = tileset;
         this.id = id;
-        this.block = block;
         this.event = event;
-    }
-    
-    public Tile(int id) {
-       this.id = id;
     }
     
     public Tile() {
@@ -38,10 +32,6 @@ public class Tile {
     
     public void setTilesetName(String tileset) {
         this.tilesetName = tileset;
-    }
-    
-    public void setBlock(boolean block) {
-        this.block = block;
     }
     
     public void setEvent(Event event) {
@@ -55,11 +45,7 @@ public class Tile {
     public String getTilesetName() {
         return this.tilesetName;
     }
-    
-    public boolean getBlock() {
-        return this.block;
-    }
-    
+
     public Event getEvent() {
         return this.event;
     }
