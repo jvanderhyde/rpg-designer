@@ -56,20 +56,20 @@ public class iMap extends JPanel implements iListableObject{
     private List<Tile> layer1 = new ArrayList();
     private List<Tile> layer2 = new ArrayList();
     private List<Tile> layer3 = new ArrayList();
-    private List<Tile> events = new ArrayList();
+    private JPanel layer1Panel;
+    private JPanel layer2Panel;
+    private JPanel layer3Panel;
+    private List<Block> blocks = new ArrayList();
+    private List<Event> events = new ArrayList();
     
     TileViewMouseListener tileViewListener = new TileViewMouseListener();
     private JPanel tileSelectionPanel;
     private JLabel selectionImageLabel;
     private JPanel mapBody;
     private JLayeredPane mapLayers;
-    private JPanel layer1Panel;
-    private JPanel layer2Panel;
-    private JPanel layer3Panel;
     private ImageIcon tileSetGrid;
     private JLabel tileGridLabel;
     private JPanel mapBlockPanel;
-    private List<Block> blocks = new ArrayList();
     
    /*
     * This is the constructor, it always requires a map.  If the map is blank create a new Map without 
@@ -132,6 +132,9 @@ public class iMap extends JPanel implements iListableObject{
         btnCut.addActionListener(buttonActions);
         btnBlock = new JToggleButton("Block");
         btnBlock.addActionListener(buttonActions);
+        btnBlock.setToolTipText("<html>To add a block left click on a tile. <br />"
+                                + "To change the block direction left click on a current block.<br />"
+                                + "To remove a block right click on a tile.</html>");
         btnLayer1 = new JToggleButton("Layer1");
         btnLayer1.addActionListener(buttonActions);
         btnLayer2 = new JToggleButton("Layer2");
@@ -349,14 +352,6 @@ public class iMap extends JPanel implements iListableObject{
             return true;
         } else
             return false;
-    }
-    
-    private class IBlockDirections extends JPanel {
-        /*
-         * TODO:  This code should implement a pop-up panel that allows switching
-         * which directions are blocked.  The importance of this function
-         * is pretty low at this point, though I would like to get it done.
-         */
     }
     
     private class IMapListener implements FocusListener, ActionListener {
@@ -615,16 +610,26 @@ public class iMap extends JPanel implements iListableObject{
                 
             } else if(currentTool == BLOCKTOOL) {
                 int tileNumber = getTileNumber(e.getX(), e.getY());
-                if(!blocks.get(tileNumber).getIsBlocked()) {
-                    blocks.set(tileNumber, new Block(true));
-                } else {
+                if(e.getButton() == 1) {
+                    if(blocks.get(tileNumber).getIsUnblocked()) {
+                        blocks.set(tileNumber, new Block(true));
+                    } else {
+                        blocks.get(tileNumber).toggleBlock();
+                    }
+                    mapBlockPanel.removeAll();
+                    for(int i=0; i<layer1.size(); i++){
+                        ImageIcon icon = new ImageIcon(blocks.get(i).getBlockImage());
+                        JLabel labelForImage = new JLabel(icon);
+                        mapBlockPanel.add(labelForImage);
+                    }
+                } else if(e.getButton() == 3){
                     blocks.set(tileNumber, new Block(false));
-                }
-                mapBlockPanel.removeAll();
-                for(int i=0; i<layer1.size(); i++){
-                    ImageIcon icon = new ImageIcon(blocks.get(i).getBlockImage());
-                    JLabel labelForImage = new JLabel(icon);
-                    mapBlockPanel.add(labelForImage);
+                    mapBlockPanel.removeAll();
+                    for(int i=0; i<layer1.size(); i++){
+                        ImageIcon icon = new ImageIcon(blocks.get(i).getBlockImage());
+                        JLabel labelForImage = new JLabel(icon);
+                        mapBlockPanel.add(labelForImage);
+                    }
                 }
                 mapBlockPanel.repaint();
             }
