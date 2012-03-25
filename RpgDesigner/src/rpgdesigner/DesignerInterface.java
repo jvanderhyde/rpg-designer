@@ -101,10 +101,10 @@ public class DesignerInterface {
             game.mapList = new ArrayList();
             game.itemList = new ArrayList();
            
-            ActorList = new iObjectList(game.actorList, frame, ObjectType.ACTOR, null, game);
-            EventList = new iObjectList(game.eventList, frame, ObjectType.EVENT,  game.actorList, game);
-            MapList = new iObjectList(game.mapList, frame, ObjectType.MAP, null, game);
-            ItemList = new iObjectList(game.itemList, frame, ObjectType.ITEM, null, game);
+            ActorList = new iObjectList(game.actorList, frame, ObjectType.ACTOR,  game);
+            EventList = new iObjectList(game.eventList, frame, ObjectType.EVENT,   game);
+            MapList = new iObjectList(game.mapList, frame, ObjectType.MAP,  game);
+            ItemList = new iObjectList(game.itemList, frame, ObjectType.ITEM,  game);
             iSettings = new iSettings(game);
             
             //Lets add our tabs
@@ -165,9 +165,7 @@ public class DesignerInterface {
                             "Cannot Continue", JOptionPane.ERROR_MESSAGE);
                 else if (game.actorList.isEmpty())
                     JOptionPane.showMessageDialog(frame, "You must have at least 1 actor to playtest", 
-                            "Cannot Continue", JOptionPane.ERROR_MESSAGE);      
-                    JOptionPane.showMessageDialog(frame, "You must have at least 1 actor to playtest", 
-                            "Cannot Continue", JOptionPane.ERROR_MESSAGE);
+                            "Cannot Continue", JOptionPane.ERROR_MESSAGE);    
                     GameInterface.main(game);
             } else if(e.getActionCommand().equals("exit")) {
                 System.exit(0);

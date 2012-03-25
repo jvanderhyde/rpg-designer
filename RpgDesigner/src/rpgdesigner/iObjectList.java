@@ -33,7 +33,7 @@ public class iObjectList extends JPanel {
     Boolean newObject;
     
     
-    public iObjectList (List<Object> a, JFrame f, ObjectType t, List<Object> actors, Game game)
+    public iObjectList (List<Object> a, JFrame f, ObjectType t,  Game game)
     {
         newObject = true;
         objects =a;
@@ -48,12 +48,12 @@ public class iObjectList extends JPanel {
                      }
                     case MAP:
                     {
-                        iObject = new iMap(frame, new Map());
+                        iObject = new iMap(frame, new Map(), game);
                         break;
                     }
                     case EVENT:
                     {
-                        iObject = new iEvent(frame, new Event(), actors);
+                        iObject = new iEvent(frame, new Event(), game.actorList);
                         break;
                     }
                     case ITEM:

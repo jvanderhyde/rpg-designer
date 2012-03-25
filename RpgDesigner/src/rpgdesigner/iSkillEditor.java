@@ -37,7 +37,7 @@ public class iSkillEditor extends JDialog {
         pWest = new JPanel();
         pWest.setSize(1, 5);
         pWest.setLayout(new BorderLayout());
-        lblImage = new JLabel("Image goes here");
+        lblImage = new JLabel("");
         btnChangeAnimation = new JButton ("Change Animation");
         btnChangeAnimation.setSize(1,3);
         pWest.add(lblImage, BorderLayout.NORTH);

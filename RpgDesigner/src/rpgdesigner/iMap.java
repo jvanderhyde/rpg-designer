@@ -48,6 +48,7 @@ public class iMap extends JPanel implements iListableObject{
     private final int BLOCKTOOL = 6;
     private final int COPYTOOL = 7;
     private final int CUTTOOL = 8; 
+    private final int OBJECTTOOL = 9;
     
     private Map workingMap;
     private BufferedImage currentTileset;
@@ -61,6 +62,7 @@ public class iMap extends JPanel implements iListableObject{
     private JPanel layer3Panel;
     private List<Block> blocks = new ArrayList();
     private List<Event> events = new ArrayList();
+    private Actor obj =null;
     
     TileViewMouseListener tileViewListener = new TileViewMouseListener();
     private JPanel tileSelectionPanel;
@@ -70,7 +72,10 @@ public class iMap extends JPanel implements iListableObject{
     private ImageIcon tileSetGrid;
     private JLabel tileGridLabel;
     private JPanel mapBlockPanel;
-    
+    private JPanel objectPanel;
+    private JButton btnAddObject;
+    private JLabel lblAddObject;
+    private Game game;
    /*
     * This is the constructor, it always requires a map.  If the map is blank create a new Map without 
     * any parameters and pass it in.  
@@ -88,7 +93,8 @@ public class iMap extends JPanel implements iListableObject{
         setObject(workingMap);
     }
     
-    public iMap(JFrame frame, Map map) {
+    public iMap(JFrame frame, Map map, Game game) {
+        this.game = game;
         this.frame = frame;
         workingMap = map;
         this.setLayout(new BorderLayout());
@@ -147,6 +153,8 @@ public class iMap extends JPanel implements iListableObject{
         cbEvents.addItem("Event 1");
         cbEvents.addItem("Event 2");
         cbEvents.addItem("Event 3...");
+        btnAddObject = new JButton("Add Object to Map");
+        btnAddObject.addActionListener(buttonActions);
         mapButtons.add(btnPlaceTile);
         mapButtons.add(btnFillTile);
         mapButtons.add(btnFillSquare);
@@ -159,8 +167,11 @@ public class iMap extends JPanel implements iListableObject{
         mapButtons.add(btnLayer3);
         mapButtons.add(btnLayerEvents); 
         mapButtons.add(cbEvents);
-        mapButtons.add(new JLabel(" "));
-        mapButtons.add(new JLabel(" "));
+        lblAddObject = new JLabel();
+        mapButtons.add(btnAddObject);
+        mapButtons.add(lblAddObject);
+        //mapButtons.add(new JLabel(" "));
+        //mapButtons.add(new JLabel(" "));
         controls.add(mapButtons, BorderLayout.CENTER);
         JPanel tilesetPanelHolder = new JPanel();
         tilesetPanelHolder.setLayout(new BorderLayout());
@@ -198,6 +209,9 @@ public class iMap extends JPanel implements iListableObject{
         mapBlockPanel = new JPanel(layoutForMaps);
         mapBlockPanel.setBounds(0, 0, 1600, 1600);
         mapBlockPanel.setOpaque(false);
+        objectPanel = new JPanel(layoutForMaps);
+        objectPanel.setBounds(0, 0, 1600, 1600);
+        objectPanel.setOpaque(false);
         for(int i=0; i<layer1.size(); i++){
             ImageIcon icon = new ImageIcon(layer1.get(i).getTileImage());
             JLabel labelForImage = new JLabel(icon);
@@ -211,6 +225,8 @@ public class iMap extends JPanel implements iListableObject{
             icon = new ImageIcon(blocks.get(i).getBlockImage());
             labelForImage = new JLabel(icon);
             mapBlockPanel.add(labelForImage);
+            //System.out.println("add code for objectPanel in constructor");
+            //objectPanel.add(labelForImage);
         }
         BufferedImage grid = new BufferedImage(1600,1600,BufferedImage.TRANSLUCENT);
         Graphics2D gridToDraw = grid.createGraphics();
@@ -226,8 +242,10 @@ public class iMap extends JPanel implements iListableObject{
         mapLayers.add(layer2Panel);
         mapLayers.add(layer3Panel);
         mapLayers.add(mapBlockPanel);
+        mapLayers.add(objectPanel);
         mapLayers.add(mapGridLabel);
-        mapLayers.setLayer(mapGridLabel, 5, 0);
+        mapLayers.setLayer(mapGridLabel, 6, 0);
+        mapLayers.setLayer(objectPanel, 5, 0);
         mapLayers.setLayer(mapBlockPanel, 4, 0);
         mapLayers.setLayer(layer3Panel, 3, 0);
         mapLayers.setLayer(layer2Panel, 2, 0);
@@ -306,6 +324,8 @@ public class iMap extends JPanel implements iListableObject{
 
     @Override
     public void setObject(Object o) {
+        
+        System.out.println("add code to iMap.setObject for objects added to map");
         workingMap = (Map) o;
         tfName.setText(workingMap.getName());
         layer1 = workingMap.getLayer1();
@@ -334,6 +354,7 @@ public class iMap extends JPanel implements iListableObject{
         layer2Panel.repaint();
         layer3Panel.repaint();
         mapBlockPanel.repaint();
+        objectPanel.repaint();
         mapLayers.repaint();
         frame.pack();
     }
@@ -521,8 +542,20 @@ public class iMap extends JPanel implements iListableObject{
                 currentTool = EVENTTOOL;
             } else if(e.getActionCommand().equals("Save")) {
                 //save the map
-            } else {
-                
+            } else if(e.getActionCommand().equals("Add Object to Map")){
+                //choose from items, events, actor
+                //get list depending on result from first dialogue
+                //JOptionDialog j = new JOptionDialog();
+                JOptionPane p = new JOptionPane();
+                String[] options = {"Actor","Item","Event"};
+                String objectType = (String)JOptionPane.showInputDialog(frame, "pick an object type", "Add Object", JOptionPane.QUESTION_MESSAGE, null, options, "Actor");
+                System.out.println(objectType);
+                //Actor selectedObject=null;
+                if(objectType.equals("Actor"))
+                    obj = (Actor)JOptionPane.showInputDialog(frame, "pick an actor", "Add Object", JOptionPane.QUESTION_MESSAGE, null, game.actorList.toArray(), null);
+                //Object value = new Object();
+                currentTool = OBJECTTOOL;
+                lblAddObject.setText("Click the map to add "+ obj);
             }
         }
     }
@@ -632,6 +665,17 @@ public class iMap extends JPanel implements iListableObject{
                     }
                 }
                 mapBlockPanel.repaint();
+            } else if (currentTool == OBJECTTOOL){
+                int tileNumber = getTileNumber(e.getX(), e.getY());
+                obj.setLocation(e.getX(), e.getY());
+                //ImageIcon icon = obj.getMainSprite();
+                ImageIcon icon = new ImageIcon(obj.getImagePath());
+                JLabel labelForImage = new JLabel(icon);
+                
+                labelForImage.setBounds(e.getX(), e.getY(), 32, 32);
+                objectPanel.add(labelForImage);
+                objectPanel.repaint();
+                
             }
             mapLayers.repaint();
             frame.pack();
