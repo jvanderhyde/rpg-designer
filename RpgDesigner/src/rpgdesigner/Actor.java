@@ -50,6 +50,28 @@ public class Actor {
         return locY;
     }
     
+    public int getNewLocTile(double x, double y)
+    {
+        int number;
+        int numberx = 0;
+        int numbery = 0;
+
+        //First solve which tile in the x range it is
+        for(int i=0; i < (int)locX+x; i = i+32) {
+            numberx++;
+        }
+        numberx--;
+        //Now solve for the tile in which the y range
+        for(int i=0; i < (int)locY+y; i = i+32) {
+            numbery++;
+        }
+        numbery--;
+
+        number = (numbery*50 + numberx);
+
+        return number;
+    }
+    
     public void move (double x, double y)
     {
         locX+=x;

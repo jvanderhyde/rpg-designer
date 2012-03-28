@@ -4,8 +4,10 @@
  */
 package playTest;
 
+import java.util.List;
 import org.newdawn.slick.*;
 import rpgdesigner.Actor;
+import rpgdesigner.Block;
 import rpgdesigner.Game;
 import rpgdesigner.Map;
 
@@ -20,6 +22,7 @@ public class GameMapView extends BasicGame{
     Image layer1;
     Image layer2;
     Image layer3;
+    List<Block> currentMapBlocks;
     SpriteSheet sheet;
     Animation up, left,down, right, spriteAnimation;
     
@@ -50,6 +53,7 @@ public class GameMapView extends BasicGame{
             }
         }
         setUpSprite(); 
+        currentMapBlocks = workingMap.getBlocks();
     }
 
     private void setUpSprite() throws SlickException {
@@ -82,25 +86,29 @@ public class GameMapView extends BasicGame{
         {
             spriteAnimation = up;
             spriteAnimation.update(delta);
-            actor1.move(0, -delta * 0.1d);
+            if(!currentMapBlocks.get(actor1.getNewLocTile(0, -delta * 0.1d)).getIsBlockedBottom())
+                actor1.move(0, -delta * 0.1d);
         }
         else if (input.isKeyDown(Input.KEY_DOWN))
         {
             spriteAnimation = down;
             spriteAnimation.update(delta);
-            actor1.move(0, delta * 0.1d);
+            if(!currentMapBlocks.get(actor1.getNewLocTile(0, delta * 0.1d)).getIsBlockedTop())
+                actor1.move(0, delta * 0.1d);
         }
         else if (input.isKeyDown(Input.KEY_RIGHT))
         {
             spriteAnimation = right;
             spriteAnimation.update(delta);
-            actor1.move(delta * 0.1d, 0);
+            if(!currentMapBlocks.get(actor1.getNewLocTile(delta * 0.1d, 0)).getIsBlockedLeft())
+                actor1.move(delta * 0.1d, 0);
         }
         else if (input.isKeyDown(Input.KEY_LEFT))
         {
             spriteAnimation = left;
             spriteAnimation.update(delta);
-            actor1.move(-delta * 0.1d, 0);
+            if(!currentMapBlocks.get(actor1.getNewLocTile(-delta * 0.1d, 0)).getIsBlockedRight())
+                actor1.move(-delta * 0.1d, 0);
         }
         
     }
