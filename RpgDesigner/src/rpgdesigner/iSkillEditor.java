@@ -129,7 +129,7 @@ public class iSkillEditor extends JDialog {
 
             pWest.add(lblImage,BorderLayout.NORTH);
 
-            //mainFrame.pack();
+            pack();
         } catch (IOException ex) {
             System.out.println(ex.toString());
 

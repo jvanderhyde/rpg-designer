@@ -289,7 +289,18 @@ public class iEvent extends JPanel implements iListableObject
         public void actionPerformed(ActionEvent e) {
             if (e.getSource()== btnNPC)
             {
-                Object[] possibilities = actorList.toArray();
+                List<Actor> actors = new ArrayList();
+                for (Object a : actorList)
+                {
+                    Actor actor = (Actor)a;
+                    
+                    //don't include playable characters
+                    if (actor.getType()!=0)
+                    {
+                        actors.add(actor);
+                    }
+                }
+                Object[] possibilities = actors.toArray();
                 Actor a = (Actor)JOptionPane.showInputDialog(
                 mainFrame,
                 "Choose an Actor",
