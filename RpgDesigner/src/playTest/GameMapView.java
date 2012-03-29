@@ -116,13 +116,13 @@ public class GameMapView extends BasicGame{
     @Override
     public void render(GameContainer gc, Graphics grphcs) throws SlickException {
         //render the 1st and 2nd layers
-        layer1.draw();
-        layer2.draw();
+        layer1.draw(0,0);
+        layer2.draw(0,0);
         //render actor image
         spriteAnimation.draw(actor1.getLocX(), actor1.getLocY());
         
         //render 3rd layer
-        layer3.draw();
+        layer3.draw(0,0);
     }
     
 }
