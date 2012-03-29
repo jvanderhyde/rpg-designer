@@ -231,6 +231,10 @@ public class iMap extends JPanel implements iListableObject{
         layer3 = workingMap.getLayer3();
         blocks = workingMap.getBlocks();
         //mapBody = new EditorPanel(layer1, layer2, layer3, blocks, objects);
+        mapBody.setLayer1Tiles(layer1);
+        mapBody.setLayer2Tiles(layer2);
+        mapBody.setLayer3Tiles(layer3);
+        mapBody.setBlockList(blocks);
         mapBody.repaint();
         tileView.repaint();
         mapViewScroll.repaint();
@@ -449,11 +453,11 @@ public class iMap extends JPanel implements iListableObject{
                     }
                     else if(btnLayer2.isSelected()) {
                         layer2.set(tileNumber, newTile);
-                        mapBody.setLayer1Tiles(layer2);
+                        mapBody.setLayer2Tiles(layer2);
                     }
                     else {
                         layer3.set(tileNumber, newTile);
-                        mapBody.setLayer1Tiles(layer3);
+                        mapBody.setLayer3Tiles(layer3);
                     }
             }else if(currentTool == FILLTOOL){
                     Tile newTile = new Tile();
