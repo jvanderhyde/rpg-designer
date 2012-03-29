@@ -55,7 +55,7 @@ public class iMap extends JPanel implements iListableObject{
     private List<Tile> layer2 = new ArrayList();
     private List<Tile> layer3 = new ArrayList();
     private List<Block> blocks = new ArrayList();
-    private List<Object> objects = new ArrayList();
+    private List<Object> objectsOnMap = new ArrayList();
     private Actor obj =null;
     
     TileViewMouseListener tileViewListener = new TileViewMouseListener();
@@ -175,7 +175,7 @@ public class iMap extends JPanel implements iListableObject{
         
         mapEditor = new JPanel(new BorderLayout());
         //This code creates the view of the map being edited 
-        mapBody = new EditorPanel(layer1, layer2, layer3, blocks, objects);
+        mapBody = new EditorPanel(layer1, layer2, layer3, blocks, objectsOnMap);
         mapBody.addMouseListener(mapViewMouseListener);
         mapBody.setPreferredSize(new Dimension(1600,1600));
         mapViewScroll = new JScrollPane(mapBody);
@@ -218,6 +218,7 @@ public class iMap extends JPanel implements iListableObject{
         workingMap.setLayer2(layer2);
         workingMap.setLayer3(layer3);
         workingMap.setBlocks(blocks);
+        workingMap.setObjects(objectsOnMap);
     }
 
     @Override
@@ -230,7 +231,7 @@ public class iMap extends JPanel implements iListableObject{
         layer2 = workingMap.getLayer2();
         layer3 = workingMap.getLayer3();
         blocks = workingMap.getBlocks();
-        //mapBody = new EditorPanel(layer1, layer2, layer3, blocks, objects);
+        //mapBody = new EditorPanel(layer1, layer2, layer3, blocks, objectsOnMap);
         mapBody.setLayer1Tiles(layer1);
         mapBody.setLayer2Tiles(layer2);
         mapBody.setLayer3Tiles(layer3);
@@ -495,13 +496,14 @@ public class iMap extends JPanel implements iListableObject{
             } else if (currentTool == OBJECTTOOL){
                 int tileNumber = getTileNumber(e.getX(), e.getY());
                 obj.setLocation(e.getX(), e.getY());
+                objectsOnMap.add(obj);
                 //ImageIcon icon = obj.getMainSprite();
-                ImageIcon icon = new ImageIcon(obj.getImagePath());
-                JLabel labelForImage = new JLabel(icon);
+                //ImageIcon icon = new ImageIcon(obj.getImagePath());
+                //JLabel labelForImage = new JLabel(icon);
                 
-                labelForImage.setBounds(e.getX(), e.getY(), 32, 32);
-                objectPanel.add(labelForImage);
-                objectPanel.repaint();
+                //labelForImage.setBounds(e.getX(), e.getY(), 32, 32);
+                //objectPanel.add(labelForImage);
+                //objectPanel.repaint();
                 
             }
             mapBody.repaint();

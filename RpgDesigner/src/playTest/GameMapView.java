@@ -23,6 +23,7 @@ public class GameMapView extends BasicGame{
     Image layer2;
     Image layer3;
     List<Block> currentMapBlocks;
+    List<Object> objectsOnMap;
     SpriteSheet sheet;
     Animation up, left,down, right, spriteAnimation;
     
@@ -54,6 +55,7 @@ public class GameMapView extends BasicGame{
         }
         setUpSprite(); 
         currentMapBlocks = workingMap.getBlocks();
+        objectsOnMap = workingMap.getObjectsOnMap();
     }
 
     private void setUpSprite() throws SlickException {
@@ -120,6 +122,12 @@ public class GameMapView extends BasicGame{
         layer2.draw(0,0);
         //render actor image
         spriteAnimation.draw(actor1.getLocX(), actor1.getLocY());
+        for (int i =1 ; i<objectsOnMap.size();i++)
+        {
+            Object o = objectsOnMap.get(i);
+            Actor a = (Actor)o;
+            a.getMainSlickSprite().draw(a.getLocX(), a.getLocY());
+        }
         
         //render 3rd layer
         layer3.draw(0,0);

@@ -22,6 +22,7 @@ public class Map {
     private List<Tile> layer3 = new ArrayList();
     private List<Block> blocks = new ArrayList();
     private List<Event> events = new ArrayList();
+    private List<Object> objectsOnMap = new ArrayList();
     
     public Map(File mapZip) {
 
@@ -104,6 +105,27 @@ public class Map {
         int tileNumber = getTileNumber(x, y);
         if(blocks.get(tileNumber).getIsBlocked())
             return true;
+        return false;
+    }
+    
+    public List<Object> getObjectsOnMap(){
+        return this.objectsOnMap;
+    }
+    
+    public void setObjects(List<Object> objectsOnMap){
+        this.objectsOnMap = objectsOnMap;
+    }
+    
+    public Object checkForObject(int x, int y)
+    {
+        for (Object o: objectsOnMap)
+        {
+            Actor a = (Actor)o;
+            if(a.getLocX()==x&&a.getLocY()==y)
+            {
+                return a;
+            }
+        }
         return false;
     }
     

@@ -7,6 +7,12 @@ package rpgdesigner;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import javax.imageio.ImageIO;
 import javax.swing.*;
 
 /**
@@ -21,21 +27,22 @@ public class iItem extends JPanel implements iListableObject{
     Item item;
     String imagePath;
     Boolean invalidInput;
-    JButton btnChangeImage;
-    
+    JButton btnChangeImg;
+    JPanel pWest;
     public iItem(){
         this.setLayout(new BorderLayout());
-        lblImage = new JLabel("No image selected");
-        btnChangeImage = new JButton("Change Image");
+        lblImage = new JLabel("");
+        btnChangeImg = new JButton("Change Image");
+        btnChangeImg.addActionListener(new ItemListener());
         JLabel lblName = new JLabel("Name");
         tfName = new JTextField(20);
         JPanel pName = new JPanel();
         pName.add(lblName);
         pName.add(tfName);
-        JPanel pWest = new JPanel(new BorderLayout());
-        pWest.add(pName, BorderLayout.SOUTH);
-        pWest.add(btnChangeImage, BorderLayout.CENTER);
-        pWest.add(lblImage, BorderLayout.NORTH);
+        pWest = new JPanel(new BorderLayout());
+        pWest.add(pName, BorderLayout.NORTH);
+        pWest.add(btnChangeImg, BorderLayout.SOUTH);
+        pWest.add(lblImage, BorderLayout.CENTER);
         this.add(pWest, BorderLayout.WEST);
         
         JPanel pCenter =  new JPanel();
@@ -150,4 +157,43 @@ public class iItem extends JPanel implements iListableObject{
         }
     }
     
+    private class ItemListener implements ActionListener
+    {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            if (e.getSource() == btnChangeImg) {
+                
+                JFileChooser fcImage = new JFileChooser();
+                int returnVal = fcImage.showOpenDialog(iItem.this);
+
+                if (returnVal == JFileChooser.APPROVE_OPTION) {
+                    File file = fcImage.getSelectedFile();
+                    //This is where a real application would open the file.
+                    imagePath = file.getPath();
+                    BufferedImage myPicture;
+                    try {
+                        myPicture = ImageIO.read(new File(imagePath));
+                        pWest.remove(lblImage);
+                        lblImage = new JLabel(new ImageIcon( myPicture ));
+                        pWest.add(lblImage, BorderLayout.NORTH);
+                        //image.setPreferredSize(new Dimension(10,10));
+                        //pImage.add(image,BorderLayout.NORTH);
+                        
+                        //iItem.this.pack();
+                    } catch (IOException ex) {
+                        System.out.println(ex.toString());
+                    }
+
+
+                } else {
+                    System.out.println("Open command cancelled by user." );
+                }
+        }
+
+    }
+    
 }
+}
+
+

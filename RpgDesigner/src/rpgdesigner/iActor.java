@@ -145,7 +145,8 @@ public class iActor extends JPanel implements iListableObject{
         add(pImage, BorderLayout.WEST);
         btnChangeImg.addActionListener(new iActorListener());
         //Create a file chooser for the image
-        fcImage = new JFileChooser();
+        String dir = System.getProperty("user.dir");
+        fcImage = new JFileChooser(dir+"/Resources/Sprites");
 
         if (actor.getSkillsList() == null)
             skills = new DefaultListModel();            
@@ -375,7 +376,6 @@ public class iActor extends JPanel implements iListableObject{
 
                 if (returnVal == JFileChooser.APPROVE_OPTION) {
                     File file = fcImage.getSelectedFile();
-                    //This is where a real application would open the file.
                     imagePath = file.getPath();
                     BufferedImage myPicture;
                     try {

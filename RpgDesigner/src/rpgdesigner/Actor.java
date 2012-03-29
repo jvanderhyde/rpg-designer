@@ -3,9 +3,15 @@
  * and open the template in the editor.
  */
 package rpgdesigner;
+import java.awt.Image;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.imageio.ImageIO;
 import javax.swing.DefaultListModel;
-import org.newdawn.slick.Image;
+//import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.SpriteSheet;
 /**
@@ -93,11 +99,26 @@ public class Actor {
         return name;
     }
     
-    public Image getMainSprite() throws SlickException
+    public Image getMainSprite() 
     {
-        Image sheetImage = new Image(getImagePath());
-        SpriteSheet sheet = new SpriteSheet(sheetImage, 32, 32);
-        return sheet.getSprite(0, 0);
+        BufferedImage sheetImage=null;
+        try {
+            sheetImage = ImageIO.read(new File(this.imagePath));
+        } catch (IOException ex) {
+            Logger.getLogger(iMap.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return sheetImage.getSubimage(32, 0, 32, 32);
+//        SpriteSheet sheet = new SpriteSheet(sheetImage, 32, 32);
+//        return sheet.getSprite(0, 0);
+    }
+    public org.newdawn.slick.Image getMainSlickSprite() throws SlickException 
+    {
+        org.newdawn.slick.Image sheetImage=null;
+        sheetImage = new org.newdawn.slick.Image(imagePath);
+        
+        return sheetImage.getSubImage(32, 0, 32, 32);
+//        SpriteSheet sheet = new SpriteSheet(sheetImage, 32, 32);
+//        return sheet.getSprite(0, 0);
     }
     
     public SpriteSheet getSpriteSheet()

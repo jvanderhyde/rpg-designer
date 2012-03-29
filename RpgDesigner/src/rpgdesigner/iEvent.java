@@ -6,6 +6,7 @@ package rpgdesigner;
 
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
@@ -40,7 +41,9 @@ public class iEvent extends JPanel implements iListableObject
     private List<Object> actorList;
     private JLabel reqItemImg, npcImg;
     private String actorImgPath, itemImgPath;
-    private JPanel pImages;
+    JPanel pNPC ;
+        JPanel pItem ;
+    //private JPanel pImages;
     private boolean invalidInput;
     
     @Override
@@ -53,10 +56,21 @@ public class iEvent extends JPanel implements iListableObject
         invalidInput = false;
         event = new Event();
         setObject(event);
-        tfName.setText("Enter name...");
+        tfName.setColumns(20);
+        //tfName.setText("Enter name...");
         rbOnActionKey.setSelected(true);
         listModelActions.removeAllElements();
-        pImages.removeAll();
+        
+        //reset images
+        npcImg = new JLabel();
+        pItem.remove(reqItemImg);
+        pNPC.remove(npcImg);
+        reqItemImg = new JLabel();
+        npcImg.setPreferredSize(new Dimension(75,75));
+        reqItemImg.setPreferredSize(new Dimension(75,75));
+        pItem.add(reqItemImg, BorderLayout.NORTH);
+        pNPC.add(npcImg, BorderLayout.NORTH);
+        //pImages.removeAll();
         
     }
     
@@ -87,11 +101,20 @@ public class iEvent extends JPanel implements iListableObject
         pButtons.add(btnRequiredItem);
         pButtons.add(btnNPC);
         //pButtons.add(cbCommandType);
-        pImages = new JPanel();
-        npcImg = new JLabel("NPC");
-        reqItemImg = new JLabel("Item");
-        pImages.add(reqItemImg);
-        pImages.add(npcImg);
+        pNPC = new JPanel(new BorderLayout());
+        pItem = new JPanel(new BorderLayout());
+        //pImages = new JPanel(new BorderLayout());
+        npcImg = new JLabel();
+        pNPC.add(npcImg, BorderLayout.NORTH);
+        pNPC.add(btnNPC, BorderLayout.SOUTH);
+        reqItemImg = new JLabel();
+        npcImg.setPreferredSize(new Dimension(75,75));
+        reqItemImg.setPreferredSize(new Dimension(75,75));
+        
+        pItem.add(reqItemImg, BorderLayout.NORTH);
+        pItem.add(btnRequiredItem, BorderLayout.SOUTH);
+        //pImages.add(reqItemImg, BorderLayout.WEST);
+        //pImages.add(npcImg, BorderLayout.EAST);
         
         JPanel pRBs = new JPanel();
         pRBs.add(rbOnActionKey);
@@ -100,8 +123,8 @@ public class iEvent extends JPanel implements iListableObject
         bg.add(rbOnActionKey);
         bg.add(rbOnTouch);
         JPanel pCenter = new JPanel(new BorderLayout());
-        pCenter.add(pButtons, BorderLayout.NORTH);
-        pCenter.add(pImages, BorderLayout.CENTER);
+        pCenter.add(pItem, BorderLayout.WEST);
+        pCenter.add(pNPC, BorderLayout.EAST);
         pCenter.add(pRBs, BorderLayout.SOUTH);
         JPanel pSettings = new JPanel(new BorderLayout());
         pSettings.add(pCenter, BorderLayout.CENTER);
@@ -112,7 +135,6 @@ public class iEvent extends JPanel implements iListableObject
         pName.add(new JLabel("Name: "));
         pName.add(tfName);
         pWest.add(pName, BorderLayout.NORTH);
-        pWest.add(new JLabel("image goes here"), BorderLayout.SOUTH);
         pSettings.add(pWest, BorderLayout.WEST);
         //pSettings.add(cbCommandType, BorderLayout.EAST);
         
@@ -313,17 +335,19 @@ public class iEvent extends JPanel implements iListableObject
             BufferedImage myPicture;
             try {
                 myPicture = ImageIO.read(new File(actorImgPath));
-                pImages.removeAll();
+                pNPC.remove(npcImg);
                 npcImg = new JLabel(new ImageIcon( myPicture ));
                 //image.setPreferredSize(new Dimension(10,10));
                 //pImage.add(image,BorderLayout.NORTH);
-                pImages.add(reqItemImg);
-                pImages.add(npcImg);
+                
+                npcImg.setPreferredSize(new Dimension(75,75));
+                pNPC.add(npcImg, BorderLayout.NORTH);
+//                pImages.add(reqItemImg);
+//                pImages.add(npcImg);
                 mainFrame.pack();
             } catch (IOException ex) {
                 System.out.println(ex.toString());
             }
-                
             }
         }
         

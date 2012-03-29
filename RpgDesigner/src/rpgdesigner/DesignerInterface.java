@@ -50,6 +50,7 @@ public class DesignerInterface {
             }
         
             frame = new JFrame ("RPG Designer");
+            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             BufferedImage logo = ImageIO.read(new File("Resources/logo.png"));
             frame.setIconImage(logo);
             game = new Game();

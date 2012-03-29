@@ -70,6 +70,12 @@ public class EditorPanel extends JPanel{
                 i++;
             }
         }
+        
+        for (int j = 0; j<objectList.size(); j++)
+        {
+            Actor a = (Actor)objectList.get(j);
+            g.drawImage(a.getMainSprite(), (int)a.getLocX(), (int)a.getLocY(), null);
+        }
          
         //This section is not ready yet
 //        for(int i=0; i<eventList.size(); i++) {
