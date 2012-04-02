@@ -115,7 +115,7 @@ public class iSettings extends JPanel{
         actorsPanel2.add(new JLabel("Actor 2: "));
         actorsPanel2.add(cbStartingActor2);
         actorsPanel3.add(new JLabel("Actor 3: "));
-        actorsPanel3.add(cbStartingActor1);
+        actorsPanel3.add(cbStartingActor3);
         possePanel.add(actorsPanel1);
         possePanel.add(actorsPanel2);
         possePanel.add(actorsPanel3);
