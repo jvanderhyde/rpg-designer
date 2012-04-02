@@ -1,0 +1,131 @@
+package rpgdesigner;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ *
+ * @author james
+ * 
+ * This class is responsible holding all of the data for a game, as well as loading
+ * and saving it into a project format.  
+ */
+public class Game {
+    private String gameName;
+    private String description;
+    private String author;
+    private boolean isSaveAnywhere;
+    private Event loseEvent;
+    private Event winEvent;
+    private Map startMap;
+    private int startPositionX;
+    private int startPositionY;
+    private Posse startPosse;
+    List<Object> eventList = new ArrayList();
+    List<Object> mapList = new ArrayList();
+    List<Object> actorList = new ArrayList();
+    List<Object> itemList = new ArrayList();
+    //This class works for creating a new game project
+    public Game() {
+        eventList.add(new Event());
+    }
+    
+    //This class works for loading an already created project
+    public Game(File savedProject) {
+        //TODO: Not yet implemented
+    }
+    
+    public void saveProject() {
+        //TODO: Not yet implemented
+    }
+    
+    //These are the getters for the game class variables
+    public String getGameName() {
+        return gameName;
+    }
+    
+    public String getDescription() {
+        return description;
+    }
+    
+    public String getAuthor() {
+        return author;
+    }
+    
+    public boolean getIsSaveAnywhere() {
+        return isSaveAnywhere; 
+    }
+    
+    public Event getLoseEvent() {
+        return loseEvent;
+    }
+    
+    public Event getWinEvent() {
+        return winEvent;
+    }
+    
+    //These are the setters for the Game class variables
+    public void setGameName(String name) {
+        gameName = name;
+    }
+    
+    public void setDescription(String desc) {
+        description = desc;
+    }
+    
+    public void setAuthor(String auth) {
+        author = auth;
+    }
+    
+    public void setIsSaveAnywhere(boolean isSave) {
+        isSaveAnywhere = isSave;
+    }
+    
+    public void setWinEvent(Event toWinEvent) {
+        winEvent = toWinEvent;
+    }
+    
+    public void setLoseEvent(Event toLoseEvent) {
+        loseEvent = toLoseEvent;
+    }
+    
+    public void setStartMap(Map m) {
+        this.startMap = m;
+    }
+    
+    public void setStartPosition(String x, String y) {
+        this.startPositionX = Integer.parseInt(x);
+        this.startPositionY = Integer.parseInt(y);
+    }
+    
+    public void setStartPosse(List<Actor> actors) {
+        for(Actor a : actors) {
+            this.startPosse.addActor(a);
+        }
+    }
+
+    public List<Object> getMapList() {
+        return this.mapList;
+    }
+    
+    public List<Object> getActorList(){
+        return actorList;
+    }
+    
+    public Map getStartMap() {
+        return this.startMap;
+    }
+    
+    public String getStartPositionX() {
+        return String.valueOf(startPositionX);
+    }
+    
+    public String getStartPositionY() {
+        return String.valueOf(startPositionY);
+    }
+    
+    public Posse getStartPosse() {
+        return this.startPosse;
+    }
+}
