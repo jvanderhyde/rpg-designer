@@ -27,11 +27,13 @@ public class Actor implements MapObject{
     private int type;
     private DefaultListModel skills;
     private int tileX, tileY;
+    private Direction directionOfMovement;
     
+    public enum Direction{UP, DOWN, LEFT, RIGHT, NONE}   
     public Actor()
     {
         name="";
-        
+        this.directionOfMovement= Direction.NONE;
     }
     
     @Override
@@ -85,6 +87,35 @@ public class Actor implements MapObject{
     {
         locX+=x;
         locY+=y;
+        
+    }
+    
+    public void setDirection(Direction d)
+    {
+        directionOfMovement = d;
+        switch (directionOfMovement){
+            case UP:
+                if(((int)locY)%32==0)
+                    directionOfMovement = Direction.NONE;
+                break;
+            case DOWN:
+                if(((int)locY)%32==0)
+                    directionOfMovement = Direction.NONE;
+                break;
+            case LEFT:
+                if(((int)locX)%32==0)
+                    directionOfMovement = Direction.NONE;
+                break;
+            case RIGHT:
+                if(((int)locX)%32==0)
+                    directionOfMovement = Direction.NONE;
+                break;
+        }
+    }
+    
+    public Direction getDirection()
+    {
+        return directionOfMovement;
     }
     
     public String getImagePath()
