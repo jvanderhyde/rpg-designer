@@ -95,19 +95,19 @@ public class Actor implements MapObject{
         directionOfMovement = d;
         switch (directionOfMovement){
             case UP:
-                if(((int)locY)%32==0)
+                if(locY%32<1.3||locY%32>30.7)
                     directionOfMovement = Direction.NONE;
                 break;
             case DOWN:
-                if(((int)locY)%32==0)
+                if(locY%32<1.3||locY%32>30.7)
                     directionOfMovement = Direction.NONE;
                 break;
             case LEFT:
-                if(((int)locX)%32==0)
+                if(locX%32<1.3||locX%32>30.7)
                     directionOfMovement = Direction.NONE;
                 break;
             case RIGHT:
-                if(((int)locX)%32==0)
+                if(locX%32<1.3||locX%32>30.7)
                     directionOfMovement = Direction.NONE;
                 break;
         }
