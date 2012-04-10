@@ -10,9 +10,9 @@ import javax.swing.DefaultListModel;
 public class Event {
     private String name;
     //private Item key;
-    Image icon;
-    Boolean onActionKey;
-    DefaultListModel eventListModel;
+    private Image icon;
+    private Boolean onActionKey;
+    private DefaultListModel eventListModel;
     //ArrayList<command> actions;
     public Event() {
         name ="";

@@ -26,7 +26,6 @@ public class Actor {
     private String imagePath;
     private int type;
     private DefaultListModel skills;
-    private int tileX, tileY;
     
     public Actor()
     {
@@ -38,12 +37,6 @@ public class Actor {
     {
         locX=x;
         locY=y;
-    }
-    
-    public void setTile(int x, int y)
-    {
-        tileX = x;
-        tileY = y;
     }
     
     public float getLocX()
