@@ -22,7 +22,7 @@ public class Map {
     private List<Tile> layer3 = new ArrayList();
     private List<Block> blocks = new ArrayList();
     private List<Event> events = new ArrayList();
-    private List<Object> objectsOnMap = new ArrayList();
+    private List<MapObject> objectsOnMap = new ArrayList();
     
     public Map(File mapZip) {
 
@@ -108,11 +108,11 @@ public class Map {
         return false;
     }
     
-    public List<Object> getObjectsOnMap(){
+    public List<MapObject> getObjectsOnMap(){
         return this.objectsOnMap;
     }
     
-    public void setObjects(List<Object> objectsOnMap){
+    public void setObjects(List<MapObject> objectsOnMap){
         this.objectsOnMap = objectsOnMap;
     }
     

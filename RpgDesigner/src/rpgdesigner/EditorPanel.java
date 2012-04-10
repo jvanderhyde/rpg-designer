@@ -20,11 +20,11 @@ public class EditorPanel extends JPanel{
     private List<Tile> layer2Tiles;
     private List<Tile> layer3Tiles;
     private List<Block> blockList;
-    private List<Object> objectList;
+    private List<MapObject> objectList;
     private BufferedImage grid;
     
     public EditorPanel(List<Tile> layer1Tiles, List<Tile> layer2Tiles, List<Tile> layer3Tiles, 
-            List<Block> blockTiles, List<Object> objectList) {
+            List<Block> blockTiles, List<MapObject> objectList) {
         this.layer1Tiles = layer1Tiles;
         this.layer2Tiles = layer2Tiles;
         this.layer3Tiles = layer3Tiles;
@@ -53,7 +53,7 @@ public class EditorPanel extends JPanel{
         this.blockList = blockTiles;
     }
     
-    public void setObjectList(List<Object> objectList) {
+    public void setObjectList(List<MapObject> objectList) {
         this.objectList = objectList;
     }
     
@@ -73,8 +73,8 @@ public class EditorPanel extends JPanel{
         
         for (int j = 0; j<objectList.size(); j++)
         {
-            Actor a = (Actor)objectList.get(j);
-            g.drawImage(a.getMainSprite(), (int)a.getLocX(), (int)a.getLocY(), null);
+            MapObject o = objectList.get(j);
+            g.drawImage(o.getImage(), (int)o.getLocX(), (int)o.getLocY(), null);
         }
          
         //This section is not ready yet

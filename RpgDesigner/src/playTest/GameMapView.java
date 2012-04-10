@@ -10,6 +10,7 @@ import rpgdesigner.Actor;
 import rpgdesigner.Block;
 import rpgdesigner.Game;
 import rpgdesigner.Map;
+import rpgdesigner.MapObject;
 
 /**
  *
@@ -23,7 +24,7 @@ public class GameMapView extends BasicGame{
     Image layer2;
     Image layer3;
     List<Block> currentMapBlocks;
-    List<Object> objectsOnMap;
+    List<MapObject> objectsOnMap;
     SpriteSheet sheet;
     Animation up, left,down, right, spriteAnimation;
     
@@ -84,35 +85,59 @@ public class GameMapView extends BasicGame{
     public void update(GameContainer gc, int delta) throws SlickException {
         //double delta = 1;
         Input input = gc.getInput();
-        if (input.isKeyDown(Input.KEY_UP))
+        if (input.isKeyDown(Input.KEY_UP)||actor1.getDirection()==Actor.Direction.UP)
         {
             spriteAnimation = up;
             spriteAnimation.update(delta);
             if(!currentMapBlocks.get(actor1.getNewLocTile(0, -delta * 0.1d)).getIsBlockedBottom())
+            {
                 actor1.move(0, -delta * 0.1d);
+                actor1.setDirection(Actor.Direction.UP);
+            }
         }
-        else if (input.isKeyDown(Input.KEY_DOWN))
+        else if (input.isKeyDown(Input.KEY_DOWN)||actor1.getDirection()==Actor.Direction.DOWN)
         {
             spriteAnimation = down;
             spriteAnimation.update(delta);
             if(!currentMapBlocks.get(actor1.getNewLocTile(0, delta * 0.1d)).getIsBlockedTop())
+            {
                 actor1.move(0, delta * 0.1d);
+                actor1.setDirection(Actor.Direction.DOWN);
+            }
+                
         }
-        else if (input.isKeyDown(Input.KEY_RIGHT))
+        else if (input.isKeyDown(Input.KEY_RIGHT)||actor1.getDirection()==Actor.Direction.RIGHT)
         {
             spriteAnimation = right;
             spriteAnimation.update(delta);
             if(!currentMapBlocks.get(actor1.getNewLocTile(delta * 0.1d, 0)).getIsBlockedLeft())
+            {
                 actor1.move(delta * 0.1d, 0);
+                actor1.setDirection(Actor.Direction.RIGHT);
+            }
         }
-        else if (input.isKeyDown(Input.KEY_LEFT))
+        else if (input.isKeyDown(Input.KEY_LEFT)||actor1.getDirection()==Actor.Direction.LEFT)
         {
             spriteAnimation = left;
             spriteAnimation.update(delta);
             if(!currentMapBlocks.get(actor1.getNewLocTile(-delta * 0.1d, 0)).getIsBlockedRight())
+            {
                 actor1.move(-delta * 0.1d, 0);
+                actor1.setDirection(Actor.Direction.LEFT);
+            }
         }
         
+    }
+    
+    public void checkForObject()
+    {
+        for (MapObject o: objectsOnMap)
+        {
+            if(o.getLocX()==actor1.getLocX()&&o.getLocY()==actor1.getLocY())
+            {
+                
+            }
+        }
     }
 
     @Override
@@ -124,9 +149,8 @@ public class GameMapView extends BasicGame{
         spriteAnimation.draw(actor1.getLocX(), actor1.getLocY());
         for (int i =1 ; i<objectsOnMap.size();i++)
         {
-            Object o = objectsOnMap.get(i);
-            Actor a = (Actor)o;
-            a.getMainSlickSprite().draw(a.getLocX(), a.getLocY());
+            MapObject o = objectsOnMap.get(i);
+            o.getSlickImage().draw(o.getLocX(), o.getLocY());
         }
         
         //render 3rd layer

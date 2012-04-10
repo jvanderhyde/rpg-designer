@@ -4,16 +4,45 @@
  */
 package rpgdesigner;
 
+import java.awt.Image;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.imageio.ImageIO;
+import org.newdawn.slick.SlickException;
+
 /**
  *
  * @author Fran
  */
-public class Item  {
+public class Item implements MapObject {
     
     String name, imagePath;
+
+    @Override
+    public Image getImage() {
+        BufferedImage image=null;
+        try {
+            image = ImageIO.read(new File(this.imagePath));
+        } catch (IOException ex) {
+            Logger.getLogger(iMap.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return image;
+    }
+
+    @Override
+    public org.newdawn.slick.Image getSlickImage() throws SlickException {
+        org.newdawn.slick.Image image=null;
+        image = new org.newdawn.slick.Image(imagePath);
+        
+        return image;
+    }
     public enum itemType {SUSTENANCE, KEY, EQUIPMENT}
     itemType type;
     int increaseXP, increaseHP, increaseSP;
+    float locX, locY;
     
     @Override
     public String toString(){
@@ -57,6 +86,18 @@ public class Item  {
     
     public itemType getType(){
         return type;
+    }
+    
+    public void setLocation(int x, int y){
+        locX=x;
+        locY=y;
+    }
+    
+    public float getLocX(){
+        return locX;
+    }
+    public float getLocY(){
+        return locY;
     }
 // </editor-fold>
     

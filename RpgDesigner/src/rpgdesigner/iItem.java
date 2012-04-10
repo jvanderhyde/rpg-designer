@@ -163,8 +163,8 @@ public class iItem extends JPanel implements iListableObject{
         @Override
         public void actionPerformed(ActionEvent e) {
             if (e.getSource() == btnChangeImg) {
-                
-                JFileChooser fcImage = new JFileChooser();
+                String dir = System.getProperty("user.dir");
+                JFileChooser fcImage = new JFileChooser(dir+"/Resources/Sprites");
                 int returnVal = fcImage.showOpenDialog(iItem.this);
 
                 if (returnVal == JFileChooser.APPROVE_OPTION) {

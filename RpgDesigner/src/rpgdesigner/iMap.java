@@ -55,8 +55,8 @@ public class iMap extends JPanel implements iListableObject{
     private List<Tile> layer2 = new ArrayList();
     private List<Tile> layer3 = new ArrayList();
     private List<Block> blocks = new ArrayList();
-    private List<Object> objectsOnMap = new ArrayList();
-    private Actor obj =null;
+    private List<MapObject> objectsOnMap = new ArrayList();
+    private MapObject obj =null;
     
     TileViewMouseListener tileViewListener = new TileViewMouseListener();
     private EditorPanel mapBody;
@@ -422,11 +422,23 @@ public class iMap extends JPanel implements iListableObject{
                 //JOptionDialog j = new JOptionDialog();
                 JOptionPane p = new JOptionPane();
                 String[] options = {"Actor","Item","Event"};
-                String objectType = (String)JOptionPane.showInputDialog(frame, "pick an object type", "Add Object", JOptionPane.QUESTION_MESSAGE, null, options, "Actor");
+                String objectType = (String)JOptionPane.showInputDialog(frame, 
+                        "pick an object type", "Add Object", JOptionPane.QUESTION_MESSAGE,
+                        null, options, "Actor");
                 System.out.println(objectType);
                 //Actor selectedObject=null;
                 if(objectType.equals("Actor"))
-                    obj = (Actor)JOptionPane.showInputDialog(frame, "pick an actor", "Add Object", JOptionPane.QUESTION_MESSAGE, null, game.actorList.toArray(), null);
+                    obj = (Actor)JOptionPane.showInputDialog(frame, "pick an actor", 
+                            "Add Object", JOptionPane.QUESTION_MESSAGE, null, 
+                            game.actorList.toArray(), null);
+                else if(objectType.equals("Item"))
+                    obj = (Item)JOptionPane.showInputDialog(frame, "pick an item", 
+                            "Add Object", JOptionPane.QUESTION_MESSAGE, null, 
+                            game.itemList.toArray(), null);
+                else if(objectType.equals("Event"))
+                    obj = (Event)JOptionPane.showInputDialog(frame, "pick an event", 
+                            "Add Object", JOptionPane.QUESTION_MESSAGE, null, 
+                            game.eventList.toArray(), null);
                 //Object value = new Object();
                 currentTool = OBJECTTOOL;
                 lblAddObject.setText("Click the map to add "+ obj);
