@@ -18,7 +18,7 @@ import org.newdawn.slick.SpriteSheet;
  *
  * @author Fran
  */
-public class Actor {
+public class Actor implements MapObject{
     private String name;
     private int begHP, increaseHP,  increaseXP, begSP, increaseSP;
     private SpriteSheet spriteSheet;
@@ -26,24 +26,36 @@ public class Actor {
     private String imagePath;
     private int type;
     private DefaultListModel skills;
+    private int tileX, tileY;
+    private Direction directionOfMovement;
     
+    public enum Direction{UP, DOWN, LEFT, RIGHT, NONE}   
     public Actor()
     {
         name="";
-        
+        this.directionOfMovement= Direction.NONE;
     }
     
+    @Override
     public void setLocation(int x, int y)
     {
         locX=x;
         locY=y;
     }
     
+    public void setTile(int x, int y)
+    {
+        tileX = x;
+        tileY = y;
+    }
+    
+    @Override
     public float getLocX()
     {
         return locX;
     }
     
+    @Override
     public float getLocY()
     {
         return locY;
@@ -75,6 +87,35 @@ public class Actor {
     {
         locX+=x;
         locY+=y;
+        
+    }
+    
+    public void setDirection(Direction d)
+    {
+        directionOfMovement = d;
+        switch (directionOfMovement){
+            case UP:
+                if(locY%32<1.3||locY%32>30.7)
+                    directionOfMovement = Direction.NONE;
+                break;
+            case DOWN:
+                if(locY%32<1.3||locY%32>30.7)
+                    directionOfMovement = Direction.NONE;
+                break;
+            case LEFT:
+                if(locX%32<1.3||locX%32>30.7)
+                    directionOfMovement = Direction.NONE;
+                break;
+            case RIGHT:
+                if(locX%32<1.3||locX%32>30.7)
+                    directionOfMovement = Direction.NONE;
+                break;
+        }
+    }
+    
+    public Direction getDirection()
+    {
+        return directionOfMovement;
     }
     
     public String getImagePath()
@@ -104,7 +145,8 @@ public class Actor {
 //        SpriteSheet sheet = new SpriteSheet(sheetImage, 32, 32);
 //        return sheet.getSprite(0, 0);
     }
-    public org.newdawn.slick.Image getMainSlickSprite() throws SlickException 
+    @Override
+    public org.newdawn.slick.Image getSlickImage() throws SlickException 
     {
         org.newdawn.slick.Image sheetImage=null;
         sheetImage = new org.newdawn.slick.Image(imagePath);
@@ -202,6 +244,11 @@ public class Actor {
     public int getType()
     {
         return type;
+    }
+
+    @Override
+    public Image getImage() {
+        return getMainSprite();
     }
     
 }

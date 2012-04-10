@@ -164,6 +164,8 @@ public class Game {
             xpEffect.appendChild(Integer.toString(it.getIncreaseXP()));
             item.appendChild(xpEffect);
             
+            //TODO implement location
+            
             items.appendChild(item);
         }
         
