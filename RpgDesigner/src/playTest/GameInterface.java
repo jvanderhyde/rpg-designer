@@ -5,9 +5,11 @@
 package playTest;
 
 import java.awt.Dimension;
+import java.awt.Frame;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
+import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.CanvasGameContainer;
 import org.newdawn.slick.SlickException;
 import rpgdesigner.Game;
@@ -19,32 +21,17 @@ import rpgdesigner.Game;
 public class GameInterface {
 
     public GameInterface(Game game) throws SlickException {
-        JFrame gameFrame = new JFrame(game.getGameName());
-        gameFrame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-        CanvasGameContainer slickGame = new CanvasGameContainer(new GameMapView(game));
-        slickGame.setPreferredSize(new Dimension(1146, 750));
-        gameFrame.setSize(new Dimension(1146, 750));
-        gameFrame.getContentPane().add(slickGame);
-        gameFrame.setVisible(true);
-        gameFrame.repaint();
-        gameFrame.pack();
+        AppGameContainer slickGame = new AppGameContainer(new GameMapView(game));
+        slickGame.setDisplayMode(1146, 750, false);
         slickGame.start();
-        slickGame.getContainer().setAlwaysRender(true);
-        gameFrame.repaint();
-        gameFrame.pack();
     }
     
     public static void main(final Game game) { 
-        javax.swing.SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    GameInterface di = new GameInterface(game);
-                } catch (SlickException ex) {
-                    Logger.getLogger(GameInterface.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-        });
+        try {
+            GameInterface di = new GameInterface(game);
+        } catch (SlickException ex) {
+            Logger.getLogger(GameInterface.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
 }

@@ -503,7 +503,7 @@ public class iMap extends JPanel implements iListableObject{
                 }
             } else if (currentTool == OBJECTTOOL){
                 obj.setLocation(e.getX(), e.getY());
-                obj.setTile(tileNumber);
+                obj.setTile(getTileNumber(e.getX(), e.getY()));
                 objectsOnMap.add(obj);
                 //ImageIcon icon = obj.getMainSprite();
                 //ImageIcon icon = new ImageIcon(obj.getImagePath());
