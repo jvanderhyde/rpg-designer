@@ -14,42 +14,53 @@ import org.newdawn.slick.SlickException;
  * @author james
  */
 public class Tile {
-    //private SpriteSheet tileset; I am going to not use this anymore
-    private int id;
-    private Event event;
     private BufferedImage tileImage;
     private String tilesetName;
-    
-    public Tile(String tileset, int id, Event event) {
-        //this.tileset = tileset;
-        this.id = id;
-        this.event = event;
-    }
+    private int tilesetX;
+    private int tilesetY;
     
     public Tile() {
         
+    }
+    
+    public Tile(BufferedImage tileImage, String tilesetName, int tilesetx, int tilesety) {
+        this.tileImage = tileImage;
+        this.tilesetName = tilesetName;
+        this.tilesetX = tilesetx;
+        this.tilesetY = tilesety;
     }
     
     public void setTilesetName(String tileset) {
         this.tilesetName = tileset;
     }
     
-    public void setEvent(Event event) {
-        this.event = event;
+    public void setTilesetNumber(int number) {
+        
     }
     
-    public void setImage(BufferedImage image) {
+    public void setImage(BufferedImage image, String tilesetName, int tilesetx, int tilesety) {
         this.tileImage = image;
+        if(tilesetName != null)
+            this.tilesetName = tilesetName;
+        else
+            this.tilesetName = "null";
+        this.tilesetX = tilesetx;
+        this.tilesetY = tilesety;
+        
     }
     
     public String getTilesetName() {
         return this.tilesetName;
     }
-
-    public Event getEvent() {
-        return this.event;
+    
+    public int getTilesetX() {
+        return this.tilesetX;
     }
     
+    public int getTilesetY() {
+        return this.tilesetY;
+    }
+  
     public java.awt.Image getTileImage() {
         return this.tileImage;
     }

@@ -14,6 +14,7 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import org.newdawn.slick.SlickException;
 import playTest.GameInterface;
 import rpgdesigner.iObjectList.ObjectType;
 
@@ -170,9 +171,14 @@ public class DesignerInterface {
                             "Cannot Continue", JOptionPane.ERROR_MESSAGE);
                 else if (game.actorList.isEmpty())
                     JOptionPane.showMessageDialog(frame, "You must have at least 1 actor to playtest", 
-                            "Cannot Continue", JOptionPane.ERROR_MESSAGE); 
-                else
-                    GameInterface.main(game);
+                            "Cannot Continue", JOptionPane.ERROR_MESSAGE);    
+                else {
+                    try {
+                        GameInterface playtest = new GameInterface(game);
+                    } catch (SlickException ex) {
+                        Logger.getLogger(DesignerInterface.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
             } else if(e.getActionCommand().equals("exit")) {
                 System.exit(0);
             } else if(e.getActionCommand().equals("license")) {

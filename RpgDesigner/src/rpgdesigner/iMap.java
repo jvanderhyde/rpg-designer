@@ -50,7 +50,7 @@ public class iMap extends JPanel implements iListableObject{
     
     private Map workingMap;
     private BufferedImage currentTileset;
-    private BufferedImage currentTile;
+    private Tile currentTile;
     private List<Tile> layer1 = new ArrayList();
     private List<Tile> layer2 = new ArrayList();
     private List<Tile> layer3 = new ArrayList();
@@ -458,36 +458,32 @@ public class iMap extends JPanel implements iListableObject{
         public void mousePressed(MouseEvent e) {
             if(currentTool == PLACETOOL) {
                     int tileNumber = getTileNumber(e.getX(), e.getY());
-                    Tile newTile = new Tile();
-                    newTile.setImage(currentTile);
                     if(btnLayer1.isSelected()) {
-                        layer1.set(tileNumber, newTile);
+                        layer1.set(tileNumber, currentTile);
                         mapBody.setLayer1Tiles(layer1);
                     }
                     else if(btnLayer2.isSelected()) {
-                        layer2.set(tileNumber, newTile);
+                        layer2.set(tileNumber, currentTile);
                         mapBody.setLayer2Tiles(layer2);
                     }
                     else {
-                        layer3.set(tileNumber, newTile);
+                        layer3.set(tileNumber, currentTile);
                         mapBody.setLayer3Tiles(layer3);
                     }
             }else if(currentTool == FILLTOOL){
-                    Tile newTile = new Tile();
-                    newTile.setImage(currentTile);
                     if(btnLayer1.isSelected()) {
                         for(int i=0; i < layer1.size(); i++)
-                            layer1.set(i, newTile);
+                            layer1.set(i, currentTile);
                         mapBody.setLayer1Tiles(layer1);
                     }
                     else if(btnLayer2.isSelected()) {
                         for(int i=0; i < layer2.size(); i++)
-                            layer2.set(i, newTile);
+                            layer2.set(i, currentTile);
                         mapBody.setLayer1Tiles(layer2);
                     }
                     else {
                         for(int i=0; i < layer3.size(); i++)
-                            layer3.set(i, newTile);
+                            layer3.set(i, currentTile);
                         mapBody.setLayer1Tiles(layer3);
                     }
             } else if(currentTool == ERASETOOL) {
@@ -506,7 +502,6 @@ public class iMap extends JPanel implements iListableObject{
                     mapBody.setBlockList(blocks);
                 }
             } else if (currentTool == OBJECTTOOL){
-                int tileNumber = getTileNumber(e.getX(), e.getY());
                 obj.setLocation(e.getX(), e.getY());
                 obj.setTile(tileNumber);
                 objectsOnMap.add(obj);
@@ -590,7 +585,8 @@ public class iMap extends JPanel implements iListableObject{
         public void mousePressed(MouseEvent e) {
             int xTile = e.getX()/32;
             int yTile = e.getY()/32;
-            currentTile = currentTileset.getSubimage(xTile*32, yTile*32, 32, 32);
+            BufferedImage tileImage = currentTileset.getSubimage(xTile*32, yTile*32, 32, 32);
+            currentTile = new Tile(tileImage, currentTileset.toString(), xTile*32, yTile*32);
             tileView.setSelecter(xTile*32, yTile*32);
             tileView.repaint();
             tilesetScroll.repaint();

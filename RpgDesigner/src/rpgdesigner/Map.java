@@ -39,12 +39,12 @@ public class Map {
         BufferedImage blankImageWithTransparency = new BufferedImage(32,32,BufferedImage.TYPE_INT_ARGB);
         for(int i=0; i<2500; i++){
             Tile tileToAdd = new Tile();
-            tileToAdd.setImage(blankImage);
+            tileToAdd.setImage(blankImage, null, -1, -1);
             layer1.add(tileToAdd);
         }
         for(int i=0; i<2500; i++){
             Tile tileToAdd = new Tile();
-            tileToAdd.setImage(blankImageWithTransparency);
+            tileToAdd.setImage(blankImageWithTransparency, null, -1, -1);
             layer2.add(tileToAdd);
             layer3.add(tileToAdd);
         }
