@@ -254,7 +254,7 @@ public class iEvent extends JPanel implements iListableObject
                     if (NPCEventsList.getSelectedValue().equals("Speech"))
                     {
                         String inputValue;
-                        a = new Action(Action.Category.CATEGORY_NPC, Action.Type.ACTION_SPEECH);
+                        a = new Action(Action.Category.NPC, Action.Type.SPEECH);
                         inputValue = JOptionPane.showInputDialog("What should the NPC say?"); 
                         a.setSetting(inputValue);
                         a.setDisplayedValue("Say "+inputValue);
@@ -262,8 +262,8 @@ public class iEvent extends JPanel implements iListableObject
                     }
                     else if (NPCEventsList.getSelectedValue().equals("Move"))
                     {
-                        iActionDialog ied = new iActionDialog(mainFrame,Action.Category.CATEGORY_NPC,
-                                Action.Type.ACTION_MOVE_NPC);
+                        iActionDialog ied = new iActionDialog(mainFrame,Action.Category.NPC,
+                                Action.Type.MOVE_NPC);
                         a = ied.getValue();
                         if (a!=(rpgdesigner.Action)null)
                             listModelActions.addElement(a);
@@ -273,8 +273,8 @@ public class iEvent extends JPanel implements iListableObject
                 else if (e.getSource()==possyEventsList)
                     if (possyEventsList.getSelectedValue().equals("Move"))
                     {
-                        iActionDialog ied = new iActionDialog(mainFrame,Action.Category.CATEGORY_POSSY,
-                                Action.Type.ACTION_MOVE);
+                        iActionDialog ied = new iActionDialog(mainFrame,Action.Category.POSSY,
+                                Action.Type.MOVE);
                         a = ied.getValue();
                         if (a!=(rpgdesigner.Action)null)
                             listModelActions.addElement(a);

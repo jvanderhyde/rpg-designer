@@ -11,27 +11,27 @@ package rpgdesigner;
  * game engine as well as better organize the events.  It should be pretty straight
  * forward.  To set the correct settings for type and action on the events, use the 
  * actual Action object.  So for an NPC speech you can do: 
- * Action action1 = new Action(action1.TYPE_NPC, action1.ACTION_SPEECH);
+ * Action action1 = new Action(action1.TYPE_NPC, action1.SPEECH);
  */
 public class Action {
     
     
     
     public enum Category{
-		CATEGORY_POSSY, CATEGORY_ENVIRONMENT,CATEGORY_NPC
+		POSSY, ENVIRONMENT,NPC
 	}
     
     //The following are the different types of actions
     public enum Type{
         //Possy Actions
-        ACTION_BATTLE,ACTION_MOVE ,ACTION_ADDCHARACTER , ACTION_REMOVECHARACTER,
-        ACTION_WARP , ACTION_GIVEITEM ,ACTION_TAKEITEM ,ACTION_GIVESKILL, 
-        ACTION_TAKESKILL , 
+        BATTLE,MOVE ,ADDCHARACTER , REMOVECHARACTER,
+        WARP , GIVEITEM ,TAKEITEM ,GIVESKILL, 
+        TAKESKILL , 
         //Evironment Actions
-        ACTION_CHANGEMUSIC ,
+        CHANGEMUSIC ,
         //NPC Actions
-        ACTION_MOVE_NPC ,ACTION_SHOP ,
-        ACTION_SPEECH 
+        MOVE_NPC ,SHOP ,
+        SPEECH 
     }
     private Category category;
     private Type type;

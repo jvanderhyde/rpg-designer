@@ -148,8 +148,8 @@ public class GameMapView extends BasicGame{
                     for (int i = 0; i < list.length; i++)
                     {
                         Action a = (Action)list[i];
-                        if (a.getCategory()== Action.Category.CATEGORY_NPC)
-                            if (a.getType() == Action.Type.ACTION_SPEECH)
+                        if (a.getCategory()== Action.Category.NPC)
+                            if (a.getType() == Action.Type.SPEECH)
                                 System.out.println(a.getSetting());
                     }
                 }

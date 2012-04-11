@@ -34,7 +34,7 @@ public class iActionDialog extends JDialog
         category = c;
         mainFrame = frame;
         value=new Action(c,t);
-        if (type == Action.Type.ACTION_MOVE_NPC || type == Action.Type.ACTION_MOVE)
+        if (type == Action.Type.MOVE_NPC || type == Action.Type.MOVE)
         {
             this.setLayout(new BorderLayout());
             JPanel pDirections = new JPanel();
@@ -91,7 +91,7 @@ public class iActionDialog extends JDialog
             if (e.getSource()==btnOk)
             {
                 //if category is move...
-                if (type == Action.Type.ACTION_MOVE_NPC || type == Action.Type.ACTION_MOVE )
+                if (type == Action.Type.MOVE_NPC || type == Action.Type.MOVE )
                 {
                     value.setValue(getFieldInt(tfDistance));
                     if (rbUp.isSelected())
@@ -102,9 +102,9 @@ public class iActionDialog extends JDialog
                         value.setSetting("left");
                     else if (rbRight.isSelected())
                         value.setSetting("right");
-                    if (type == Action.Type.ACTION_MOVE_NPC  )
+                    if (type == Action.Type.MOVE_NPC  )
                         value.setDisplayedValue("NPC move "+ value.getSetting() + " "+ tfDistance.getText());
-                    else if (type == Action.Type.ACTION_MOVE )
+                    else if (type == Action.Type.MOVE )
                         value.setDisplayedValue("Possy move "+ value.getSetting() + " "+ tfDistance.getText());
                             
                 }
