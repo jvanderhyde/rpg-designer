@@ -18,6 +18,7 @@ public class GameInterface {
 
     public GameInterface(Game game) throws SlickException {
         AppGameContainer slickGame = new AppGameContainer(new GameMapView(game));
+        slickGame.setForceExit(false);
         slickGame.setDisplayMode(1146, 750, false);
         slickGame.start();
     }
