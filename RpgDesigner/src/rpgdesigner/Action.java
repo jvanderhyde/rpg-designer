@@ -18,12 +18,12 @@ public class Action {
     
     
     public enum Category{
-		POSSY, ENVIRONMENT,NPC
+		POSSE, ENVIRONMENT,NPC
 	}
     
     //The following are the different types of actions
     public enum Type{
-        //Possy Actions
+        //Posse Actions
         BATTLE,MOVE ,ADDCHARACTER , REMOVECHARACTER,
         WARP , GIVEITEM ,TAKEITEM ,GIVESKILL, 
         TAKESKILL , 

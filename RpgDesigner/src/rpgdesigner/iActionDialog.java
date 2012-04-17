@@ -105,7 +105,7 @@ public class iActionDialog extends JDialog
                     if (type == Action.Type.MOVE_NPC  )
                         value.setDisplayedValue("NPC move "+ value.getSetting() + " "+ tfDistance.getText());
                     else if (type == Action.Type.MOVE )
-                        value.setDisplayedValue("Possy move "+ value.getSetting() + " "+ tfDistance.getText());
+                        value.setDisplayedValue("Posse move "+ value.getSetting() + " "+ tfDistance.getText());
                             
                 }
                 

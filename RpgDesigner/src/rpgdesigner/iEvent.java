@@ -35,7 +35,7 @@ public class iEvent extends JPanel implements iListableObject
     private Event event;
     private JComboBox cbCommandType;
     private JPanel pCommandOptions;
-    private JList possyEventsList, NPCEventsList, environmentEventsList;
+    private JList posseEventsList, NPCEventsList, environmentEventsList;
     private DefaultListModel listModelActions;
     private JFrame mainFrame;
     private List<Object> actorList;
@@ -94,7 +94,7 @@ public class iEvent extends JPanel implements iListableObject
         btnNPC = new JButton ("Assigned NPC");
         btnNPC.addActionListener(new EventActionListener());
         cbCommandType = new JComboBox();
-        cbCommandType.addItem("Possy");
+        cbCommandType.addItem("Posse");
         cbCommandType.addItem("Environment");
         cbCommandType.addItem("NPC");
         JPanel pButtons = new JPanel();
@@ -140,20 +140,20 @@ public class iEvent extends JPanel implements iListableObject
         
         pCommandOptions = new JPanel(new CardLayout());
         
-        DefaultListModel listModelPossy = new DefaultListModel();
-        possyEventsList = new JList(listModelPossy); 
-        listModelPossy.addElement("Battle");
-        listModelPossy.addElement("Give Item");
-        listModelPossy.addElement("Give Skill");
-        listModelPossy.addElement("Remove Character");
-        listModelPossy.addElement("Take Item");
-        listModelPossy.addElement("Take Skill");
-        listModelPossy.addElement("Add Character");
-        listModelPossy.addElement("Warp to Location");
-        listModelPossy.addElement("Move");
-        possyEventsList.setLayoutOrientation(JList.HORIZONTAL_WRAP);
-        pCommandOptions.add(possyEventsList, "Possy");
-        possyEventsList.addMouseListener(new EventMouseListener());
+        DefaultListModel listModelPosse = new DefaultListModel();
+        posseEventsList = new JList(listModelPosse); 
+        listModelPosse.addElement("Battle");
+        listModelPosse.addElement("Give Item");
+        listModelPosse.addElement("Give Skill");
+        listModelPosse.addElement("Remove Character");
+        listModelPosse.addElement("Take Item");
+        listModelPosse.addElement("Take Skill");
+        listModelPosse.addElement("Add Character");
+        listModelPosse.addElement("Warp to Location");
+        listModelPosse.addElement("Move");
+        posseEventsList.setLayoutOrientation(JList.HORIZONTAL_WRAP);
+        pCommandOptions.add(posseEventsList, "Posse");
+        posseEventsList.addMouseListener(new EventMouseListener());
         
         DefaultListModel listModelEnvironment = new DefaultListModel();
         environmentEventsList = new JList(listModelEnvironment);
@@ -270,10 +270,10 @@ public class iEvent extends JPanel implements iListableObject
                         //System.out.println(inputValue);
                     }
                 }
-                else if (e.getSource()==possyEventsList)
-                    if (possyEventsList.getSelectedValue().equals("Move"))
+                else if (e.getSource()==posseEventsList)
+                    if (posseEventsList.getSelectedValue().equals("Move"))
                     {
-                        iActionDialog ied = new iActionDialog(mainFrame,Action.Category.POSSY,
+                        iActionDialog ied = new iActionDialog(mainFrame,Action.Category.POSSE,
                                 Action.Type.MOVE);
                         a = ied.getValue();
                         if (a!=(rpgdesigner.Action)null)
