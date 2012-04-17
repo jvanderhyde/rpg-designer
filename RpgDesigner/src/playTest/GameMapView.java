@@ -31,7 +31,7 @@ public class GameMapView extends BasicGame{
 
     @Override
     public void init(GameContainer gc) throws SlickException {
-        workingMap = (Map)game.getMapList().get(game.getStartMap());
+        workingMap = (Map)game.getMapList().get(0);
         layer1 = new Image(1600,1600);
         Graphics layer1Graphics = layer1.getGraphics();
         layer2 = new Image(1600,1600);
@@ -56,7 +56,7 @@ public class GameMapView extends BasicGame{
     }
 
     private void setUpSprite() throws SlickException {
-        actor1 = (Actor)game.getActorList().get(game.getStartPosse().getActors().get(0));
+        actor1 = (Actor)game.getActorList().get(0);
         Image sheetImage = new Image(actor1.getImagePath());
         sheet = new SpriteSheet(sheetImage, 32, 32);
         
