@@ -37,24 +37,33 @@ public class GameMapView extends BasicGame{
     @Override
     public void init(GameContainer gc) throws SlickException {
         workingMap = (Map)game.getMapList().get(0);
-        layer1 = new Image(1600,1600);
-        Graphics layer1Graphics = layer1.getGraphics();
-        layer2 = new Image(1600,1600);
-        Graphics layer2Graphics = layer2.getGraphics();
-        layer3 = new Image(1600,1600);
-        Graphics layer3Graphics = layer3.getGraphics();
+        layer1 = new Image("Game/Maps/" + workingMap.getName() + "/layer1.png");
+//        Graphics layer1Graphics = layer1.getGraphics();
+        layer2 = new Image("Game/Maps/" + workingMap.getName() + "/layer1.png");
+//        Graphics layer2Graphics = layer2.getGraphics();
+        layer3 = new Image("Game/Maps/" + workingMap.getName() + "/layer3.png");
+//        Graphics layer3Graphics = layer3.getGraphics();
         int i = 0;
-        for(int y = 0; y < 1600; y+=32) {
-            for(int x = 0; x < 1600; x+=32) {
-                layer1Graphics.drawImage(
-                        workingMap.getLayer1().get(i).getSlickImage(), x, y);
-                layer2Graphics.drawImage(
-                        workingMap.getLayer2().get(i).getSlickImage(), x, y);
-                layer3Graphics.drawImage(
-                        workingMap.getLayer3().get(i).getSlickImage(), x, y);
-                i++;
-            }
-        }
+//        for(int y = 0; y < 1600; y+=32) {
+//            for(int x = 0; x < 1600; x+=32) {
+//                Tile tile1 = workingMap.getLayer1().get(i);
+//                Image tileset1 = new Image("Resources/Tilesets/GrasslandV6_0_3.png");
+//                Tile tile2 = workingMap.getLayer2().get(i);
+//                Image tileset2 = new Image("Resources/Tilesets/GrasslandV6_0_3.png");
+//                Tile tile3 = workingMap.getLayer3().get(i);
+//                Image tileset3 = new Image("Resources/Tilesets/GrasslandV6_0_3.png");
+//                Image layer1Image = tileset1.getSubImage(tile1.getTilesetX(), tile1.getTilesetY(), 32, 32);
+//                Image layer2Image = tileset2.getSubImage(tile2.getTilesetX(), tile2.getTilesetY(), 32, 32);
+//                Image layer3Image = tileset3.getSubImage(tile3.getTilesetX(), tile3.getTilesetY(), 32, 32);
+//                layer1Graphics.drawImage(
+//                        layer1Image, x, y);
+//                layer2Graphics.drawImage(
+//                        layer2Image, x, y);
+//                layer3Graphics.drawImage(
+//                        layer3Image, x, y);
+//                i++;
+//            }
+//        }
         setUpSprite(); 
         currentMapBlocks = workingMap.getBlocks();
         objectsOnMap = workingMap.getObjectsOnMap();

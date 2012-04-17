@@ -219,6 +219,36 @@ public class iMap extends JPanel implements iListableObject{
         workingMap.setLayer3(layer3);
         workingMap.setBlocks(blocks);
         workingMap.setObjects(objectsOnMap);
+        File mapDir = new File("Game/Maps/"+workingMap.getName());
+        mapDir.mkdir();
+        BufferedImage layer1ImageFile = new BufferedImage(1600,1600,BufferedImage.TYPE_INT_ARGB);
+        Graphics layer1ImageGraphics = layer1ImageFile.createGraphics();
+        BufferedImage layer2ImageFile = new BufferedImage(1600,1600,BufferedImage.TYPE_INT_ARGB);
+        Graphics layer2ImageGraphics = layer2ImageFile.createGraphics();
+        BufferedImage layer3ImageFile = new BufferedImage(1600,1600,BufferedImage.TYPE_INT_ARGB);
+        Graphics layer3ImageGraphics = layer3ImageFile.createGraphics();
+        int i = 0;
+        for(int y = 0; y < 1600; y+=32) {
+            for(int x = 0; x < 1600; x+=32) {
+                Tile tile1 = workingMap.getLayer1().get(i);
+                Tile tile2 = workingMap.getLayer2().get(i);
+                Tile tile3 = workingMap.getLayer3().get(i);
+                Image layer1Image = tile1.getTileImage();
+                Image layer2Image = tile2.getTileImage();
+                Image layer3Image = tile3.getTileImage();
+                layer1ImageGraphics.drawImage(layer1Image, x, y,null);
+                layer2ImageGraphics.drawImage(layer2Image, x, y,null);
+                layer3ImageGraphics.drawImage(layer3Image, x, y,null);
+                i++;
+            }
+        }
+        try {
+            ImageIO.write(layer1ImageFile, "png", new File("Game/Maps/" + workingMap.getName() + "/layer1.png"));
+            ImageIO.write(layer2ImageFile, "png", new File("Game/Maps/" + workingMap.getName() + "/layer2.png"));
+            ImageIO.write(layer3ImageFile, "png", new File("Game/Maps/" + workingMap.getName() + "/layer3.png"));
+        } catch (IOException ex) {
+            Logger.getLogger(iMap.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     @Override
