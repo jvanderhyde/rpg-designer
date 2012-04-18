@@ -6,6 +6,8 @@ package playTest;
 
 import java.util.List;
 import org.newdawn.slick.*;
+import org.newdawn.slick.openal.SoundStore;
+import org.newdawn.slick.opengl.InternalTextureLoader;
 import rpgdesigner.*;
 
 /**
@@ -36,6 +38,8 @@ public class GameMapView extends BasicGame{
 
     @Override
     public void init(GameContainer gc) throws SlickException {
+        InternalTextureLoader.get().clear();
+        SoundStore.get().clear();
         workingMap = (Map)game.getMapList().get(0);
         layer1 = new Image("Game/Maps/" + workingMap.getName() + "/layer1.png");
 //        Graphics layer1Graphics = layer1.getGraphics();
@@ -224,5 +228,4 @@ public class GameMapView extends BasicGame{
             moveNPC();
         }
     }
-    
 }
