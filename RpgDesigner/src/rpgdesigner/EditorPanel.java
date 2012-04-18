@@ -69,12 +69,13 @@ public class EditorPanel extends JPanel{
                 g.drawImage(blockList.get(i).getBlockImage(), x, y, null);
                 i++;
             }
-        }
-        
+        }  
         for (int j = 0; j<objectList.size(); j++)
         {
             MapObject o = objectList.get(j);
-            g.drawImage(o.getImage(), (int)o.getLocX(), (int)o.getLocY(), null);
+            int x = (int)o.getLocX()/32;
+            int y = (int)o.getLocY()/32;
+            g.drawImage(o.getImage(), x*32, y*32, null);
         }
          
         //This section is not ready yet

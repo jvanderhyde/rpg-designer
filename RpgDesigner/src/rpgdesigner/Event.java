@@ -111,7 +111,7 @@ public class Event implements MapObject{
         BufferedImage image = new BufferedImage(32,32,BufferedImage.TYPE_INT_ARGB);
             Graphics2D graphics = image.createGraphics();
             graphics.setColor(Color.blue);
-            graphics.drawString("E", 10, 10);
+            graphics.drawString("E", 12, 20);
         return image;
     }
 

@@ -152,7 +152,7 @@ public class iMap extends JPanel implements iListableObject{
         mapButtons.add(btnLayer3);
         lblAddObject = new JLabel();
         mapButtons.add(btnAddObject);
-        mapButtons.add(lblAddObject);
+        //mapButtons.add(lblAddObject);
         //mapButtons.add(new JLabel(" "));
         //mapButtons.add(new JLabel(" "));
         controls.add(mapButtons, BorderLayout.CENTER);
@@ -532,7 +532,6 @@ public class iMap extends JPanel implements iListableObject{
                     mapBody.setBlockList(blocks);
                 }
             } else if (currentTool == OBJECTTOOL){
-                int tileNumber = getTileNumber(e.getX(), e.getY());
                 obj.setLocation(e.getX(), e.getY());
                 obj.setTile(getTileNumber(e.getX(), e.getY()));
                 objectsOnMap.add(obj);
