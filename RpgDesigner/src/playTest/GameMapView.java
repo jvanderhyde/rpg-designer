@@ -39,7 +39,7 @@ public class GameMapView extends BasicGame{
         workingMap = (Map)game.getMapList().get(0);
         layer1 = new Image("Game/Maps/" + workingMap.getName() + "/layer1.png");
 //        Graphics layer1Graphics = layer1.getGraphics();
-        layer2 = new Image("Game/Maps/" + workingMap.getName() + "/layer1.png");
+        layer2 = new Image("Game/Maps/" + workingMap.getName() + "/layer2.png");
 //        Graphics layer2Graphics = layer2.getGraphics();
         layer3 = new Image("Game/Maps/" + workingMap.getName() + "/layer3.png");
 //        Graphics layer3Graphics = layer3.getGraphics();
