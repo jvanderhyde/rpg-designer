@@ -30,6 +30,7 @@ public class GameMapView extends BasicGame{
     Actor movingNPC;
     int distanceLeftForNPC;
     String directionOfMovingNPC;
+    Animation npcAnimation;
     
     public GameMapView(rpgdesigner.Game game) throws SlickException {
         super(game.getGameName());
@@ -40,6 +41,12 @@ public class GameMapView extends BasicGame{
     public void init(GameContainer gc) throws SlickException {
         InternalTextureLoader.get().clear();
         SoundStore.get().clear();
+        String path = game.getMusicFilePath();
+        if(path!=null)
+        {
+            Music music = new Music(path);
+            music.loop();
+        }
         workingMap = (Map)game.getMapList().get(0);
         layer1 = new Image("Game/Maps/" + workingMap.getName() + "/layer1.png");
         layer2 = new Image("Game/Maps/" + workingMap.getName() + "/layer2.png");
@@ -58,6 +65,7 @@ public class GameMapView extends BasicGame{
     }
 
     private void moveNPC() {
+        npcAnimation.draw(movingNPC.getLocX(), movingNPC.getLocY());
         if(directionOfMovingNPC.equals("up"))
             movingNPC.move(0, -1);
         else if(directionOfMovingNPC.equals("down"))
@@ -172,9 +180,11 @@ public class GameMapView extends BasicGame{
             }
         }
         
+       
+        
     }
     
-    public void checkForObject()
+    public void checkForObject() throws SlickException
     {
         for (MapObject o: objectsOnMap)
         {
@@ -198,6 +208,29 @@ public class GameMapView extends BasicGame{
                                 distanceLeftForNPC = a.getValue()*32;
                                 movingNPC=e.getAssignedNPC();
                                 directionOfMovingNPC=a.getSetting();
+                                
+                                Image sheetImage = new Image(movingNPC.getImagePath());
+                                SpriteSheet npcSheet = new SpriteSheet(sheetImage, 32, 32);
+
+                                Image [] movementUp = {npcSheet.getSprite(0, 0), npcSheet.getSprite(1, 0), npcSheet.getSprite(2, 0)};
+                                Image [] movementRight = {npcSheet.getSprite(0, 1), npcSheet.getSprite(1, 1), npcSheet.getSprite(2, 1)};
+                                Image [] movementDown = {npcSheet.getSprite(0, 2), npcSheet.getSprite(1, 2), npcSheet.getSprite(2, 2)};
+                                Image [] movementLeft = {npcSheet.getSprite(0, 3), npcSheet.getSprite(1, 3), npcSheet.getSprite(2, 3)};
+
+                                //change animation every 300 ms
+                                int [] duration = {300, 300, 300};
+                                
+                                if(directionOfMovingNPC.equals("up"))
+                                    npcAnimation = new Animation(movementUp, duration, false);
+                                else if(directionOfMovingNPC.equals("down"))
+                                    npcAnimation = new Animation(movementDown, duration, false);
+                                else if(directionOfMovingNPC.equals("left"))
+                                    npcAnimation = new Animation(movementLeft, duration, false);
+                                else if(directionOfMovingNPC.equals("right"))
+                                    npcAnimation = new Animation(movementRight, duration, false);
+                                
+
+                               
                             }
                     }
                 }
@@ -227,9 +260,10 @@ public class GameMapView extends BasicGame{
         {
             displayText(g);
         }
-        if(distanceLeftForNPC>0)
+         if(distanceLeftForNPC>0)
         {
             moveNPC();
+            npcAnimation.update((long)10);
         }
     }
 }

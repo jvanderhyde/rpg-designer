@@ -3,6 +3,7 @@ package rpgdesigner;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.*;
@@ -29,6 +30,9 @@ public class iSettings extends JPanel{
     Game game;
     JFrame frame;
     private ButtonGroup saveStyleGroup;
+    private JButton btnChangeMusic;
+    JButton btnSave;
+    String musicPath;
     
     //When creating a new project use this method with default settings
     public iSettings(Game game, JFrame programFrame) {
@@ -67,6 +71,8 @@ public class iSettings extends JPanel{
         cbStartingActor1 = new JComboBox();
         cbStartingActor2 = new JComboBox();
         cbStartingActor3 = new JComboBox();
+        btnChangeMusic = new JButton("Change Music");
+        btnChangeMusic.addActionListener(new iSettingsListener());
         
         //Put the groups of elements that belong together in a JPanel for layout purposes
         JPanel nameInfoPanel = new JPanel();
@@ -122,33 +128,48 @@ public class iSettings extends JPanel{
         iSettingsPanel.add(loseEventInfoPanel);
         iSettingsPanel.add(mapInfoPanel);
         iSettingsPanel.add(possePanel);
+        iSettingsPanel.add(btnChangeMusic);
         
-        JButton saveButton = new JButton("Save");
-        saveButton.addActionListener(new iSettingsListener());
+        btnSave = new JButton("Save");
+        btnSave.addActionListener(new iSettingsListener());
         
         this.add(iSettingsPanel, BorderLayout.NORTH);
-        this.add(saveButton, BorderLayout.WEST);
+        this.add(btnSave, BorderLayout.WEST);
     }
     
     private class iSettingsListener implements ActionListener{
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            game.setGameName(tbName.getText());
-            game.setDescription(tbDescription.getText());
-            game.setAuthor(tbAuthor.getText());
-            if(rbSaveAnywhere.isSelected()) 
-                game.setIsSaveAnywhere(true);
-            else
-                game.setIsSaveAnywhere(false);
-            game.setWinEvent(cbWinEvent.getSelectedIndex());
-            game.setLoseEvent(cbLoseEvent.getSelectedIndex());
-            game.setStartMap(cbStartingMap.getSelectedIndex());
-            List<Integer> posseList = new ArrayList();
-            posseList.add(cbStartingActor1.getSelectedIndex());
-            posseList.add(cbStartingActor2.getSelectedIndex());
-            posseList.add(cbStartingActor3.getSelectedIndex());
-            game.setStartPosse(posseList);
+            if(e.getSource()==btnSave)
+            {
+                game.setGameName(tbName.getText());
+                game.setDescription(tbDescription.getText());
+                game.setAuthor(tbAuthor.getText());
+                if(rbSaveAnywhere.isSelected()) 
+                    game.setIsSaveAnywhere(true);
+                else
+                    game.setIsSaveAnywhere(false);
+                game.setWinEvent(cbWinEvent.getSelectedIndex());
+                game.setLoseEvent(cbLoseEvent.getSelectedIndex());
+                game.setStartMap(cbStartingMap.getSelectedIndex());
+                List<Integer> posseList = new ArrayList();
+                posseList.add(cbStartingActor1.getSelectedIndex());
+                posseList.add(cbStartingActor2.getSelectedIndex());
+                posseList.add(cbStartingActor3.getSelectedIndex());
+                game.setStartPosse(posseList);
+                game.setMusicFilePath(musicPath);
+            }
+            else if(e.getSource()==btnChangeMusic)
+            {
+                JFileChooser fcImage = new JFileChooser();
+                 int returnVal = fcImage.showOpenDialog(iSettings.this);
+
+                if (returnVal == JFileChooser.APPROVE_OPTION) {
+                    File file = fcImage.getSelectedFile();
+                    musicPath = file.getPath();
+                }
+            }
         }
     
     }
