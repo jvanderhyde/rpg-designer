@@ -41,6 +41,12 @@ public class GameMapView extends BasicGame{
     public void init(GameContainer gc) throws SlickException {
         InternalTextureLoader.get().clear();
         SoundStore.get().clear();
+        String path = game.getMusicFilePath();
+        if(path!=null)
+        {
+            Music music = new Music(path);
+            music.loop();
+        }
         workingMap = (Map)game.getMapList().get(0);
         layer1 = new Image("Game/Maps/" + workingMap.getName() + "/layer1.png");
 //        Graphics layer1Graphics = layer1.getGraphics();
