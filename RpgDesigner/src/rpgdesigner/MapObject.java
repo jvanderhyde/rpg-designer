@@ -13,7 +13,7 @@ import org.newdawn.slick.SlickException;
  */
 public interface MapObject {
     
-    public void setLocation(int x, int y);
+    public void setLocation(float x, float y);
     public Image getImage();
     public float getLocY();
     public float getLocX();

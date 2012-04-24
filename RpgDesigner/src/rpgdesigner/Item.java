@@ -90,7 +90,7 @@ public class Item implements MapObject {
         return type;
     }
     
-    public void setLocation(int x, int y){
+    public void setLocation(float x, float y){
         locX=x;
         locY=y;
     }

@@ -11,7 +11,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.DefaultListModel;
-//import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.SpriteSheet;
 /**
@@ -26,7 +25,6 @@ public class Actor implements MapObject{
     private String imagePath;
     private int type;
     private DefaultListModel skills;
-    private int tileX, tileY;
     private int tileNum;
     private Direction directionOfMovement;
     
@@ -38,16 +36,10 @@ public class Actor implements MapObject{
     }
     
     @Override
-    public void setLocation(int x, int y)
+    public void setLocation(float x, float y)
     {
         locX=x;
         locY=y;
-    }
-    
-    public void setTile(int x, int y)
-    {
-        tileX = x;
-        tileY = y;
     }
     
     @Override
@@ -60,23 +52,6 @@ public class Actor implements MapObject{
     public float getLocY()
     {
         return locY;
-    }
-    
-    public int getNewLocTile(Direction direction)
-    {
-        int number = getTile();
-        
-        if(direction == Direction.UP) {
-            number -= 50;
-        } else if(direction == Direction.DOWN) {
-            number += 50;
-        } else if(direction == Direction.LEFT) {
-            number -= 1;
-        } else if(direction == Direction.RIGHT) {
-            number += 1;
-        }
-
-        return number;
     }
     
     public void move (double x, double y)
@@ -254,15 +229,17 @@ public class Actor implements MapObject{
         int numbery = 0;
 
         //First solve which tile in the x range it is
-        for(int i=0; i < (int)Math.floor(locX); i = i+32) {
-            numberx++;
-        }
-        numberx--;
+//        for(int i=0; i < locX; i = i+32) {
+//            numberx++;
+//        }
+//        numberx--;
+        numberx=(int)Math.floor(locX/32+0.5);
         //Now solve for the tile in which the y range
-        for(int i=0; i < (int)Math.floor(locY); i = i+32) {
-            numbery++;
-        }
-        numbery--;
+//        for(int i=0; i < locY; i = i+32) {
+//            numbery++;
+//        }
+//        numbery--;
+        numbery=(int)Math.floor(locY/32+0.5);
 
         tileNum = (numbery*50 + numberx);
 

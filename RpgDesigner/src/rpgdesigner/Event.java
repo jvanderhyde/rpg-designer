@@ -17,7 +17,7 @@ public class Event implements MapObject{
     Image icon;
     Boolean onActionKey;
     DefaultListModel eventListModel;
-    int locX, locY;
+    float locX, locY;
     int tileNum;
     Actor assignedNPC;
     //ArrayList<command> actions;
@@ -88,7 +88,7 @@ public class Event implements MapObject{
     }
 
     @Override
-    public void setLocation(int x, int y) {
+    public void setLocation(float x, float y) {
         locX=x;
         locY=y;
     }

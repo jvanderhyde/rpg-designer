@@ -100,26 +100,21 @@ public class GameMapView extends BasicGame{
         boolean blockLeft = false;
         boolean blockRight = false;
         for(int i = 0; i < currentMapBlocks.size(); i++) {
-            if(currentMapBlocks.get(i).getTile() == actor1.getTile() + 1 || 
-                    currentMapBlocks.get(i).getTile() == actor1.getTile() - 1 ||
-                    currentMapBlocks.get(i).getTile() == actor1.getTile() + 50 ||
-                    currentMapBlocks.get(i).getTile() == actor1.getTile() - 50) {
-                if(currentMapBlocks.get(i).getTile() == actor1.getTile() + 1) {
-                    if(currentMapBlocks.get(i).getIsBlockedLeft())
-                        blockRight = true;
-                }
-                if(currentMapBlocks.get(i).getTile() == actor1.getTile() - 1) {
-                    if(currentMapBlocks.get(i).getIsBlockedRight())
-                        blockLeft = true;
-                }
-                if(currentMapBlocks.get(i).getTile() == actor1.getTile() + 50) {
-                    if(currentMapBlocks.get(i).getIsBlockedTop())
-                        blockDown = true;
-                }
-                if(currentMapBlocks.get(i).getTile() == actor1.getTile() - 50) {
-                    if(currentMapBlocks.get(i).getIsBlockedBottom())
-                        blockUp = true;
-                }
+            if(currentMapBlocks.get(i).getTile() == actor1.getTile() + 1) {
+                if(currentMapBlocks.get(i).getIsBlockedLeft())
+                    blockRight = true;
+            }
+            if(currentMapBlocks.get(i).getTile() == actor1.getTile() - 1) {
+                if(currentMapBlocks.get(i).getIsBlockedRight())
+                    blockLeft = true;
+            }
+            if(currentMapBlocks.get(i).getTile() == actor1.getTile() + 50) {
+                if(currentMapBlocks.get(i).getIsBlockedTop())
+                    blockDown = true;
+            }
+            if(currentMapBlocks.get(i).getTile() == actor1.getTile() - 50) {
+                if(currentMapBlocks.get(i).getIsBlockedBottom())
+                    blockUp = true;
             }
         }
         if (input.isKeyDown(Input.KEY_UP)||actor1.getDirection()==Actor.Direction.UP)
