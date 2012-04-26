@@ -4,6 +4,7 @@
  */
 package playTest;
 
+import java.util.ArrayList;
 import java.util.List;
 import org.newdawn.slick.*;
 import org.newdawn.slick.openal.SoundStore;
@@ -25,12 +26,11 @@ public class GameMapView extends BasicGame{
     List<MapObject> objectsOnMap;
     SpriteSheet sheet;
     Animation up, left,down, right, spriteAnimation;
-    int timeForText;
-    String text;
     Actor movingNPC;
     int distanceLeftForNPC;
     String directionOfMovingNPC;
     Animation npcAnimation;
+    ArrayList<textToDisplay> dialogue;
     
     public GameMapView(rpgdesigner.Game game) throws SlickException {
         super(game.getGameName());
@@ -55,13 +55,25 @@ public class GameMapView extends BasicGame{
         setUpSprite(); 
         currentMapBlocks = workingMap.getBlocks();
         objectsOnMap = workingMap.getObjectsOnMap();
+        dialogue = new ArrayList<textToDisplay>();
     }
 
     private void displayText(Graphics g) {
         g.setColor(Color.black);
-        g.drawString(text, 500, 500);
+        int num = dialogue.size();
+        int location = 500 - 20*num;
+        for(textToDisplay nextText: dialogue)
+        {
+            g.drawString(nextText.getText(), 500, location);
+            nextText.decreaseTimeLeft();
+            if (nextText.getTimeLeft()<1)
+            {
+                dialogue.remove(nextText);
+                break;//break so the for loop doesn't get angry
+            }
+            location+=20;
+        }
         g.setColor(Color.white);
-        timeForText--;
     }
 
     private void moveNPC() {
@@ -200,8 +212,8 @@ public class GameMapView extends BasicGame{
                         if (a.getCategory()== Action.Category.NPC)
                             if (a.getType() == Action.Type.SPEECH)
                             {
-                                timeForText=200;
-                                text=a.getSetting();
+                                textToDisplay speech = new textToDisplay(a.getSetting(), 200);
+                                dialogue.add(speech);
                             }
                             else if (a.getType() == Action.Type.MOVE_NPC)
                             {
@@ -256,7 +268,7 @@ public class GameMapView extends BasicGame{
         
         //render 3rd layer
         layer3.draw(0,0);
-        if(timeForText>0)
+        if(!dialogue.isEmpty())
         {
             displayText(g);
         }
