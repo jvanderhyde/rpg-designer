@@ -268,6 +268,13 @@ public class iActor extends JPanel implements iListableObject{
         setActorType(actor.getType());
         imagePath = "";
         pImage.remove(image);
+        skills = new DefaultListModel();
+        list.setModel(skills);
+        
+//        JScrollPane listScroller = new JScrollPane(list);
+//        listScroller.setPreferredSize(new Dimension(250, 80));
+//
+//        pSkills.add(listScroller, BorderLayout.CENTER);
     
     }
 
@@ -296,7 +303,10 @@ public class iActor extends JPanel implements iListableObject{
                 System.out.println(ex.toString());
             }
         }
-        
+        skills = actor.getSkillsList();
+        if(skills== null)
+            skills=new DefaultListModel();
+        list.setModel(skills);
         
         // this should load all the skills but its not working
         

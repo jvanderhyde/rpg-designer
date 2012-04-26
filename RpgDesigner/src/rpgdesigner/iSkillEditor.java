@@ -105,7 +105,9 @@ public class iSkillEditor extends JDialog {
         this.taName.setText(skill.getName());
         this.taSP.setText(Integer.toString(skill.getSPUsed()));
         imagePath = skill.getImagePath();
-        loadImage();
+        
+        if(imagePath!=null&&!imagePath.isEmpty())
+            loadImage();
         pack();
         setLocationRelativeTo(frame);
         setVisible(true);
