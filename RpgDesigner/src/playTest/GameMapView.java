@@ -207,7 +207,7 @@ public class GameMapView extends BasicGame{
                         if (a.getCategory()== Action.Category.NPC)
                             if (a.getType() == Action.Type.SPEECH)
                             {
-                                textToDisplay speech = new textToDisplay(a.getSetting(), 200);
+                                textToDisplay speech = new textToDisplay(e.getAssignedNPC().getName()+": "+a.getSetting(), 200);
                                 dialogue.add(speech);
                             }
                             else if (a.getType() == Action.Type.MOVE_NPC)

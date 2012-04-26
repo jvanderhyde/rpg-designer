@@ -214,6 +214,10 @@ public class iEvent extends JPanel implements iListableObject
             rbOnActionKey.setSelected(true);
         else 
             rbOnTouch.setSelected(true);
+        listModelActions = event.getEventListModel();
+        if(listModelActions== null)
+            listModelActions=new DefaultListModel();
+        actions.setModel(listModelActions);
     }
 
     @Override
