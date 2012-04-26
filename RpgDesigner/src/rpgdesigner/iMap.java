@@ -473,7 +473,6 @@ public class iMap extends JPanel implements iListableObject{
                 String objectType = (String)JOptionPane.showInputDialog(frame, 
                         "pick an object type", "Add Object", JOptionPane.QUESTION_MESSAGE,
                         null, options, "Actor");
-                System.out.println(objectType);
                 //Actor selectedObject=null;
                 if(objectType.equals("Actor"))
                     obj = (Actor)JOptionPane.showInputDialog(frame, "pick an actor", 
@@ -538,10 +537,8 @@ public class iMap extends JPanel implements iListableObject{
                 
             } else if(currentTool == BLOCKTOOL) {
                 boolean blockSet = false;
-                System.out.println("test1");
                 for(int i = 0; i<blocks.size(); i++) {
                     if(blocks.get(i).getTile() == getTileNumber(e.getX(), e.getY())) {
-                        System.out.println("test");
                         if(e.getButton() == 1) {
                             blocks.get(i).toggleBlock();
                             mapBody.setBlockList(blocks);
@@ -555,7 +552,6 @@ public class iMap extends JPanel implements iListableObject{
                 }
                 if(!blockSet) {
                     if(e.getButton() == 1) {
-                        System.out.println("test2");
                         blocks.add(new Block(true, e.getX(), e.getY(), 
                                 getTileNumber(e.getX(), e.getY())));
                         mapBody.setBlockList(blocks);
