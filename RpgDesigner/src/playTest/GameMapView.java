@@ -35,12 +35,13 @@ public class GameMapView extends BasicGame{
     public GameMapView(rpgdesigner.Game game) throws SlickException {
         super(game.getGameName());
         this.game = game;
+       
     }
 
     @Override
     public void init(GameContainer gc) throws SlickException {
         InternalTextureLoader.get().clear();
-        SoundStore.get().clear();
+        //SoundStore.get().clear();
         String path = game.getMusicFilePath();
         if(path!=null)
         {
@@ -90,7 +91,8 @@ public class GameMapView extends BasicGame{
     }
 
     private void setUpSprite() throws SlickException {
-        actor1 = (Actor)game.getActorList().get(0);
+        int index = game.getStartPosse().getActors().get(0);
+        actor1 = (Actor)game.getActorList().get(index);
         Image sheetImage = new Image(actor1.getImagePath());
         sheet = new SpriteSheet(sheetImage, 32, 32);
         
