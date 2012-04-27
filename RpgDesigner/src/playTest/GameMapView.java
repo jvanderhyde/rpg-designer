@@ -48,11 +48,14 @@ public class GameMapView extends BasicGame{
             Music music = new Music(path);
             music.loop();
         }
-        workingMap = (Map)game.getMapList().get(0);
+        
+        //set up Start Map
+        int index = game.getStartMap();
+        workingMap = (Map)game.getMapList().get(index);
         layer1 = new Image("Game/Maps/" + workingMap.getName() + "/layer1.png");
         layer2 = new Image("Game/Maps/" + workingMap.getName() + "/layer2.png");
         layer3 = new Image("Game/Maps/" + workingMap.getName() + "/layer3.png");
-        int i = 0;
+        
         setUpSprite(); 
         currentMapBlocks = workingMap.getBlocks();
         objectsOnMap = workingMap.getObjectsOnMap();
