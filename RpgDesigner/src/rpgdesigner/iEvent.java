@@ -70,7 +70,6 @@ public class iEvent extends JPanel implements iListableObject
         npcImg.setPreferredSize(new Dimension(75,75));
         reqItemImg.setPreferredSize(new Dimension(75,75));
         pItem.add(reqItemImg, BorderLayout.NORTH);
-        pNPC.add(npcImg, BorderLayout.NORTH);
         //pImages.removeAll();
         
     }
@@ -218,6 +217,7 @@ public class iEvent extends JPanel implements iListableObject
         if(listModelActions== null)
             listModelActions=new DefaultListModel();
         actions.setModel(listModelActions);
+        showNpcImage(event.assignedNPC);
     }
 
     @Override
@@ -229,6 +229,35 @@ public class iEvent extends JPanel implements iListableObject
     public boolean hasInvalidInput() {
         return invalidInput;
     }
+    
+    private void showNpcImage(Actor a) {
+            assignedNPC =a;
+            if(assignedNPC!=null)
+            {
+                actorImgPath = assignedNPC.getImagePath();
+                BufferedImage myPicture;
+                try {
+                    myPicture = ImageIO.read(new File(actorImgPath));
+                    pNPC.remove(npcImg);
+                    npcImg = new JLabel(new ImageIcon( myPicture ));
+                    npcImg.setPreferredSize(new Dimension(75,75));
+                    pNPC.add(npcImg, BorderLayout.NORTH);
+                    mainFrame.pack();
+                } catch (IOException ex) {
+                    System.out.println(ex.toString());
+                }
+            }
+            else
+            {
+                actorImgPath="";
+                pNPC.remove(npcImg);
+                npcImg = new JLabel();
+                npcImg.setPreferredSize(new Dimension(75,75));
+                pNPC.add(npcImg, BorderLayout.NORTH);
+                mainFrame.pack();
+            }
+            
+        }
 
     
     
@@ -337,25 +366,11 @@ public class iEvent extends JPanel implements iListableObject
                 null,
                 possibilities,
                 null);
-                
-                if(a!=null)
-                {
-                    actorImgPath = a.getImagePath();
-                    assignedNPC = a;
-                    BufferedImage myPicture;
-                    try {
-                        myPicture = ImageIO.read(new File(actorImgPath));
-                        pNPC.remove(npcImg);
-                        npcImg = new JLabel(new ImageIcon( myPicture ));
-                        npcImg.setPreferredSize(new Dimension(75,75));
-                        pNPC.add(npcImg, BorderLayout.NORTH);
-                        mainFrame.pack();
-                    } catch (IOException ex) {
-                        System.out.println(ex.toString());
-                    }
-                }
+                showNpcImage(a);
             }
         }
+
+        
         
     }
 }

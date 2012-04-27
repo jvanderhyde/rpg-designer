@@ -126,9 +126,14 @@ public class iObjectList extends JPanel {
                 newObject = false;
                 //Get the selected object
                 obj = list.getSelectedValue();
-                iObject.setObject(obj);
-                cl.show(iObjectList.this, "Object");
-                
+                if(obj!=null)
+                {
+                    iObject.setObject(obj);
+                    cl.show(iObjectList.this, "Object");
+                }
+                else
+                    JOptionPane.showMessageDialog(frame, "Please select an object to edit", "no object selected",
+                            JOptionPane.WARNING_MESSAGE);
             }
             else if (e.getSource()==btnDelete)
             {
