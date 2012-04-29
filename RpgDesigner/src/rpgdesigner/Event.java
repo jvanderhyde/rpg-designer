@@ -13,17 +13,26 @@ import org.newdawn.slick.SlickException;
  */
 public class Event implements MapObject{
     private String name;
-    //private Item key;
-    Image icon;
-    Boolean onActionKey;
-    DefaultListModel eventListModel;
-    float locX, locY;
-    int tileNum;
-    Actor assignedNPC;
-    //ArrayList<command> actions;
+    private Image icon;
+    private Boolean onActionKey;
+    private DefaultListModel eventListModel;
+    private float locX, locY;
+    private int tileNum;
+    private Actor assignedNPC;
+    private boolean hasOccured;
+    
     public Event()  {
         name ="";
         onActionKey = true;
+        hasOccured = false;
+    }
+
+    public boolean HasOccured() {
+        return hasOccured;
+    }
+
+    public void setHasOccured(boolean hasOccured) {
+        this.hasOccured = hasOccured;
     }
 
     public Actor getAssignedNPC() {

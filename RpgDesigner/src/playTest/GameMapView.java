@@ -206,44 +206,48 @@ public class GameMapView extends BasicGame{
                 {
                     rpgdesigner.Event e = (rpgdesigner.Event)o;
                     Object[] list = e.getActions();
-                    for (int i = 0; i < list.length; i++)
+                    if(!e.HasOccured())
                     {
-                        Action a = (Action)list[i];
-                        if (a.getCategory()== Action.Category.NPC)
-                            if (a.getType() == Action.Type.SPEECH)
-                            {
-                                textToDisplay speech = new textToDisplay(e.getAssignedNPC().getName()+": "+a.getSetting(), 200);
-                                dialogue.add(speech);
-                            }
-                            else if (a.getType() == Action.Type.MOVE_NPC)
-                            {
-                                distanceLeftForNPC = a.getValue()*32;
-                                movingNPC=e.getAssignedNPC();
-                                directionOfMovingNPC=a.getSetting();
-                                
-                                Image sheetImage = new Image(movingNPC.getImagePath());
-                                SpriteSheet npcSheet = new SpriteSheet(sheetImage, 32, 32);
+                        e.setHasOccured(true);
+                        for (int i = 0; i < list.length; i++)
+                        {
+                            Action a = (Action)list[i];
+                            if (a.getCategory()== Action.Category.NPC)
+                                if (a.getType() == Action.Type.SPEECH)
+                                {
+                                    textToDisplay speech = new textToDisplay(e.getAssignedNPC().getName()+": "+a.getSetting(), 200);
+                                    dialogue.add(speech);
+                                }
+                                else if (a.getType() == Action.Type.MOVE_NPC)
+                                {
+                                    distanceLeftForNPC = a.getValue()*32;
+                                    movingNPC=e.getAssignedNPC();
+                                    directionOfMovingNPC=a.getSetting();
 
-                                Image [] movementUp = {npcSheet.getSprite(0, 0), npcSheet.getSprite(1, 0), npcSheet.getSprite(2, 0)};
-                                Image [] movementRight = {npcSheet.getSprite(0, 1), npcSheet.getSprite(1, 1), npcSheet.getSprite(2, 1)};
-                                Image [] movementDown = {npcSheet.getSprite(0, 2), npcSheet.getSprite(1, 2), npcSheet.getSprite(2, 2)};
-                                Image [] movementLeft = {npcSheet.getSprite(0, 3), npcSheet.getSprite(1, 3), npcSheet.getSprite(2, 3)};
+                                    Image sheetImage = new Image(movingNPC.getImagePath());
+                                    SpriteSheet npcSheet = new SpriteSheet(sheetImage, 32, 32);
 
-                                //change animation every 300 ms
-                                int [] duration = {300, 300, 300};
-                                
-                                if(directionOfMovingNPC.equals("up"))
-                                    npcAnimation = new Animation(movementUp, duration, false);
-                                else if(directionOfMovingNPC.equals("down"))
-                                    npcAnimation = new Animation(movementDown, duration, false);
-                                else if(directionOfMovingNPC.equals("left"))
-                                    npcAnimation = new Animation(movementLeft, duration, false);
-                                else if(directionOfMovingNPC.equals("right"))
-                                    npcAnimation = new Animation(movementRight, duration, false);
-                                
+                                    Image [] movementUp = {npcSheet.getSprite(0, 0), npcSheet.getSprite(1, 0), npcSheet.getSprite(2, 0)};
+                                    Image [] movementRight = {npcSheet.getSprite(0, 1), npcSheet.getSprite(1, 1), npcSheet.getSprite(2, 1)};
+                                    Image [] movementDown = {npcSheet.getSprite(0, 2), npcSheet.getSprite(1, 2), npcSheet.getSprite(2, 2)};
+                                    Image [] movementLeft = {npcSheet.getSprite(0, 3), npcSheet.getSprite(1, 3), npcSheet.getSprite(2, 3)};
 
-                               
-                            }
+                                    //change animation every 300 ms
+                                    int [] duration = {300, 300, 300};
+
+                                    if(directionOfMovingNPC.equals("up"))
+                                        npcAnimation = new Animation(movementUp, duration, false);
+                                    else if(directionOfMovingNPC.equals("down"))
+                                        npcAnimation = new Animation(movementDown, duration, false);
+                                    else if(directionOfMovingNPC.equals("left"))
+                                        npcAnimation = new Animation(movementLeft, duration, false);
+                                    else if(directionOfMovingNPC.equals("right"))
+                                        npcAnimation = new Animation(movementRight, duration, false);
+
+
+
+                                }
+                        }
                     }
                 }
             }

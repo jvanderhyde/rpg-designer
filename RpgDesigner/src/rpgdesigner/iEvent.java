@@ -217,7 +217,7 @@ public class iEvent extends JPanel implements iListableObject
         if(listModelActions== null)
             listModelActions=new DefaultListModel();
         actions.setModel(listModelActions);
-        showNpcImage(event.assignedNPC);
+        showNpcImage(event.getAssignedNPC());
     }
 
     @Override
