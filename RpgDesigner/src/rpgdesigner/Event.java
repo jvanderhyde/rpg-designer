@@ -114,7 +114,10 @@ public class Event implements MapObject{
     }
 
    
-    
+    /*
+     * For events, an 'E' is drawn on the map where the event is added in the 
+     * map editor
+     */
     @Override
     public Image getImage() {
         BufferedImage image = new BufferedImage(32,32,BufferedImage.TYPE_INT_ARGB);
@@ -124,12 +127,15 @@ public class Event implements MapObject{
         return image;
     }
 
+    /*
+     * Nothing should be drawn during play-test where the event is, so we return
+     * a blank image
+     */
     @Override
     public org.newdawn.slick.Image getSlickImage() throws SlickException {
         org.newdawn.slick.Image image=null;
         //returna blank image
         image = new org.newdawn.slick.Image(0,0);
-        
         return image;
     }
 

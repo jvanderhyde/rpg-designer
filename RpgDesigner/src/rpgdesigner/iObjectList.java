@@ -141,7 +141,6 @@ public class iObjectList extends JPanel {
             }
             else if (e.getSource()==btnAdd)
             {
-                //	Clicking new – reset fields of iActor (iObject.reset), Actor=null
                 //Create the new iObject
                 newObject = true;
                 iObject.reset();

@@ -41,7 +41,8 @@ public class GameMapView extends BasicGame{
     @Override
     public void init(GameContainer gc) throws SlickException {
         InternalTextureLoader.get().clear();
-        //SoundStore.get().clear();
+        
+        //Play music
         String path = game.getMusicFilePath();
         if(path!=null)
         {
@@ -73,7 +74,7 @@ public class GameMapView extends BasicGame{
             if (nextText.getTimeLeft()<1)
             {
                 dialogue.remove(nextText);
-                break;//break so the for loop doesn't get angry
+                break;
             }
             location+=20;
         }
@@ -112,18 +113,19 @@ public class GameMapView extends BasicGame{
         down = new Animation(movementDown, duration, false);
         left = new Animation(movementLeft, duration, false);
 
-        // Original orientation of the sprite. It will look right.
+        // Original orientation of the sprite. It will look up.
         spriteAnimation= up;
     }
 
     @Override
     public void update(GameContainer gc, int delta) throws SlickException {
-        //double delta = 1;
         Input input = gc.getInput();
         boolean blockUp = false;
         boolean blockDown = false;
         boolean blockLeft = false;
         boolean blockRight = false;
+        
+        //Check for blocks
         for(int i = 0; i < currentMapBlocks.size(); i++) {
             if(currentMapBlocks.get(i).getTile() == actor1.getTile() + 1) {
                 if(currentMapBlocks.get(i).getIsBlockedLeft())
@@ -142,6 +144,8 @@ public class GameMapView extends BasicGame{
                     blockUp = true;
             }
         }
+        
+        //Move actor if arrow key is down
         if (input.isKeyDown(Input.KEY_UP)||actor1.getDirection()==Actor.Direction.UP)
         {
             spriteAnimation = up;
@@ -196,6 +200,12 @@ public class GameMapView extends BasicGame{
         
     }
     
+    /*
+     * Checks to see if there is an object (Actor, item, or event) on actor1's
+     * current tile.  If there is, the corresponding behavior for that object
+     * will occur
+     * 5/1/12 - Currently checks for two events: NPC move, and NPC speech
+     */
     public void checkForObject() throws SlickException
     {
         for (MapObject o: objectsOnMap)
@@ -244,8 +254,6 @@ public class GameMapView extends BasicGame{
                                     else if(directionOfMovingNPC.equals("right"))
                                         npcAnimation = new Animation(movementRight, duration, false);
 
-
-
                                 }
                         }
                     }
@@ -263,11 +271,11 @@ public class GameMapView extends BasicGame{
         spriteAnimation.draw(actor1.getLocX(), actor1.getLocY());
         
         //Draw all items that were added to the map
-        //skip item zero which we are assuming is actor1 - need to fix this
-        for (int i =1 ; i<objectsOnMap.size();i++)
+        for (int i =0 ; i<objectsOnMap.size();i++)
         {
             MapObject o = objectsOnMap.get(i);
-            o.getSlickImage().draw(o.getLocX(), o.getLocY());
+            if(o!=actor1)
+                o.getSlickImage().draw(o.getLocX(), o.getLocY());
         }
         
         //render 3rd layer

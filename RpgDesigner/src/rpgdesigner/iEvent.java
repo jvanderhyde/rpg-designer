@@ -58,7 +58,6 @@ public class iEvent extends JPanel implements iListableObject
         event = new Event();
         setObject(event);
         tfName.setColumns(20);
-        //tfName.setText("Enter name...");
         rbOnActionKey.setSelected(true);
         listModelActions.removeAllElements();
         
@@ -70,7 +69,6 @@ public class iEvent extends JPanel implements iListableObject
         npcImg.setPreferredSize(new Dimension(75,75));
         reqItemImg.setPreferredSize(new Dimension(75,75));
         pItem.add(reqItemImg, BorderLayout.NORTH);
-        //pImages.removeAll();
         
     }
     
@@ -100,10 +98,8 @@ public class iEvent extends JPanel implements iListableObject
         JPanel pButtons = new JPanel();
         pButtons.add(btnRequiredItem);
         pButtons.add(btnNPC);
-        //pButtons.add(cbCommandType);
         pNPC = new JPanel(new BorderLayout());
         pItem = new JPanel(new BorderLayout());
-        //pImages = new JPanel(new BorderLayout());
         npcImg = new JLabel();
         pNPC.add(npcImg, BorderLayout.NORTH);
         pNPC.add(btnNPC, BorderLayout.SOUTH);
@@ -113,8 +109,6 @@ public class iEvent extends JPanel implements iListableObject
         
         pItem.add(reqItemImg, BorderLayout.NORTH);
         pItem.add(btnRequiredItem, BorderLayout.SOUTH);
-        //pImages.add(reqItemImg, BorderLayout.WEST);
-        //pImages.add(npcImg, BorderLayout.EAST);
         
         JPanel pRBs = new JPanel();
         pRBs.add(rbOnActionKey);
@@ -128,7 +122,6 @@ public class iEvent extends JPanel implements iListableObject
         pCenter.add(pRBs, BorderLayout.SOUTH);
         JPanel pSettings = new JPanel(new BorderLayout());
         pSettings.add(pCenter, BorderLayout.CENTER);
-        //pSettings.add(pButtons, BorderLayout.EAST);
         JPanel pWest = new JPanel(new BorderLayout());
         
         JPanel pName = new JPanel();
@@ -136,10 +129,10 @@ public class iEvent extends JPanel implements iListableObject
         pName.add(tfName);
         pWest.add(pName, BorderLayout.NORTH);
         pSettings.add(pWest, BorderLayout.WEST);
-        //pSettings.add(cbCommandType, BorderLayout.EAST);
         
         pCommandOptions = new JPanel(new CardLayout());
         
+        //Possy Events
         DefaultListModel listModelPosse = new DefaultListModel();
         posseEventsList = new JList(listModelPosse); 
         listModelPosse.addElement("Battle");
@@ -155,12 +148,13 @@ public class iEvent extends JPanel implements iListableObject
         pCommandOptions.add(posseEventsList, "Posse");
         posseEventsList.addMouseListener(new EventMouseListener());
         
+        //Environment events
         DefaultListModel listModelEnvironment = new DefaultListModel();
         environmentEventsList = new JList(listModelEnvironment);
         listModelEnvironment.addElement("Change Music");
         pCommandOptions.add(environmentEventsList, "Environment");
         
-        
+        //NPC events
         DefaultListModel listModelNPC = new DefaultListModel();
         NPCEventsList = new JList(listModelNPC);
         listModelNPC.addElement("Move");
@@ -176,7 +170,6 @@ public class iEvent extends JPanel implements iListableObject
         
         pCommandOptions.add(new JPanel(), "Blank");
         CardLayout cl = (CardLayout)(pCommandOptions.getLayout());
-        //cl.show(pCommandOptions, "Blank");
         pCommands.add(pCommandOptions, BorderLayout.SOUTH);
         pSettings.add(pCommands, BorderLayout.EAST);
         this.add(pSettings, BorderLayout.NORTH);
@@ -198,7 +191,6 @@ public class iEvent extends JPanel implements iListableObject
 
     @Override
     public void saveObject() {
-        //event.setIcon();
         event.setName(this.tfName.getText());
         event.setOnActionKey(this.rbOnActionKey.isSelected());
         event.setEventListModel(listModelActions);
