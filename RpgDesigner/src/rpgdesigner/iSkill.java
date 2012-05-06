@@ -47,9 +47,7 @@ public class iSkill extends JPanel implements ListCellRenderer{
     public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
         this.setBackground(isSelected ? Color.blue : Color.white);
         this.setForeground(isSelected ? Color.white : Color.black);
-        //this.addComponentListener(new SkillListener());
         return this;
-        //throw new UnsupportedOperationException("Not supported yet.");
     }
     
     

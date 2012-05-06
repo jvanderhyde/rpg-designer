@@ -40,7 +40,6 @@ public class iItem extends JPanel implements iListableObject{
         pName.add(lblName);
         pName.add(tfName);
         pWest = new JPanel(new BorderLayout());
-        pWest.add(pName, BorderLayout.NORTH);
         pWest.add(btnChangeImg, BorderLayout.SOUTH);
         pWest.add(lblImage, BorderLayout.CENTER);
         this.add(pWest, BorderLayout.WEST);
@@ -54,6 +53,7 @@ public class iItem extends JPanel implements iListableObject{
         bg.add(rbSustenance);
         bg.add(rbKey);
         bg.add(rbEquipment);
+        pCenter.add(pName);
         pCenter.add(lblType);
         pCenter.add(rbSustenance);
         pCenter.add(rbKey);
@@ -102,6 +102,7 @@ public class iItem extends JPanel implements iListableObject{
     public void reset() {
         item = new Item();
         lblImage = new JLabel();
+        //lblImage.setSize(32, 32);
         tfName.setText(item.getName());
         tfHP.setText(Integer.toString(item.getIncreaseHP()));
         tfSP.setText(Integer.toString(item.getIncreaseSP()));
@@ -169,23 +170,18 @@ public class iItem extends JPanel implements iListableObject{
 
                 if (returnVal == JFileChooser.APPROVE_OPTION) {
                     File file = fcImage.getSelectedFile();
-                    //This is where a real application would open the file.
                     imagePath = file.getPath();
                     BufferedImage myPicture;
+                    
+                    //dispay the image
                     try {
                         myPicture = ImageIO.read(new File(imagePath));
                         pWest.remove(lblImage);
                         lblImage = new JLabel(new ImageIcon( myPicture ));
                         pWest.add(lblImage, BorderLayout.NORTH);
-                        //image.setPreferredSize(new Dimension(10,10));
-                        //pImage.add(image,BorderLayout.NORTH);
-                        
-                        //iItem.this.pack();
                     } catch (IOException ex) {
                         System.out.println(ex.toString());
                     }
-
-
                 } else {
                     System.out.println("Open command cancelled by user." );
                 }

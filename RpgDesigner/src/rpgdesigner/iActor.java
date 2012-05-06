@@ -57,7 +57,6 @@ public class iActor extends JPanel implements iListableObject{
         JPanel pName = new JPanel();
         pName.add(lblName);
         pName.add(tfName);
-        //add(tfName, BorderLayout.WEST);
         
         //Actor Type Radio Buttons
         ButtonGroup group = new ButtonGroup();
@@ -177,7 +176,9 @@ public class iActor extends JPanel implements iListableObject{
     }
     
    
-    
+    /*
+     * gets all the info from the input fields and saves it to actor
+     */
     public void saveActor()
     {
         invalidInput = false;
@@ -239,6 +240,7 @@ public class iActor extends JPanel implements iListableObject{
     {
         return invalidInput;
     }
+    
     /*
      * Used in iObjectList
      */
@@ -253,6 +255,9 @@ public class iActor extends JPanel implements iListableObject{
         saveActor();
     }
 
+    /*
+     * Erases any previously input data
+     */
     @Override
     public void reset() {
         invalidInput = false;
@@ -268,7 +273,8 @@ public class iActor extends JPanel implements iListableObject{
         setActorType(actor.getType());
         imagePath = "";
         pImage.remove(image);
-    
+        skills = new DefaultListModel();
+        list.setModel(skills);
     }
 
     @Override
@@ -281,6 +287,8 @@ public class iActor extends JPanel implements iListableObject{
         tfIncSP.setText(Integer.toString(actor.getIncreaseSP()));
         tfIncXP.setText(Integer.toString(actor.getIncreaseXP()));
         setActorType(actor.getType());
+        
+        //display sprite sheet
         imagePath = actor.getImagePath();
         if (imagePath!=null && !imagePath.isEmpty())
         {
@@ -289,7 +297,6 @@ public class iActor extends JPanel implements iListableObject{
                 myPicture = ImageIO.read(new File(imagePath));
                 pImage.remove(image);
                 image = new JLabel(new ImageIcon( myPicture ));
-                //image.setPreferredSize(new Dimension(10,10));
                 pImage.add(image,BorderLayout.NORTH);
                 mainFrame.pack();
             } catch (IOException ex) {
@@ -297,15 +304,11 @@ public class iActor extends JPanel implements iListableObject{
             }
         }
         
-        
-        // this should load all the skills but its not working
-        
-//        skills.removeAllElements();
-//        DefaultListModel s = actor.getSkillsList();
-//        if(s!=null)
-//        for (int i=0; i<s.size();i++)
-//            skills.addElement(s.getElementAt(i));
-//        
+        //display skills list
+        skills = actor.getSkillsList();
+        if(skills== null)
+            skills=new DefaultListModel();
+        list.setModel(skills);
         
     }
 
@@ -392,7 +395,6 @@ public class iActor extends JPanel implements iListableObject{
                         myPicture = ImageIO.read(new File(imagePath));
                         pImage.remove(image);
                         image = new JLabel(new ImageIcon( myPicture ));
-                        //image.setPreferredSize(new Dimension(10,10));
                         pImage.add(image,BorderLayout.NORTH);
                         mainFrame.pack();
                     } catch (IOException ex) {

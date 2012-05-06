@@ -22,6 +22,7 @@ public class GameInterface {
         slickGame.setVSync(false);
         slickGame.setDisplayMode(1146, 750, false);
         slickGame.start();
+        
     }
     
     public static void main(final Game game) { 

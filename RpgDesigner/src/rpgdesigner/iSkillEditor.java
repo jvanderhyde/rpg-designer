@@ -43,6 +43,7 @@ public class iSkillEditor extends JDialog {
         pWest.add(lblImage, BorderLayout.NORTH);
         pWest.add(btnChangeAnimation, BorderLayout.SOUTH);
         btnChangeAnimation.addActionListener(new SkillListener());
+        
         //Create a file chooser for the image
         fcImage = new JFileChooser();
         this.add(pWest, BorderLayout.WEST);
@@ -58,8 +59,6 @@ public class iSkillEditor extends JDialog {
         taDamage = new JTextField();
         lblSP = new JLabel("SP");
         taSP = new JTextField();
-        
-        
         pEast.add(lblName);
         pEast.add(taName);
         pEast.add(lblSP);
@@ -105,7 +104,9 @@ public class iSkillEditor extends JDialog {
         this.taName.setText(skill.getName());
         this.taSP.setText(Integer.toString(skill.getSPUsed()));
         imagePath = skill.getImagePath();
-        loadImage();
+        
+        if(imagePath!=null&&!imagePath.isEmpty())
+            loadImage();
         pack();
         setLocationRelativeTo(frame);
         setVisible(true);
@@ -125,8 +126,6 @@ public class iSkillEditor extends JDialog {
             pWest.remove(lblImage);
             lblImage = new JLabel(new ImageIcon( myPicture ));
             lblImage.setSize(50, 50);
-
-
             pWest.add(lblImage,BorderLayout.NORTH);
 
             pack();
@@ -157,18 +156,13 @@ public class iSkillEditor extends JDialog {
 
                 if (returnVal == JFileChooser.APPROVE_OPTION) {
                     File file = fcImage.getSelectedFile();
-                    //This is where a real application would open the file.
                     imagePath = file.getPath();
                     System.out.println("Opening: " + imagePath + "." );
-                    
                     iSkillEditor.this.loadImage();
-
-
                 } else {
                     System.out.println("Open command cancelled by user." );
                 }
             }
-            //throw new UnsupportedOperationException("Not supported yet.");
         }
         
         public int getFieldInt(JTextField tf)

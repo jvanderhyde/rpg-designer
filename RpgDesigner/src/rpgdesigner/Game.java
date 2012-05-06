@@ -23,6 +23,9 @@ public class Game {
     private String gameName;
     private String gameDescription;
     private String gameAuthor;
+    private String musicFilePath;
+
+    
     private boolean gameIsSaveAnywhere;
     private int gameLoseEvent;
     private int gameWinEvent;
@@ -138,6 +141,14 @@ public class Game {
             in.close();
             out.close();
         }
+    }
+    
+    public String getMusicFilePath() {
+        return musicFilePath;
+    }
+
+    public void setMusicFilePath(String musicFilePath) {
+        this.musicFilePath = musicFilePath;
     }
     
     private Document saveActors() {

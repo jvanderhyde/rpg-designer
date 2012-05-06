@@ -104,6 +104,9 @@ public class Actor implements MapObject{
         return name;
     }
     
+    /*
+     * Gets the image of the sprite facing forward
+     */
     public Image getMainSprite() 
     {
         BufferedImage sheetImage=null;
@@ -113,8 +116,6 @@ public class Actor implements MapObject{
             Logger.getLogger(iMap.class.getName()).log(Level.SEVERE, null, ex);
         }
         return sheetImage.getSubimage(32, 64, 32, 32);
-//        SpriteSheet sheet = new SpriteSheet(sheetImage, 32, 32);
-//        return sheet.getSprite(0, 0);
     }
     @Override
     public org.newdawn.slick.Image getSlickImage() throws SlickException 
@@ -123,8 +124,6 @@ public class Actor implements MapObject{
         sheetImage = new org.newdawn.slick.Image(imagePath);
         
         return sheetImage.getSubImage(32, 64, 32, 32);
-//        SpriteSheet sheet = new SpriteSheet(sheetImage, 32, 32);
-//        return sheet.getSprite(0, 0);
     }
     
     public SpriteSheet getSpriteSheet()
@@ -229,16 +228,8 @@ public class Actor implements MapObject{
         int numbery = 0;
 
         //First solve which tile in the x range it is
-//        for(int i=0; i < locX; i = i+32) {
-//            numberx++;
-//        }
-//        numberx--;
         numberx=(int)Math.floor(locX/32+0.5);
         //Now solve for the tile in which the y range
-//        for(int i=0; i < locY; i = i+32) {
-//            numbery++;
-//        }
-//        numbery--;
         numbery=(int)Math.floor(locY/32+0.5);
 
         tileNum = (numbery*50 + numberx);
