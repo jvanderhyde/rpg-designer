@@ -15,14 +15,6 @@ package rpgdesigner;
  */
 public class Action {
 
-    
-    public Category getActionCategory(String value) {
-        return Category.valueOf(value);
-    }
-    
-    public Type getActionType(String value) {
-        return Type.valueOf(value);
-    }
     public enum Category{
 		POSSE, ENVIRONMENT,NPC
 	}
@@ -59,20 +51,24 @@ public class Action {
         type = t;
     }
     
-    public void setDisplayedValue(String s)
+    @Override
+    public String toString()
     {
-        displayedValue = s;
+        return displayedValue;
     }
     
+    //Getters
     public String getDisplayedValue()
     {
         return displayedValue;
     }
     
-    @Override
-    public String toString()
-    {
-        return displayedValue;
+    public Category getActionCategory(String value) {
+        return Category.valueOf(value);
+    }
+    
+    public Type getActionType(String value) {
+        return Type.valueOf(value);
     }
     
     public String getSetting() {
@@ -83,20 +79,26 @@ public class Action {
         return this.value;
     }
     
-    public void setSetting(String setting) {
-        this.setting = setting;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
     public Type getType(){
         return type;
     }
     
     public Category getCategory(){
         return category;
+    }
+    
+    //Setters
+    public void setDisplayedValue(String s)
+    {
+        displayedValue = s;
+    }
+    
+    public void setSetting(String setting) {
+        this.setting = setting;
+    }
+    
+    public void setValue(int value) {
+        this.value = value;
     }
     
 }

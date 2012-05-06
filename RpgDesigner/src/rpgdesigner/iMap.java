@@ -16,8 +16,7 @@ import javax.swing.*;
  *
  * @author james
  * 
- * This class is responsible for creating the map editor tab.
- * TODO:  Rewrite map to load without ImageIcons in future.  
+ * This class is responsible for creating the map editor tab. 
  */
 public class iMap extends JPanel implements iListableObject{
     JFrame frame = new JFrame();
@@ -60,7 +59,6 @@ public class iMap extends JPanel implements iListableObject{
     
     TileViewMouseListener tileViewListener = new TileViewMouseListener();
     private EditorPanel mapBody;
-    private JPanel objectPanel;
     private JButton btnAddObject;
     private JLabel lblAddObject;
     private Game game;
@@ -144,17 +142,12 @@ public class iMap extends JPanel implements iListableObject{
         mapButtons.add(btnFillTile);
         mapButtons.add(btnFillSquare);
         mapButtons.add(btnEraseTile);
-//        mapButtons.add(btnCopy);
-//        mapButtons.add(btnCut);
         mapButtons.add(btnBlock);
         mapButtons.add(btnLayer1);
         mapButtons.add(btnLayer2);
         mapButtons.add(btnLayer3);
         lblAddObject = new JLabel();
         mapButtons.add(btnAddObject);
-        //mapButtons.add(lblAddObject);
-        //mapButtons.add(new JLabel(" "));
-        //mapButtons.add(new JLabel(" "));
         controls.add(mapButtons, BorderLayout.CENTER);
         JPanel tilesetPanelHolder = new JPanel();
         tilesetPanelHolder.setLayout(new BorderLayout());
@@ -231,31 +224,13 @@ public class iMap extends JPanel implements iListableObject{
         for(int y = 0; y < 1600; y+=32) {
             for(int x = 0; x < 1600; x+=32) {
                 Tile tile1 = workingMap.getLayer1().get(i);
-//                Tile tile2 = workingMap.getLayer2().get(i);
-//                Tile tile3 = workingMap.getLayer3().get(i);
-                Image layer1Image = tile1.getTileImage();
-//                Image layer2Image = tile2.getTileImage();
-//                Image layer3Image = tile3.getTileImage();
-                layer1ImageGraphics.drawImage(layer1Image, x, y,null);
-//                layer2ImageGraphics.drawImage(layer2Image, x, y,null);
-//                layer3ImageGraphics.drawImage(layer3Image, x, y,null);
-                i++;
-            }
-        }
-        i = 0;
-        for(int y = 0; y < 1600; y+=32) {
-            for(int x = 0; x < 1600; x+=32) {
                 Tile tile2 = workingMap.getLayer2().get(i);
-                Image layer2Image = tile2.getTileImage();
-                layer2ImageGraphics.drawImage(layer2Image, x, y,null);
-                i++;
-            }
-        }
-        i = 0;
-        for(int y = 0; y < 1600; y+=32) {
-            for(int x = 0; x < 1600; x+=32) {
                 Tile tile3 = workingMap.getLayer3().get(i);
+                Image layer1Image = tile1.getTileImage();
+                Image layer2Image = tile2.getTileImage();
                 Image layer3Image = tile3.getTileImage();
+                layer1ImageGraphics.drawImage(layer1Image, x, y,null);
+                layer2ImageGraphics.drawImage(layer2Image, x, y,null);
                 layer3ImageGraphics.drawImage(layer3Image, x, y,null);
                 i++;
             }
@@ -279,7 +254,6 @@ public class iMap extends JPanel implements iListableObject{
         layer2 = workingMap.getLayer2();
         layer3 = workingMap.getLayer3();
         blocks = workingMap.getBlocks();
-        //mapBody = new EditorPanel(layer1, layer2, layer3, blocks, objectsOnMap);
         mapBody.setLayer1Tiles(layer1);
         mapBody.setLayer2Tiles(layer2);
         mapBody.setLayer3Tiles(layer3);
@@ -467,13 +441,10 @@ public class iMap extends JPanel implements iListableObject{
             } else if(e.getActionCommand().equals("Add Object to Map")){
                 //choose from items, events, actor
                 //get list depending on result from first dialogue
-                //JOptionDialog j = new JOptionDialog();
-                JOptionPane p = new JOptionPane();
                 String[] options = {"Actor","Item","Event"};
                 String objectType = (String)JOptionPane.showInputDialog(frame, 
                         "pick an object type", "Add Object", JOptionPane.QUESTION_MESSAGE,
                         null, options, "Actor");
-                //Actor selectedObject=null;
                 if(objectType.equals("Actor"))
                     obj = (Actor)JOptionPane.showInputDialog(frame, "pick an actor", 
                             "Add Object", JOptionPane.QUESTION_MESSAGE, null, 
@@ -486,7 +457,6 @@ public class iMap extends JPanel implements iListableObject{
                     obj = (Event)JOptionPane.showInputDialog(frame, "pick an event", 
                             "Add Object", JOptionPane.QUESTION_MESSAGE, null, 
                             game.eventList.toArray(), null);
-                //Object value = new Object();
                 currentTool = OBJECTTOOL;
                 lblAddObject.setText("Click the map to add "+ obj);
             }
@@ -561,14 +531,6 @@ public class iMap extends JPanel implements iListableObject{
                 obj.setLocation(e.getX(), e.getY());
                 obj.setTile(getTileNumber(e.getX(), e.getY()));
                 objectsOnMap.add(obj);
-                //ImageIcon icon = obj.getMainSprite();
-                //ImageIcon icon = new ImageIcon(obj.getImagePath());
-                //JLabel labelForImage = new JLabel(icon);
-                
-                //labelForImage.setBounds(e.getX(), e.getY(), 32, 32);
-                //objectPanel.add(labelForImage);
-                //objectPanel.repaint();
-                
             }
             mapBody.repaint();
             mapViewScroll.repaint();

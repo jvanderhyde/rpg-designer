@@ -447,6 +447,7 @@ public class Game {
     
     /*
      * Load files from folder selected after selecting load from the menu
+     * Currently not functioning!!!
      */
     public void loadProject(File projectFolder) {
         //TODO: Load objects from the maps
@@ -584,8 +585,8 @@ public class Game {
                 
                 a.setSetting(actionFromXML.getChild(4).getValue());
                 
-                //It isn't easy for me to add these back at this point.  Postponing this step.  Events  will not
-                //completely load when loading a save.
+                //It isn't easy for me to add actions back into events at this point.  Postponing this step.  
+                //Events  will not load properly.
             }
             this.eventList.add(e);
         }
@@ -636,6 +637,8 @@ public class Game {
             } catch (IOException ex) {
                 Logger.getLogger(iMap.class.getName()).log(Level.SEVERE, null, ex);
             }
+            
+            //Now lets use the images in the folder for the maps to get our tiles back.
             int k = 0;
             for(int y = 0; y < 1600; y+=32) {
                 for(int x = 0; x < 1600; x+=32) {
@@ -687,8 +690,7 @@ public class Game {
         this.setStartPosse(startActors);
         
         this.setIsSaveAnywhere(Boolean.parseBoolean(settingsFromXML.getChild(9).getValue()));
-    }
-    
+    } 
     /*
      * End the methods that load each object from xml
      */

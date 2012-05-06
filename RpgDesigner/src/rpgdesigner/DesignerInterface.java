@@ -38,16 +38,16 @@ public class DesignerInterface {
     public DesignerInterface() throws IOException
     {
         try {
-                //Lets change the gui to match the operating system
+                //Lets change the gui to match the operating system for operating systems that don't do it manually
                 UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
             } catch (ClassNotFoundException ex) {
-                Logger.getLogger(RpgDesigner.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(DesignerInterface.class.getName()).log(Level.SEVERE, null, ex);
             } catch (InstantiationException ex) {
-                Logger.getLogger(RpgDesigner.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(DesignerInterface.class.getName()).log(Level.SEVERE, null, ex);
             } catch (IllegalAccessException ex) {
-                Logger.getLogger(RpgDesigner.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(DesignerInterface.class.getName()).log(Level.SEVERE, null, ex);
             } catch (UnsupportedLookAndFeelException ex) {
-                Logger.getLogger(RpgDesigner.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(DesignerInterface.class.getName()).log(Level.SEVERE, null, ex);
             }
         
             frame = new JFrame ("RPG Designer");
@@ -139,9 +139,6 @@ public class DesignerInterface {
             content.add(tabbedPane, BorderLayout.NORTH);
             frame.getContentPane().add(menu, BorderLayout.NORTH);
             frame.getContentPane().add(content);
-//            JButton test = new JButton("Print Actors");
-//            test.addActionListener(new testListener());
-//            frame.getContentPane().add(test, BorderLayout.SOUTH);
             frame.setPreferredSize(new Dimension(1146, 750));
             frame.pack();
             frame.setVisible(true);
@@ -161,7 +158,9 @@ public class DesignerInterface {
     }
     
     
-    
+    /*
+     * This listener listens for changes in the menu
+     */
     private class menuListener implements ActionListener{
 
         @Override
@@ -213,12 +212,15 @@ public class DesignerInterface {
         }
     }
     
+    /*
+     * This listener updates the settings page with new data wehenever something changes
+     * on a tab. (lets make sure we have an updated list of actors, maps, and events at all times)
+     */
     private class TabChangeListener implements ChangeListener{
 
         @Override
         public void stateChanged(ChangeEvent e) {
             iSettings.updateMe();
-        }
-    
+        }   
 }
 }

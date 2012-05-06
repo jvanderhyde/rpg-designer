@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package rpgdesigner;
 
 import java.awt.Color;
@@ -14,6 +10,7 @@ import javax.swing.JPanel;
 /**
  *
  * @author james
+ * This class extends JPanel to create a layered editor for maps
  */
 public class EditorPanel extends JPanel{
     private List<Tile> layer1Tiles;
@@ -37,6 +34,7 @@ public class EditorPanel extends JPanel{
         for (int y=0; y<=1600; y+=32) {gridToDraw.drawLine(0, y, 1600, y);}
     }
     
+    //Setter Methods for EditorPanel
     public void setLayer1Tiles(List<Tile> layerTiles) {
         this.layer1Tiles = layerTiles;
     }
@@ -82,13 +80,8 @@ public class EditorPanel extends JPanel{
             int y = (int)b.getLocY()/32;
             g.drawImage(b.getBlockImage(), x*32, y*32, null);
         }
-         
-        //This section is not ready yet
-//        for(int i=0; i<eventList.size(); i++) {
-//            
-//        }
         
-        //This is the grid on top
+        //Draw a grid on top
         g.drawImage(grid, 0, 0, null);
     }  
 }

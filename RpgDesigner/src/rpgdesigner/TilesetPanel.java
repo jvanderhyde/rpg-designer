@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package rpgdesigner;
 
 import java.awt.Color;
@@ -14,6 +10,8 @@ import javax.swing.JPanel;
 /**
  *
  * @author james
+ * This class extends JPanel to create a panel in the editor that displays the tileset you
+ * have currently selected in the editor
  */
 public class TilesetPanel extends JPanel{
     private BufferedImage tileset;

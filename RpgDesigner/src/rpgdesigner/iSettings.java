@@ -174,6 +174,9 @@ public class iSettings extends JPanel{
     
     }
     
+    //This methods updates the settings to their current values when called
+    //Useful when changing settings via another page, or updating the lists
+    //of actors, maps, and events.  
     public void updateMe() {
         cbStartingMap.removeAllItems();
         cbStartingActor1.removeAllItems();

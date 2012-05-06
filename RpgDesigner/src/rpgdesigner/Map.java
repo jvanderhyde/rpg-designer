@@ -21,16 +21,7 @@ public class Map {
     private List<Block> blocks = new ArrayList();
     private List<MapObject> objectsOnMap = new ArrayList();
     
-    public Map(File mapZip) {
-
-    }
-    
-    @Override
-    public String toString()
-    {
-        return name;
-    }
-    
+    //Creates a blank Map
     public Map() {
         BufferedImage blankImage = new BufferedImage(32,32,BufferedImage.TYPE_INT_RGB);
         BufferedImage blankImageWithTransparency = new BufferedImage(32,32,BufferedImage.TYPE_INT_ARGB);
@@ -47,61 +38,13 @@ public class Map {
         }
     }
     
-    public String getName() {
-        return this.name;
+    @Override
+    public String toString()
+    {
+        return name;
     }
     
-    public void setName(String name) {
-        this.name = name;
-    }
-    
-    public List<Tile> getLayer1(){
-        return layer1;
-    }
-    
-    public void setLayer1(List<Tile> layer) {
-        this.layer1 = layer;
-    }
-    
-    public List<Tile> getLayer2(){
-        return layer2;
-    }
-    
-    public void setLayer2(List<Tile> layer) {
-        this.layer2 = layer;
-    }
-    
-    public List<Tile> getLayer3(){
-        return layer3;
-    }
-    
-    public void setLayer3(List<Tile> layer) {
-        this.layer3 = layer;
-    }
-    
-    public List<Block> getBlocks() {
-        return this.blocks;
-    }
-    
-    public void setBlocks(List<Block> blockList) {
-        this.blocks = blockList;
-    }
-    
-//    public boolean checkForBlock(int x, int y){
-//        int tileNumber = getTileNumber(x, y);
-//        if(blocks.get(tileNumber).getIsBlocked())
-//            return true;
-//        return false;
-//    }
-    
-    public List<MapObject> getObjectsOnMap(){
-        return this.objectsOnMap;
-    }
-    
-    public void setObjects(List<MapObject> objectsOnMap){
-        this.objectsOnMap = objectsOnMap;
-    }
-    
+    //This method checks the map for objects and events and returns it if there is one
     public Object checkForObject(int x, int y)
     {
         for (Object o: objectsOnMap)
@@ -115,28 +58,53 @@ public class Map {
         return false;
     }
     
-    public int checkForEvent(int x, int y) {
-        return 0;
+    //Getter methods for the Map class
+    public String getName() {
+        return this.name;
     }
     
-    private int getTileNumber(int x, int y) {
-            int number;
-            int numberx = 0;
-            int numbery = 0;
-            
-            //First solve which tile in the x range it is
-            for(int i=0; i < x; i = i+32) {
-                numberx++;
-            }
-            numberx--;
-            //Now solve for the tile in which the y range
-            for(int i=0; i < y; i = i+32) {
-                numbery++;
-            }
-            numbery--;
-            
-            number = (numbery*50 + numberx);
-            
-            return number;
+    public List<Tile> getLayer1(){
+        return layer1;
+    }
+    
+    public List<Tile> getLayer2(){
+        return layer2;
+    }
+    
+    public List<Tile> getLayer3(){
+        return layer3;
+    }
+    
+    public List<Block> getBlocks() {
+        return this.blocks;
+    }
+    
+    public List<MapObject> getObjectsOnMap(){
+        return this.objectsOnMap;
+    }
+    
+    //The setter methods for the Map class
+    public void setName(String name) {
+        this.name = name;
+    }
+    
+    public void setLayer1(List<Tile> layer) {
+        this.layer1 = layer;
+    }
+    
+    public void setLayer2(List<Tile> layer) {
+        this.layer2 = layer;
+    }
+    
+    public void setLayer3(List<Tile> layer) {
+        this.layer3 = layer;
+    }
+    
+    public void setBlocks(List<Block> blockList) {
+        this.blocks = blockList;
+    }
+    
+    public void setObjects(List<MapObject> objectsOnMap){
+        this.objectsOnMap = objectsOnMap;
     }
 }
